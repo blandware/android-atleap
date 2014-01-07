@@ -1,0 +1,10 @@
+<fragment
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/master_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:name="com.blandware.android.atleap.sample.ui.MasterFragment"
+    tools:context="com.blandware.android.atleap.sample.ui.MainActivity"
+    />
+

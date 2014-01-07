@@ -1,0 +1,44 @@
+
+apply plugin: 'android'
+
+
+android {
+    compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
+    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
+
+    defaultConfig {
+        minSdkVersion 10
+        targetSdkVersion Integer.parseInt(project.ANDROID_BUILD_TARGET_SDK_VERSION)
+        versionCode Integer.parseInt(project.VERSION_CODE)
+        versionName project.VERSION_NAME
+    }
+
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+}
+
+dependencies {
+    compile project(':atleap-core')
+
+    compile 'com.android.support:support-v4:19.0.1'
+    compile 'com.android.support:gridlayout-v7:19.0.1'
+    compile 'com.android.support:appcompat-v7:19.0.1'
+
+    compile 'com.octo.android.robospice:robospice:1.4.9'
+    compile 'com.octo.android.robospice:robospice-cache:1.4.9'
+    compile 'com.octo.android.robospice:robospice-ormlite:1.4.9'
+    compile 'com.octo.android.robospice:robospice-okhttp:1.4.9'
+    compile 'com.octo.android.robospice:robospice-retrofit:1.4.9'
+
+
+
+}

@@ -1,0 +1,51 @@
+{
+    "resultCode": 100,
+    "books": [
+        {
+        "bookId": 1382763,
+        "title": "Super book",
+        "publishingDate": 1391079600000,
+        "tags": [
+            "Mobile",
+            "Android"
+        ],
+        "publisher": {
+            "title": "Wow publisher",
+            "url": "http://google.com"
+        },
+        "authors": [
+            {
+            "userName": "ivani",
+            "fullName": "Ivan Ivanov"
+            },
+            {
+            "userName": "sashab",
+            "fullName": "Alexandr Borisov"
+            }
+        ]
+        },
+        {
+        "bookId": 1382762,
+        "title": "Wow book",
+        "publishingDate": 1391079500000,
+        "tags": [
+            "Design",
+            "iOS"
+        ],
+        "publisher": {
+            "title": "Super publisher",
+            "url": "http://ya.com"
+        },
+        "authors": [
+            {
+            "userName": "borisb",
+            "fullName": "Boris Bogatyrev"
+            },
+            {
+            "userName": "sashab",
+            "fullName": "Alexandr Borisov"
+            }
+        ]
+        }
+    ]
+}
