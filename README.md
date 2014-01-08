@@ -14,6 +14,14 @@ Android AtLeap accelerator allows you configure ER-model using ORMLite POJOs and
  * [atleap-sample](https://github.com/blandware/android-atleap/tree/master/atleap-sample) Android application.
  * [atleap-core-test](https://github.com/blandware/android-atleap/tree/master/atleap-core-test) Test Cases contains good samples.
 
+## Maven
+
+Android AtLeap is published in the MavenCentral. You can add dependency in the following way:
+
+```
+    compile 'com.blandware.android.atleap:core:+@aar'
+```
+
 ## Changelog
 
  See [changelog](https://github.com/blandware/android-atleap/blob/master/CHANGELOG.md).
