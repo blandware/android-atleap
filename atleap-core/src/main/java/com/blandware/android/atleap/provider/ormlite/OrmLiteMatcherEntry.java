@@ -19,16 +19,22 @@ package com.blandware.android.atleap.provider.ormlite;
 import com.blandware.android.atleap.provider.sqlite.SQLiteMatcherEntry;
 
 /**
-* Created by agrebnev on 05.01.14.
+* This class adds possibility to store mapping between Uri path and Class of ER model of ORMLite.
 */
 public class OrmLiteMatcherEntry extends SQLiteMatcherEntry {
 
-    public OrmLiteMatcherEntry(String path) {
-        super(path);
+    /**
+     * {@inheritDoc}
+     */
+    public OrmLiteMatcherEntry(String authority, String path) {
+        super(authority, path);
     }
 
-    public OrmLiteMatcherEntry(String path, Type baseType, String subType) {
-        super(path, baseType, subType);
+    /**
+     * {@inheritDoc}
+     */
+    public OrmLiteMatcherEntry(String authority, String path, Type baseType, String subType) {
+        super(authority, path, baseType, subType);
 
     }
 

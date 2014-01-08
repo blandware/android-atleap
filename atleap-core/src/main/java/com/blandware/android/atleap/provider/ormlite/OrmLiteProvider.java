@@ -30,7 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by agrebnev on 25.12.13.
+ * This class adds possibility to work with OrmLite ER model.
  */
 public abstract class OrmLiteProvider<H extends OrmLiteSqliteOpenHelper, U extends OrmLiteUriMatcher> extends SQLiteProvider<H, U> {
 
@@ -38,11 +38,17 @@ public abstract class OrmLiteProvider<H extends OrmLiteSqliteOpenHelper, U exten
 
     protected Map<Class<?>, DatabaseTableConfig> mTableConfigs = new HashMap<Class<?>, DatabaseTableConfig>();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public H getDatabaseHelper() {
         return this.mDatabaseHelper;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected String getIdFieldName(SQLiteMatcherEntry entry) {
         OrmLiteMatcherEntry ormliteEntry = (OrmLiteMatcherEntry)entry;

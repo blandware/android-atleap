@@ -28,18 +28,28 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * Created by agrebnev on 25.12.13.
+ * This class contains implementation of onCreate and onUpgrade methods.
  */
 public abstract class OrmLiteDatabaseHelper<U extends OrmLiteUriMatcher> extends OrmLiteSqliteOpenHelper {
 
     private static final String TAG = OrmLiteDatabaseHelper.class.getSimpleName();
 
+    /**
+     * {@inheritDoc}
+     */
     public OrmLiteDatabaseHelper(Context context, String databaseName, int databaseVersion) {
         super(context, databaseName, null, databaseVersion);
     }
 
+    /**
+     * Implement this method which should return instance of UriMatcher class
+     * @return uriMatcher
+     */
     public abstract U getUriMatcher();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
@@ -52,6 +62,9 @@ public abstract class OrmLiteDatabaseHelper<U extends OrmLiteUriMatcher> extends
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {

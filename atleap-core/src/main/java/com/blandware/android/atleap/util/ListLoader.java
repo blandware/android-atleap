@@ -30,7 +30,7 @@ import android.view.View;
 import android.widget.ListView;
 
 /**
- * This is the helper to load data to the ListView using CursorLoader
+ * This is the helper to load data to the {@link android.widget.ListView} using {@link android.support.v4.content.CursorLoader}
  */
 public class ListLoader {
 

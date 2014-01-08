@@ -23,6 +23,9 @@ import android.app.Application;
  */
 public class BaseApplication extends Application {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onCreate() {
         AppContext.setApplication(this);

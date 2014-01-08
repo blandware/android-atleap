@@ -17,104 +17,119 @@
 package com.blandware.android.atleap.provider.sqlite;
 
 import android.content.ContentResolver;
-import android.content.Context;
 import android.net.Uri;
 import android.text.TextUtils;
 
-import com.blandware.android.atleap.AppContext;
-
 /**
- * It is POJO for the SQLiteUriMatcher. It holds mapping data between uri path and SQL.
+ * It is POJO for the SQLiteUriMatcher. It holds mapping data between uri mPath and SQL.
  */
 public class SQLiteMatcherEntry {
 
     private static final String TAG = SQLiteMatcherEntry.class.getSimpleName();
 
     protected static final String TYPE_PREFIX = "vnd.";
-    protected static final String DIR_SUFFIX = ".dir";
-    protected static final String ITEM_SUFFIX = ".item";
 
-    private String path;
-    private Type baseType;
-    private String subType;
-    private String tablesSQL;
-    private String rawSQL;
-    private SQLBuilderCallback callback;
+    private String mAuthority;
+    private String mPath;
+    private Type mBaseType;
+    private String mSubType;
+    private String mTablesSQL;
+    private String mRawSQL;
+    private SQLBuilderCallback mCallback;
 
     /**
-     * Create entry based on Uri path. The path can contain wildcards (* and #). See UriMatcher for details.
-     * BaseType will be guessed based on path. SubType will be guessed based on BaseType.
-     * @param path Uri path
+     * Create entry based on Uri mPath. The mPath can contain wildcards (* and #). See {@link android.content.UriMatcher} for details.
+     * BaseType will be guessed based on mPath. SubType will be guessed based on BaseType.
+     * @param authority authority of the provider
+     * @param path Uri mPath
      */
-    public SQLiteMatcherEntry(String path) {
-        this(path, null, null);
+    public SQLiteMatcherEntry(String authority, String path) {
+        this(authority, path, null, null);
     }
 
     /**
-     * Create entry based on Uri path. The path can contain wildcards (* and #). See UriMatcher for details.
-     * @param path uri path
+     * Create entry based on Uri mPath. The mPath can contain wildcards (* and #). See {@link android.content.UriMatcher} for details.
+     * @param authority authority of the provider
+     * @param path uri mPath
      * @param baseType base mime type
      * @param subType sub mime type
      */
-    public SQLiteMatcherEntry(String path, Type baseType, String subType) {
+    public SQLiteMatcherEntry(String authority, String path, Type baseType, String subType) {
+        if (TextUtils.isEmpty(authority)) {
+            throw new IllegalArgumentException("authority cannot be empty");
+        }
+
         if (TextUtils.isEmpty(path)) {
             throw new IllegalArgumentException("path cannot be empty");
         }
-
-        this.path = path;
+        this.mAuthority = authority;
+        this.mPath = path;
 
         if (baseType == null) {
             if (path.endsWith("*") || path.endsWith("#")) {
-                this.baseType = Type.ITEM;
+                this.mBaseType = Type.ITEM;
             } else {
-                this.baseType = Type.DIR;
+                this.mBaseType = Type.DIR;
             }
         } else {
-            this.baseType = baseType;
+            this.mBaseType = baseType;
         }
 
         if (TextUtils.isEmpty(subType)) {
-            this.subType = makeSubType(this.path, this.baseType);
+            this.mSubType = makeSubType();
         } else {
-            this.subType = subType;
+            this.mSubType = subType;
         }
 
     }
 
+    public String getAuthority() {
+        return mAuthority;
+    }
+
     public String getPath() {
-        return path;
+        return mPath;
     }
 
     public Type getBaseType() {
-        return baseType;
+        return mBaseType;
     }
 
     public String getSubType() {
-        return subType;
+        return mSubType;
     }
 
     public String getTablesSQL() {
-        return tablesSQL;
+        return mTablesSQL;
     }
 
     public void setTablesSQL(String tablesSQL) {
-        this.tablesSQL = tablesSQL;
+        if (!TextUtils.isEmpty(mRawSQL) || mCallback != null) {
+            throw new IllegalStateException("Only one SQL could be setup: either tablesSQL or rawSQL or callback");
+        }
+        this.mTablesSQL = tablesSQL;
     }
 
     public String getRawSQL() {
-        return rawSQL;
+        return mRawSQL;
     }
 
     public void setRawSQL(String rawSQL) {
-        this.rawSQL = rawSQL;
+        if (!TextUtils.isEmpty(mTablesSQL) || mCallback != null) {
+            throw new IllegalStateException("Only one SQL could be setup: either tablesSQL or rawSQL or callback");
+        }
+        this.mRawSQL = rawSQL;
     }
 
     public SQLBuilderCallback getCallback() {
-        return callback;
+        return mCallback;
     }
 
     public void setCallback(SQLBuilderCallback callback) {
-        this.callback = callback;
+        if (!TextUtils.isEmpty(mTablesSQL) || !TextUtils.isEmpty(mRawSQL)) {
+            throw new IllegalStateException("Only one SQL could be setup: either tablesSQL or rawSQL or callback");
+        }
+        this.mCallback = callback;
     }
 
     @Override
@@ -122,35 +137,22 @@ public class SQLiteMatcherEntry {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SQLiteMatcherEntry that = (SQLiteMatcherEntry) o;
-        if (!path.equals(that.path)) return false;
+        if (!mPath.equals(that.mPath)) return false;
         return true;
     }
 
     @Override
     public int hashCode() {
-        return path.hashCode();
+        return mPath.hashCode();
     }
 
-    protected String getPackageName() {
-        Context context = AppContext.getContext();
-        if (context != null) {
-            return context.getPackageName();
-        } else {
-            return this.getClass().getPackage().getName();
-        }
-    }
-
-    protected String makeSubType(String path, Type baseType) {
-        String cleanPath = path.replaceAll("\\*", ".").replaceAll("#", ".").replaceAll("\\/", ".");
-        if (baseType.equals(Type.DIR)) {
-            return TYPE_PREFIX + cleanPath + "." + getPackageName() + DIR_SUFFIX;
-        } else {
-            return TYPE_PREFIX + cleanPath + "." + getPackageName() + ITEM_SUFFIX;
-        }
+    protected String makeSubType() {
+        String cleanPath = mPath.replaceAll("\\*", ".").replaceAll("#", ".").replaceAll("\\/", ".");
+        return new StringBuilder(TYPE_PREFIX).append(mAuthority).append(".").append(cleanPath).toString();
     }
 
     /**
-     * Base mime type. See ContentResolver.CURSOR_ITEM_BASE_TYPE and ContentResolver.CURSOR_DIR_BASE_TYPE.
+     * Base MIME type. See {@link ContentResolver#CURSOR_ITEM_BASE_TYPE} and {@link ContentResolver#CURSOR_DIR_BASE_TYPE}.
      */
     public enum Type {
         ITEM, DIR;

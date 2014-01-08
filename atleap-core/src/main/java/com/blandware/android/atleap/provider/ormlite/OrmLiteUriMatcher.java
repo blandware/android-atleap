@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by agrebnev on 25.12.13.
+ * This class adds possibility to work with OrmLite and make mapping between Uri path and OrmLite ER model classes.
  */
 public abstract class OrmLiteUriMatcher<E extends OrmLiteMatcherEntry> extends SQLiteUriMatcher<E> {
 
@@ -36,21 +36,35 @@ public abstract class OrmLiteUriMatcher<E extends OrmLiteMatcherEntry> extends S
 
     protected Map<Class<?>, Uri> mClassToNotificationUri = new HashMap<Class<?>, Uri>();
 
+    /**
+     * {@inheritDoc}
+     */
     protected OrmLiteUriMatcher(String authority) {
         super(authority);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected E createMatcherEntry(String path) {
         return createMatcherEntry(path, null, null);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected E createMatcherEntry(String path, SQLiteMatcherEntry.Type baseType, String subType) {
-        return (E)new OrmLiteMatcherEntry(path, baseType, subType);
+        return (E)new OrmLiteMatcherEntry(mAuthority, path, baseType, subType);
     }
 
 
+    /**
+     * Get map of classes of ER model and ContentProvider Uris.
+     * This method is useful to integrate to Robospice ormlite cache persister
+     * @return
+     */
     public Map<Class<?>, Uri> getClassToNotificationUriMap() {
         Map<Class<?>, Uri> map = new HashMap<Class<?>, Uri>();
         for (E entry : getEntries()) {
@@ -63,6 +77,10 @@ public abstract class OrmLiteUriMatcher<E extends OrmLiteMatcherEntry> extends S
         return map;
     }
 
+    /**
+     * Get list of all registered classes
+     * @return list of classes of ER model
+     */
     public List<Class<?>> getClasses() {
         List<Class<?>> classes = new ArrayList<Class<?>>();
         for (OrmLiteMatcherEntry entry : getEntries()) {
@@ -74,10 +92,19 @@ public abstract class OrmLiteUriMatcher<E extends OrmLiteMatcherEntry> extends S
         return classes;
     }
 
+    /**
+     * Register class of ER model.
+     * @param clazz class of ER model
+     */
     public void addClass(Class clazz) {
         addClass(clazz, null);
     }
 
+    /**
+     * Add class of ER model with notification path. This path will be notified when the data are changed.
+     * @param clazz class of ER model
+     * @param notificationPath path to notify
+     */
     public void addClass(Class clazz, String notificationPath) {
         if (clazz == null) {
             throw new IllegalArgumentException("Class cannot be null");
@@ -89,10 +116,22 @@ public abstract class OrmLiteUriMatcher<E extends OrmLiteMatcherEntry> extends S
         mClassToNotificationUri.put(clazz, uri);
     }
 
+    /**
+     * Add mapping between Uri path and Class of ER model
+     * @param path Uri path
+     * @param clazz class of ER model
+     */
     public void addClass(String path, Class clazz) {
         addClass(path, null, null, clazz);
     }
 
+    /**
+     * Add mapping between Uri path and Class of ER model
+     * @param path Uri path
+     * @param baseType base MIME type.
+     * @param subType sub MIME type. See <a href="http://developer.android.com/guide/topics/providers/content-provider-creating.html#TableMIMETypes">Cursor mime types</a>
+     * @param clazz class of ER model
+     */
     public void addClass(String path, SQLiteMatcherEntry.Type baseType, String subType, Class clazz) {
         if (clazz == null) {
             throw new IllegalArgumentException("Class cannot be null");

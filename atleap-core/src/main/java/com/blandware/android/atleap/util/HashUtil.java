@@ -22,7 +22,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * This class contains functions to calculate hash
+ * This class contains functions to calculate hash using sha-1 algorithm
  */
 public class HashUtil {
 
@@ -32,7 +32,7 @@ public class HashUtil {
     /**
      * Calculate hash based on String values of input params
      * @param value input parameters
-     * @return hash
+     * @return hash long value
      */
     public static long longHash(Object... value) {
         try {

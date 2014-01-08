@@ -20,26 +20,41 @@ import android.app.Application;
 import android.content.Context;
 
 /**
- * This class holds links to Application and ApplicationContext.
+ * This class holds links to {@link android.app.Application} and {@link android.content.Context}.
  */
 public class AppContext {
 
     private static Context sContext;
     private static Application sApplication;
 
-
+    /**
+     * Return context
+     * @return context
+     */
     public static Context getContext() {
         return sContext;
     }
 
+    /**
+     * Usually you should set up context in the {@link android.app.Application#onCreate()}
+     * @param context
+     */
     public static void setContext(Context context) {
         sContext = context;
     }
 
+    /**
+     * Return link to the {@link android.app.Application}
+     * @return application
+     */
     public static Application getApplication() {
         return sApplication;
     }
 
+    /**
+     * Usually you should set up application in the {@link android.app.Application#onCreate()}
+     * @param application Application
+     */
     public static void setApplication(Application application) {
         sApplication = application;
     }
