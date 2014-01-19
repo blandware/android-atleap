@@ -32,7 +32,7 @@ import android.widget.ListView;
 /**
  * This is the helper to load data to the {@link android.widget.ListView} using {@link android.support.v4.content.CursorLoader}
  */
-public class ListLoader {
+public class ListLoader implements LoaderManager.LoaderCallbacks<Cursor> {
 
 
     private int mListViewId;
@@ -248,7 +248,7 @@ public class ListLoader {
         mSelectionArgs = selectionArgs;
         mSortOrder = sortOrder;
 
-        loaderManager.initLoader(mLoaderId, null, new LoaderCallback());
+        loaderManager.initLoader(mLoaderId, null, this);
         mAdapter = new SimpleCursorAdapter(mContext, mListLayoutId, null, mFromFieldNames, mToLayoutViewIds, 0);
 
         if (mListView != null && mListView instanceof ListView) {
@@ -265,49 +265,43 @@ public class ListLoader {
         return mAdapter;
     }
 
+
     /**
-     * Loader callback
+     * {@inheritDoc}
      */
-    protected class LoaderCallback implements LoaderManager.LoaderCallbacks<Cursor> {
+    @Override
+    public Loader onCreateLoader(int i, Bundle bundle) {
+        return new CursorLoader(mContext,
+                mUri,
+                mProjection,
+                mSelection,
+                mSelectionArgs,
+                mSortOrder
+        );
+    }
 
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public Loader onCreateLoader(int i, Bundle bundle) {
-            return new CursorLoader(mContext,
-                    mUri,
-                    mProjection,
-                    mSelection,
-                    mSelectionArgs,
-                    mSortOrder
-            );
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-            if (mFromFieldNames == null || mToLayoutViewIds == null) {
-                mFromFieldNames = getFieldNames(cursor);
-                mToLayoutViewIds = getLayoutViewIds(mFromFieldNames);
-                mAdapter.changeCursorAndColumns(cursor, mFromFieldNames, mToLayoutViewIds);
-            } else {
-                mAdapter.swapCursor(cursor);
-            }
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void onLoaderReset(Loader<Cursor> loader) {
-            if (mAdapter != null)
-                mAdapter.swapCursor(null);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        if (mFromFieldNames == null || mToLayoutViewIds == null) {
+            mFromFieldNames = getFieldNames(cursor);
+            mToLayoutViewIds = getLayoutViewIds(mFromFieldNames);
+            mAdapter.changeCursorAndColumns(cursor, mFromFieldNames, mToLayoutViewIds);
+        } else {
+            mAdapter.swapCursor(cursor);
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        if (mAdapter != null)
+            mAdapter.swapCursor(null);
+    }
 
     /**
      * Get table column names from the cursor
