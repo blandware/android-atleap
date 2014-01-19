@@ -17,10 +17,32 @@
 package com.blandware.android.atleap.sample;
 
 import com.blandware.android.atleap.BaseApplication;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 /**
  * Created by agrebnev on 29.12.13.
  */
 public class SampleApplication extends BaseApplication {
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        initializeUIL();
+
+    }
+
+    protected void initializeUIL() {
+        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisc(true)
+                .build();
+
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
+                .defaultDisplayImageOptions(defaultOptions)
+                .build();
+        ImageLoader.getInstance().init(config);
+    }
 }

@@ -17,12 +17,19 @@
 package com.blandware.android.atleap.sample.provider;
 
 import com.blandware.android.atleap.provider.ormlite.OrmLiteUriMatcher;
-import com.blandware.android.atleap.sample.model.Contributor;
+import com.blandware.android.atleap.sample.model.Repository;
+import com.blandware.android.atleap.sample.model.User;
 
 /**
  * Created by agrebnev on 29.12.13.
  */
 public class SampleUriMatcher extends OrmLiteUriMatcher {
+
+    private static final String TABLES_SQL_REPOSITORIES_USERS =
+            SampleContract.Repository.TABLE
+                    + " INNER JOIN " + SampleContract.User.TABLE
+                    + " ON (" + SampleContract.Repository.TABLE + "." + SampleContract.Repository._ID + "="
+                    + SampleContract.User.TABLE + "." + SampleContract.User.REPOSITORY_ID + ")";
 
     public SampleUriMatcher(String authority) {
         super(authority);
@@ -30,7 +37,14 @@ public class SampleUriMatcher extends OrmLiteUriMatcher {
 
     @Override
     public void instantiate() {
-        addClass(SampleContract.PATH_CONTRIBUTORS, Contributor.class);
-        addClass(Contributor.ContributorsResult.class, SampleContract.PATH_CONTRIBUTORS);
+        addClass(SampleContract.PATH_USERS, User.class);
+        addClass(SampleContract.PATH_USER, User.class);
+
+        addClass(Repository.RepositoriesResult.class, SampleContract.PATH_REPOSITORIES);
+        addClass(SampleContract.PATH_REPOSITORIES, Repository.class);
+        addClass(SampleContract.PATH_REPOSITORY, Repository.class);
+
+        addTablesSQL(SampleContract.PATH_REPOSITORIES_USERS, TABLES_SQL_REPOSITORIES_USERS);
+
     }
 }

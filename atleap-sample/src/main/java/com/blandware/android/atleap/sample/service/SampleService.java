@@ -19,7 +19,7 @@ package com.blandware.android.atleap.sample.service;
 import android.app.Application;
 
 import com.blandware.android.atleap.provider.ormlite.OrmLiteUriMatcher;
-import com.blandware.android.atleap.sample.network.GitHub;
+import com.blandware.android.atleap.sample.network.SearchRepositories;
 import com.blandware.android.atleap.sample.provider.SampleContract;
 import com.blandware.android.atleap.sample.provider.SampleDatabaseHelper;
 import com.blandware.android.atleap.sample.provider.SampleUriMatcher;
@@ -40,7 +40,7 @@ public class SampleService extends RetrofitGsonSpiceService {
     @Override
     public void onCreate() {
         super.onCreate();
-        addRetrofitInterface(GitHub.class);
+        addRetrofitInterface(SearchRepositories.class);
     }
 
     @Override

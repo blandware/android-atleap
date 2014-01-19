@@ -31,18 +31,44 @@ public class SampleContract {
 
     public static final Uri BASE_CONTENT_URI = new Uri.Builder().scheme(ContentResolver.SCHEME_CONTENT).authority(CONTENT_AUTHORITY).build();
 
-    public static final String PATH_CONTRIBUTORS = "contributors";
+    public static final String PATH_USERS = "users";
+    public static final String PATH_USER = "users/#";
 
-    public static class Contributor implements BaseColumns {
+    public static class User implements BaseColumns {
 
         public static final Uri CONTENT_URI =
-                BASE_CONTENT_URI.buildUpon().appendPath(PATH_CONTRIBUTORS).build();
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_USERS).build();
 
+        public static final String TABLE = "user";
 
-        public static final String TABLE = "contributor";
         public static final String LOGIN = "login";
-        public static final String CONTRIBUTIONS = "contributions";
-
-
+        public static final String AVATAR_URL = "avatar_url";
+        public static final String HTML_URL = "html_url";
+        public static final String REPOSITORY_ID = "repository_id";
     }
+
+
+    public static final String PATH_REPOSITORIES = "repositories";
+    public static final String PATH_REPOSITORY = "repositories/#";
+
+    public static class Repository implements BaseColumns {
+
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_REPOSITORIES).build();
+
+        public static final String TABLE = "repository";
+
+        public static final String NAME = "name";
+        public static final String FULL_NAME = "full_name";
+        public static final String HTML_URL = "html_url";
+        public static final String DESCRIPTION = "description";
+        public static final String STARGAZERS_COUNT = "stargazers_count";
+        public static final String CREATED_AT = "created_at";
+        public static final String OWNER_ID = "owner_id";
+    }
+
+
+    public static final String PATH_REPOSITORIES_USERS = "repositories_users";
+    public static final Uri CONTENT_URI_REPOSITORIES_USERS =
+            BASE_CONTENT_URI.buildUpon().appendPath(PATH_REPOSITORIES_USERS).build();
 }

@@ -16,15 +16,19 @@
 
 package com.blandware.android.atleap.sample.ui;
 
+import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.blandware.android.atleap.sample.R;
-import com.blandware.android.atleap.sample.network.ContributorRequest;
+import com.blandware.android.atleap.sample.network.SearchRepositoriesRequest;
 import com.blandware.android.atleap.sample.provider.SampleContract;
 import com.blandware.android.atleap.util.ListLoader;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.octo.android.robospice.persistence.DurationInMillis;
 
 /**
@@ -34,7 +38,14 @@ public class MasterFragment extends BaseFragment {
 
     private static final String TAG = MasterFragment.class.getSimpleName();
 
-    private ContributorRequest githubRequest;
+    private static final String QUERY = "android+language:java";
+    private static final int PAGE = 1;
+    private static final int PER_PAGE = 20;
+
+    private static final String CACHE_KEY = "cache_key";
+
+
+    private SearchRepositoriesRequest searchRepositoriesRequest;
 
 
     public static MasterFragment newInstance() {
@@ -54,24 +65,37 @@ public class MasterFragment extends BaseFragment {
 
         ListLoader listLoader = new ListLoader(
                 this,
-                R.id.contributors,
-                R.layout.listitem_contributor,
-                SampleContract.Contributor.CONTENT_URI
+                R.id.list_repositories,
+                R.layout.listitem_repository,
+                SampleContract.CONTENT_URI_REPOSITORIES_USERS
         );
+        listLoader.getAdapter().setViewBinder(new SimpleCursorAdapter.ViewBinder() {
+            @Override
+            public boolean setViewValue(View view, Cursor cursor, int i) {
+                if (view.getId() == R.id.avatar_url) {
+                    ImageView imageView = (ImageView)view;
+                    String avatarUrl = cursor.getString(i);
+                    ImageLoader.getInstance().displayImage(avatarUrl, imageView);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        githubRequest = new ContributorRequest("octo-online", "robospice");
+        searchRepositoriesRequest = new SearchRepositoriesRequest(QUERY, PAGE, PER_PAGE);
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        getSpiceManager().execute(githubRequest, "github", DurationInMillis.ONE_MINUTE, null);
+        getSpiceManager().execute(searchRepositoriesRequest, CACHE_KEY, DurationInMillis.ONE_MINUTE, null);
     }
 
 

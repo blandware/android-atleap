@@ -9,8 +9,10 @@
     tools:context="com.blandware.android.atleap.sample.ui.MasterFragment">
 
     <ListView
-        android:id="@+id/contributors"
+        android:id="@+id/list_repositories"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/listitem_repository"
+        />
 
 </RelativeLayout>

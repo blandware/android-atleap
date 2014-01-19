@@ -19,26 +19,16 @@ package com.blandware.android.atleap.sample.network;
 /**
  * Created by agrebnev on 22.12.13.
  */
-import com.blandware.android.atleap.sample.model.Contributor;
-import com.octo.android.robospice.request.retrofit.RetrofitSpiceRequest;
 
-import roboguice.util.temp.Ln;
+import com.blandware.android.atleap.sample.model.Repository;
+
+import retrofit.http.GET;
+import retrofit.http.Query;
 
 
-public class ContributorRequest extends RetrofitSpiceRequest<Contributor.ContributorsResult, GitHub> {
-
-    private String owner;
-    private String repo;
-
-    public ContributorRequest(String owner, String repo) {
-        super(Contributor.ContributorsResult.class, GitHub.class);
-        this.owner = owner;
-        this.repo = repo;
-    }
-
-    @Override
-    public Contributor.ContributorsResult loadDataFromNetwork() {
-        Ln.d("Call web service ");
-        return getService().contributors(owner, repo);
-    }
+public interface SearchRepositories {
+    @GET("/search/repositories?sort=stars&order=desc")
+    Repository.RepositoriesResult repositories(@Query("q") String query,
+                                               @Query("page") int page,
+                                               @Query("per_page") int perPage);
 }
