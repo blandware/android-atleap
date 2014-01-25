@@ -16,10 +16,18 @@ Android AtLeap accelerator allows you configure ER-model using ORMLite POJOs and
 
 ## Maven
 
-Android AtLeap is published in the MavenCentral. You can add dependency in the following way:
+The releases of Android AtLeap are published in the MavenCentral. You can add dependency in the following way:
 
 ```
     compile 'com.blandware.android.atleap:core:+@aar'
+```
+
+If you would like to use snapshots,
+
+```
+    maven {
+        url 'https://oss.sonatype.org/content/repositories/snapshots/'
+    }
 ```
 
 ## Changelog
