@@ -13,6 +13,8 @@ before_install:
   - tar xzf android-sdk_r22.3-linux.tgz
   - export ANDROID_HOME=$PWD/android-sdk-linux
   - export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
+  # manually set sdk.dir variable, according to local paths
+  - echo "sdk.dir=$ANDROID_HOME" > local.properties
 
   # Gradle
   - wget http://services.gradle.org/distributions/gradle-1.9-bin.zip
