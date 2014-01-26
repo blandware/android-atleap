@@ -47,3 +47,7 @@ before_script:
 script:
   - gradle connectedInstrumentTest
 
+after_script:
+  - adb logcat -t 500
+
+
