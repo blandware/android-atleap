@@ -31,7 +31,7 @@ before_install:
   # Note that sysimg-18 downloads the ARM, x86 and MIPS images (we should optimize this).
   # Other relevant API's
   - echo yes | android update sdk --filter platform-tools --no-ui --force
-  - echo yes | android update sdk --filter $ANDROID_SDKS --no-ui --force
+  - echo "y" | android update sdk --filter $ANDROID_SDKS --no-ui --force
   - echo yes | android update sdk --filter extra-android-support --no-ui --force
   - echo yes | android update sdk --filter extra-android-m2repository --no-ui --force
 
