@@ -22,7 +22,7 @@ The releases of Android AtLeap are published in the MavenCentral. You can add de
     compile 'com.blandware.android.atleap:core:+@aar'
 ```
 
-If you would like to use snapshots,
+If you would like to use snapshots, please add the following code into repositories statement:
 
 ```
     maven {
