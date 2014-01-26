@@ -1,6 +1,8 @@
 Android AtLeap accelerator
 ==========================
 
+[![Build Status](https://api.travis-ci.org/blandware/android-atleap.png?branch=master)](https://travis-ci.org/blandware/android-atleap)
+
 Android AtLeap accelerator allows you configure ER-model using ORMLite POJOs and access SQLite database via
  ContentProvider as flexible as direct access to database.
 

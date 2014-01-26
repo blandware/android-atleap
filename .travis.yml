@@ -2,6 +2,8 @@ language: java
 jdk: oraclejdk7
 env:
   matrix:
+    - ANDROID_SDKS=android-10            ANDROID_TARGET=android-10  ANDROID_ABI=armeabi
+    - ANDROID_SDKS=android-16,sysimg-16  ANDROID_TARGET=android-16  ANDROID_ABI=armeabi-v7a
     - ANDROID_SDKS=android-19,sysimg-19  ANDROID_TARGET=android-19  ANDROID_ABI=armeabi-v7a
 before_install:
   # Install base Android SDK
