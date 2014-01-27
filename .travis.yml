@@ -2,9 +2,9 @@ language: java
 jdk: oraclejdk7
 env:
   matrix:
-    # - ANDROID_IMAGE=sysimg-10  ANDROID_TARGET=android-10  ANDROID_ABI=armeabi
-    # - ANDROID_IMAGE=sysimg-16  ANDROID_TARGET=android-16  ANDROID_ABI=armeabi-v7a
-    - ANDROID_IMAGE=sysimg-19  ANDROID_TARGET=android-19  ANDROID_ABI=armeabi-v7a
+    - ANDROID_IMAGE=sysimg-10  ANDROID_TARGET=android-10  ANDROID_ABI=armeabi
+    - ANDROID_IMAGE=sysimg-16  ANDROID_TARGET=android-16  ANDROID_ABI=armeabi-v7a
+    # - ANDROID_IMAGE=sysimg-19  ANDROID_TARGET=android-19  ANDROID_ABI=armeabi-v7a
 before_install:
   # Install base Android SDK
   - sudo apt-get update -qq
@@ -13,6 +13,7 @@ before_install:
   - tar xzf android-sdk_r22.3-linux.tgz
   - export ANDROID_HOME=$PWD/android-sdk-linux
   - export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
+
   # manually set sdk.dir variable, according to local paths
   - echo "sdk.dir=$ANDROID_HOME" > local.properties
 
@@ -42,13 +43,19 @@ before_install:
   - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
   - emulator -avd test -no-skin -no-audio -no-window &
 
+  # change the rights in case of gradlew using
+  - chmod +x gradlew
+
+install:
+  - TERM=dumb gradle assemble --debug --stacktrace
+
 before_script:
   - chmod +x ci/wait_for_emulator.sh
   - ci/wait_for_emulator.sh
   - adb shell input keyevent 82 &
 
 script:
-  - gradle connectedInstrumentTest
+  - TERM=dumb gradle connectedInstrumentTest --debug --stacktrace
 
 after_script:
   - adb logcat -t 500
