@@ -28,8 +28,8 @@ import com.blandware.android.atleap.sample.R;
 import com.blandware.android.atleap.sample.network.SearchRepositoriesRequest;
 import com.blandware.android.atleap.sample.provider.SampleContract;
 import com.blandware.android.atleap.util.ListLoader;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.octo.android.robospice.persistence.DurationInMillis;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by agrebnev on 22.12.13.
@@ -75,7 +75,7 @@ public class MasterFragment extends BaseFragment {
                 if (view.getId() == R.id.avatar_url) {
                     ImageView imageView = (ImageView)view;
                     String avatarUrl = cursor.getString(i);
-                    ImageLoader.getInstance().displayImage(avatarUrl, imageView);
+                    Picasso.with(getActivity()).load(avatarUrl).into(imageView);
                     return true;
                 } else {
                     return false;
