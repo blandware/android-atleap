@@ -3,8 +3,8 @@ jdk: oraclejdk7
 env:
   matrix:
     # - ANDROID_IMAGE=sysimg-10  ANDROID_TARGET=android-10  ANDROID_ABI=armeabi
-    - ANDROID_IMAGE=sysimg-16  ANDROID_TARGET=android-16  ANDROID_ABI=armeabi-v7a
-    # - ANDROID_IMAGE=sysimg-19  ANDROID_TARGET=android-19  ANDROID_ABI=armeabi-v7a
+    # - ANDROID_IMAGE=sysimg-16  ANDROID_TARGET=android-16  ANDROID_ABI=armeabi-v7a
+    - ANDROID_IMAGE=sysimg-19  ANDROID_TARGET=android-19  ANDROID_ABI=armeabi-v7a
 before_install:
   # Install base Android SDK
   - sudo apt-get update -qq
