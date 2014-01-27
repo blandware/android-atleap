@@ -36,7 +36,7 @@ before_install:
   - echo yes | android update sdk --filter platform-tools --no-ui --force
   - echo yes | android update sdk --filter android-19 --no-ui --force
   - echo yes | android update sdk --filter $ANDROID_TARGET --no-ui --force
-  - echo yes | android update sdk --filter $ANDROID_IMAGE --no-ui --force
+  - echo yes | android update sdk --filter $ANDROID_IMAGE --all --no-ui --force
   - echo yes | android update sdk --filter extra-android-support --no-ui --force
   - echo yes | android update sdk --filter extra-android-m2repository --no-ui --force
 
