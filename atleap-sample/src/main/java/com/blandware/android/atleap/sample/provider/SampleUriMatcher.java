@@ -40,7 +40,7 @@ public class SampleUriMatcher extends OrmLiteUriMatcher {
         addClass(SampleContract.PATH_USERS, User.class);
         addClass(SampleContract.PATH_USER, User.class);
 
-        addClass(Repository.RepositoriesResult.class, SampleContract.PATH_REPOSITORIES);
+        addClass(Repository.RepositoriesResult.class, SampleContract.PATH_REPOSITORIES_USERS);
         addClass(SampleContract.PATH_REPOSITORIES, Repository.class);
         addClass(SampleContract.PATH_REPOSITORY, Repository.class);
 
