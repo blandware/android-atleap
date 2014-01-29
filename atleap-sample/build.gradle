@@ -33,11 +33,11 @@ dependencies {
     compile 'com.android.support:gridlayout-v7:19.0.1'
     compile 'com.android.support:appcompat-v7:19.0.1'
 
-    compile 'com.octo.android.robospice:robospice:1.4.9'
-    compile 'com.octo.android.robospice:robospice-cache:1.4.9'
-    compile 'com.octo.android.robospice:robospice-ormlite:1.4.9'
-    compile 'com.octo.android.robospice:robospice-okhttp:1.4.9'
-    compile 'com.octo.android.robospice:robospice-retrofit:1.4.9'
+    compile 'com.octo.android.robospice:robospice:1.4.11'
+    compile 'com.octo.android.robospice:robospice-cache:1.4.11'
+    compile 'com.octo.android.robospice:robospice-ormlite:1.4.11'
+    compile 'com.octo.android.robospice:robospice-okhttp:1.4.11'
+    compile 'com.octo.android.robospice:robospice-retrofit:1.4.11'
 
     compile 'com.squareup.picasso:picasso:2.1.1'
 
