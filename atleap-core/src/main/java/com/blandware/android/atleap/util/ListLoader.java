@@ -249,12 +249,26 @@ public class ListLoader implements LoaderManager.LoaderCallbacks<Cursor> {
         mSortOrder = sortOrder;
 
         loaderManager.initLoader(mLoaderId, null, this);
-        mAdapter = new SimpleCursorAdapter(mContext, mListLayoutId, null, mFromFieldNames, mToLayoutViewIds, 0);
+        mAdapter = createAdapter(mContext, mListLayoutId, null, mFromFieldNames, mToLayoutViewIds, 0);
 
         if (mListView != null && mListView instanceof ListView) {
             ListView listView = (ListView)mListView;
             listView.setAdapter(mAdapter);
         }
+    }
+
+    /**
+     * Create SimpleCursorAdapter
+     * @param context context
+     * @param layout layout resource id
+     * @param cursor cursor
+     * @param from array of field names in DB
+     * @param to array of resource IDs in layout
+     * @param flags flags
+     * @return SimpleCursorAdapter
+     */
+    protected SimpleCursorAdapter createAdapter(Context context, int layout, Cursor cursor, String[] from, int[] to, int flags) {
+        return new SimpleCursorAdapter(context, layout, cursor, from, to, flags);
     }
 
     /**
