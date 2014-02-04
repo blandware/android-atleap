@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">atleap</string>
+    <string name="no_network">No internet connection. Please check.</string>
 
 
 </resources>

@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".SampleApplication"
+        android:name=".ApplicationIml"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -27,12 +27,12 @@
         </activity>
 
         <service
-            android:name=".service.SampleService"
+            android:name=".service.NetworkService"
             android:exported="false" />
 
         <provider
             android:authorities="com.blandware.android.atleap.sample.authority"
-            android:name=".provider.SampleProvider" />
+            android:name=".provider.DefaultProvider" />
     </application>
 
 </manifest>

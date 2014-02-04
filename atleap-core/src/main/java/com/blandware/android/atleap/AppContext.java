@@ -32,6 +32,11 @@ public class AppContext {
      * @return context
      */
     public static Context getContext() {
+        if (sContext == null) {
+            throw new IllegalStateException("AppContext.setContext was not called in Application.onCreate() method. " +
+                    "Please inherit your application from the com.blandware.android.atleap.BaseApplication class.");
+        }
+
         return sContext;
     }
 
@@ -48,6 +53,11 @@ public class AppContext {
      * @return application
      */
     public static Application getApplication() {
+        if (sApplication == null) {
+            throw new IllegalStateException("AppContext.setApplication was not called in Application.onCreate() method. " +
+                    "Please inherit your application from the com.blandware.android.atleap.BaseApplication class.");
+        }
+
         return sApplication;
     }
 

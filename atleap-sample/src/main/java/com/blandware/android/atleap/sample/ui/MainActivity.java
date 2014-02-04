@@ -18,6 +18,7 @@ package com.blandware.android.atleap.sample.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Window;
 
 import com.blandware.android.atleap.sample.R;
 
@@ -26,6 +27,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_main);
 
     }

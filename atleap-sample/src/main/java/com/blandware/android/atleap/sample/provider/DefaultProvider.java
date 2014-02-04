@@ -16,25 +16,27 @@
 
 package com.blandware.android.atleap.sample.provider;
 
-import android.content.Context;
-
-import com.blandware.android.atleap.provider.ormlite.OrmLiteDatabaseHelper;
+import com.blandware.android.atleap.provider.ormlite.OrmLiteProvider;
 import com.blandware.android.atleap.provider.ormlite.OrmLiteUriMatcher;
+import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 
 /**
  * Created by agrebnev on 25.12.13.
  */
-public class SampleDatabaseHelper extends OrmLiteDatabaseHelper {
+public class DefaultProvider extends OrmLiteProvider {
 
-    public static final String DATABASE_NAME = "sample.db";
-    public static final int DATABASE_VERSION = 1;
-
-    public SampleDatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, DATABASE_VERSION);
+    @Override
+    protected OrmLiteSqliteOpenHelper createHelper() {
+        return new DefaultDatabaseHelper(getContext());
     }
 
     @Override
     public OrmLiteUriMatcher getUriMatcher() {
-        return OrmLiteUriMatcher.getInstance(SampleUriMatcher.class, SampleContract.CONTENT_AUTHORITY);
+        return OrmLiteUriMatcher.getInstance(DefaultUriMatcher.class, DefaultContract.CONTENT_AUTHORITY);
+    }
+
+    @Override
+    public String getAuthority() {
+        return DefaultContract.CONTENT_AUTHORITY;
     }
 }

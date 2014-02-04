@@ -20,29 +20,29 @@ package com.blandware.android.atleap.sample.model;
  * Created by agrebnev on 22.12.13.
  */
 
-import com.blandware.android.atleap.sample.provider.SampleContract;
+import com.blandware.android.atleap.sample.provider.DefaultContract;
 import com.google.gson.annotations.SerializedName;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable(tableName = SampleContract.User.TABLE)
+@DatabaseTable(tableName = DefaultContract.User.TABLE)
 public class User {
 
-    @DatabaseField(id = true, columnName = SampleContract.User._ID)
+    @DatabaseField(id = true, columnName = DefaultContract.User._ID)
     public int id;
 
-    @DatabaseField(columnName = SampleContract.User.LOGIN)
+    @DatabaseField(columnName = DefaultContract.User.LOGIN)
     public String login;
 
     @SerializedName("avatar_url")
-    @DatabaseField(columnName = SampleContract.User.AVATAR_URL)
+    @DatabaseField(columnName = DefaultContract.User.AVATAR_URL)
     public String avatarUrl;
 
     @SerializedName("html_url")
-    @DatabaseField(columnName = SampleContract.User.HTML_URL)
+    @DatabaseField(columnName = DefaultContract.User.HTML_URL)
     public String htmlUrl;
 
-    @DatabaseField(foreign = true, columnName = SampleContract.User.REPOSITORY_ID)
+    @DatabaseField(foreign = true, columnName = DefaultContract.User.REPOSITORY_ID)
     public Repository repository;
 
 

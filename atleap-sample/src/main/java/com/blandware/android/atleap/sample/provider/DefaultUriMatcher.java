@@ -23,28 +23,28 @@ import com.blandware.android.atleap.sample.model.User;
 /**
  * Created by agrebnev on 29.12.13.
  */
-public class SampleUriMatcher extends OrmLiteUriMatcher {
+public class DefaultUriMatcher extends OrmLiteUriMatcher {
 
     private static final String TABLES_SQL_REPOSITORIES_USERS =
-            SampleContract.Repository.TABLE
-                    + " INNER JOIN " + SampleContract.User.TABLE
-                    + " ON (" + SampleContract.Repository.TABLE + "." + SampleContract.Repository._ID + "="
-                    + SampleContract.User.TABLE + "." + SampleContract.User.REPOSITORY_ID + ")";
+            DefaultContract.Repository.TABLE
+                    + " INNER JOIN " + DefaultContract.User.TABLE
+                    + " ON (" + DefaultContract.Repository.TABLE + "." + DefaultContract.Repository._ID + "="
+                    + DefaultContract.User.TABLE + "." + DefaultContract.User.REPOSITORY_ID + ")";
 
-    public SampleUriMatcher(String authority) {
+    public DefaultUriMatcher(String authority) {
         super(authority);
     }
 
     @Override
     public void instantiate() {
-        addClass(SampleContract.PATH_USERS, User.class);
-        addClass(SampleContract.PATH_USER, User.class);
+        addClass(DefaultContract.PATH_USERS, User.class);
+        addClass(DefaultContract.PATH_USER, User.class);
 
-        addClass(Repository.RepositoriesResult.class, SampleContract.PATH_REPOSITORIES_USERS);
-        addClass(SampleContract.PATH_REPOSITORIES, Repository.class);
-        addClass(SampleContract.PATH_REPOSITORY, Repository.class);
+        addClass(Repository.RepositoriesResult.class, DefaultContract.PATH_REPOSITORIES_USERS);
+        addClass(DefaultContract.PATH_REPOSITORIES, Repository.class);
+        addClass(DefaultContract.PATH_REPOSITORY, Repository.class);
 
-        addTablesSQL(SampleContract.PATH_REPOSITORIES_USERS, TABLES_SQL_REPOSITORIES_USERS);
+        addTablesSQL(DefaultContract.PATH_REPOSITORIES_USERS, TABLES_SQL_REPOSITORIES_USERS);
 
     }
 }

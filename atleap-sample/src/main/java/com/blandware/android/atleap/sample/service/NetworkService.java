@@ -19,23 +19,24 @@ package com.blandware.android.atleap.sample.service;
 import android.app.Application;
 
 import com.blandware.android.atleap.provider.ormlite.OrmLiteUriMatcher;
+import com.blandware.android.atleap.sample.Constants;
+import com.blandware.android.atleap.sample.network.NetworkErrorHandler;
 import com.blandware.android.atleap.sample.network.SearchRepositories;
-import com.blandware.android.atleap.sample.provider.SampleContract;
-import com.blandware.android.atleap.sample.provider.SampleDatabaseHelper;
-import com.blandware.android.atleap.sample.provider.SampleUriMatcher;
+import com.blandware.android.atleap.sample.provider.DefaultContract;
+import com.blandware.android.atleap.sample.provider.DefaultDatabaseHelper;
+import com.blandware.android.atleap.sample.provider.DefaultUriMatcher;
 import com.octo.android.robospice.persistence.CacheManager;
 import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.ormlite.InDatabaseObjectPersisterFactory;
 import com.octo.android.robospice.persistence.ormlite.RoboSpiceDatabaseHelper;
 import com.octo.android.robospice.retrofit.RetrofitGsonSpiceService;
 
+import retrofit.RestAdapter;
+
 /**
  * Created by agrebnev on 22.12.13.
  */
-public class SampleService extends RetrofitGsonSpiceService {
-
-    private static final String BASE_URL = "https://api.github.com";
-
+public class NetworkService extends RetrofitGsonSpiceService {
 
     @Override
     public void onCreate() {
@@ -45,7 +46,7 @@ public class SampleService extends RetrofitGsonSpiceService {
 
     @Override
     protected String getServerUrl() {
-        return BASE_URL;
+        return Constants.BASE_URL;
     }
 
     @Override
@@ -53,12 +54,19 @@ public class SampleService extends RetrofitGsonSpiceService {
         CacheManager cacheManager = new CacheManager();
 
 
-        OrmLiteUriMatcher matcher = OrmLiteUriMatcher.getInstance(SampleUriMatcher.class, SampleContract.CONTENT_AUTHORITY);
+        OrmLiteUriMatcher matcher = OrmLiteUriMatcher.getInstance(DefaultUriMatcher.class, DefaultContract.CONTENT_AUTHORITY);
 
         // init
-        RoboSpiceDatabaseHelper databaseHelper = new RoboSpiceDatabaseHelper(application, SampleDatabaseHelper.DATABASE_NAME, SampleDatabaseHelper.DATABASE_VERSION);
+        RoboSpiceDatabaseHelper databaseHelper = new RoboSpiceDatabaseHelper(application, DefaultDatabaseHelper.DATABASE_NAME, DefaultDatabaseHelper.DATABASE_VERSION);
         InDatabaseObjectPersisterFactory inDatabaseObjectPersisterFactory = new InDatabaseObjectPersisterFactory( application, databaseHelper, matcher.getClassToNotificationUriMap() );
         cacheManager.addPersister(inDatabaseObjectPersisterFactory);
         return cacheManager;
     }
+
+    @Override
+    protected RestAdapter.Builder createRestAdapterBuilder() {
+        return super.createRestAdapterBuilder().setErrorHandler(new NetworkErrorHandler());
+    }
+
+
 }

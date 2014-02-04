@@ -26,7 +26,7 @@ import android.widget.ImageView;
 
 import com.blandware.android.atleap.sample.R;
 import com.blandware.android.atleap.sample.network.SearchRepositoriesRequest;
-import com.blandware.android.atleap.sample.provider.SampleContract;
+import com.blandware.android.atleap.sample.provider.DefaultContract;
 import com.blandware.android.atleap.util.ListLoader;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.squareup.picasso.Picasso;
@@ -67,7 +67,7 @@ public class MasterFragment extends BaseFragment {
                 this,
                 R.id.list_repositories,
                 R.layout.listitem_repository,
-                SampleContract.CONTENT_URI_REPOSITORIES_USERS
+                DefaultContract.CONTENT_URI_REPOSITORIES_USERS
         );
         listLoader.getAdapter().setViewBinder(new SimpleCursorAdapter.ViewBinder() {
             @Override
@@ -95,7 +95,7 @@ public class MasterFragment extends BaseFragment {
     public void onStart() {
         super.onStart();
 
-        getSpiceManager().execute(searchRepositoriesRequest, CACHE_KEY, DurationInMillis.ONE_MINUTE, null);
+        executeSpiceRequest(searchRepositoriesRequest, CACHE_KEY, DurationInMillis.ONE_MINUTE);
     }
 
 

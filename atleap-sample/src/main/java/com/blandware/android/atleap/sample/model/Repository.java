@@ -20,7 +20,7 @@ package com.blandware.android.atleap.sample.model;
  * Created by agrebnev on 22.12.13.
  */
 
-import com.blandware.android.atleap.sample.provider.SampleContract;
+import com.blandware.android.atleap.sample.provider.DefaultContract;
 import com.google.gson.annotations.SerializedName;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
@@ -30,41 +30,41 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
-@DatabaseTable(tableName = SampleContract.Repository.TABLE)
+@DatabaseTable(tableName = DefaultContract.Repository.TABLE)
 public class Repository {
 
     @SerializedName("id")
-    @DatabaseField(id = true, columnName = SampleContract.Repository._ID)
+    @DatabaseField(id = true, columnName = DefaultContract.Repository._ID)
     private int id;
 
     @SerializedName("name")
-    @DatabaseField(columnName = SampleContract.Repository.NAME)
+    @DatabaseField(columnName = DefaultContract.Repository.NAME)
     public String name;
 
     @SerializedName("full_name")
-    @DatabaseField(columnName = SampleContract.Repository.FULL_NAME)
+    @DatabaseField(columnName = DefaultContract.Repository.FULL_NAME)
     public String fullName;
 
     @SerializedName("html_url")
-    @DatabaseField(columnName = SampleContract.Repository.HTML_URL)
+    @DatabaseField(columnName = DefaultContract.Repository.HTML_URL)
     public String htmlUrl;
 
     @SerializedName("description")
-    @DatabaseField(columnName = SampleContract.Repository.DESCRIPTION)
+    @DatabaseField(columnName = DefaultContract.Repository.DESCRIPTION)
     public String description;
 
     @SerializedName("stargazers_count")
-    @DatabaseField(columnName = SampleContract.Repository.STARGAZERS_COUNT)
+    @DatabaseField(columnName = DefaultContract.Repository.STARGAZERS_COUNT)
     public int stargazersCount;
 
     @SerializedName("created_at")
-    @DatabaseField(columnName = SampleContract.Repository.CREATED_AT)
+    @DatabaseField(columnName = DefaultContract.Repository.CREATED_AT)
     public Date createdAt;
 
     @SerializedName("owner")
     private User owner;
 
-    @DatabaseField(columnName = SampleContract.Repository.OWNER_ID, useGetSet = true)
+    @DatabaseField(columnName = DefaultContract.Repository.OWNER_ID, useGetSet = true)
     private int ownerId = 0;
 
     public int getOwnerId() {

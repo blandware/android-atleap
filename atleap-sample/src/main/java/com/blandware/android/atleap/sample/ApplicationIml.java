@@ -21,7 +21,7 @@ import com.blandware.android.atleap.BaseApplication;
 /**
  * Created by agrebnev on 29.12.13.
  */
-public class SampleApplication extends BaseApplication {
+public class ApplicationIml extends BaseApplication {
 
     @Override
     public void onCreate() {

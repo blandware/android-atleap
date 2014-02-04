@@ -23,9 +23,9 @@ import android.provider.BaseColumns;
 /**
  * Created by agrebnev on 29.12.13.
  */
-public class SampleContract {
+public class DefaultContract {
 
-    private SampleContract() {}
+    private DefaultContract() {}
 
     public static final String CONTENT_AUTHORITY = "com.blandware.android.atleap.sample.authority";
 
