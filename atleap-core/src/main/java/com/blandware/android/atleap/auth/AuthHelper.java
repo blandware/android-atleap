@@ -42,6 +42,26 @@ public class AuthHelper {
     }
 
     /**
+     * Create account if is not exist
+     * @param context context
+     * @param accountType accountType
+     * @param authTokenType authTokenType
+     * @param requiredFeatures requiredFeatures, could be <code>null</code>
+     * @param addAccountOptions addAccountOptions, could be <code>null</code>
+     * @param activity cannot be null
+     */
+    public static void createAccountIfNotExist(Context context, String accountType, String authTokenType, String[] requiredFeatures, Bundle addAccountOptions, Activity activity) {
+        if (activity == null) {
+            throw new IllegalArgumentException("activity cannot be null");
+        }
+        Account account = getFirstAccountByType(context, accountType);
+        if (account == null) {
+            Intent intent = getAuthActivityIntent(context, accountType, authTokenType, requiredFeatures, addAccountOptions);
+            activity.startActivity(intent);
+        }
+    }
+
+    /**
      * Get Intent for starting Auth Activity.
      * @param context context
      * @param accountType accountType
