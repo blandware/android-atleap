@@ -4,7 +4,6 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -23,9 +22,9 @@ public class AuthHelper {
      * @param requiredFeatures requiredFeatures, could be <code>null</code>
      * @param addAccountOptions addAccountOptions, could be <code>null</code>
      * @param activity if <code>null</code> the {@link AccountManager#KEY_INTENT} will be returned, otherwise Auth Activity will be started.
-     * @return
+     * @return authToken if account successfully created, otherwise <code>null</code>
      */
-    public static Bundle addAccount(Context context, String accountType, String authTokenType, String[] requiredFeatures, Bundle addAccountOptions, Activity activity) {
+    private static String addAccount(Context context, String accountType, String authTokenType, String[] requiredFeatures, Bundle addAccountOptions, Activity activity) {
         try {
             final AccountManager am = AccountManager.get(context);
 
@@ -34,7 +33,9 @@ public class AuthHelper {
             if (bundle == null)
                 return null;
 
-            return bundle;
+
+            return bundle.getString(AccountManager.KEY_AUTHTOKEN);
+
         } catch (Exception e) {
             Log.e(TAG, "Cannot add auth account", e);
             return null;
@@ -56,26 +57,11 @@ public class AuthHelper {
         }
         Account account = getFirstAccountByType(context, accountType);
         if (account == null) {
-            Intent intent = getAuthActivityIntent(context, accountType, authTokenType, requiredFeatures, addAccountOptions);
-            activity.startActivity(intent);
+            final AccountManager am = AccountManager.get(context);
+            am.addAccount(accountType, authTokenType, requiredFeatures, addAccountOptions, activity, null, null);
         }
     }
 
-    /**
-     * Get Intent for starting Auth Activity.
-     * @param context context
-     * @param accountType accountType
-     * @param authTokenType authTokenType
-     * @param requiredFeatures requiredFeatures, could be <code>null</code>
-     * @param addAccountOptions addAccountOptions, could be <code>null</code>
-     * @return Intent to start Auth Activity
-     */
-    public static Intent getAuthActivityIntent(Context context, String accountType, String authTokenType,  String[] requiredFeatures, Bundle addAccountOptions) {
-        Bundle bundle = addAccount(context, accountType, authTokenType, requiredFeatures, addAccountOptions, null);
-        if (bundle == null)
-            return null;
-        return bundle.getParcelable(AccountManager.KEY_INTENT);
-    }
 
     /**
      * Get auth token. Do not use this method from main thread. Your current thread could be blocked for a long time.
@@ -87,6 +73,15 @@ public class AuthHelper {
      * @return authToken
      */
     public static String getAuthToken(Context context, Account account, String authTokenType, Bundle options, Activity activity) {
+        if (isAccountExist(context, account)) {
+            return getAuthTokenWithoutCheck(context, account, authTokenType, options, activity);
+        } else {
+            return addAccount(context, account.type, authTokenType, null, options, activity);
+        }
+    }
+
+
+    private static String getAuthTokenWithoutCheck(Context context, Account account, String authTokenType, Bundle options, Activity activity) {
         try {
             final AccountManager am = AccountManager.get(context);
 
@@ -103,7 +98,7 @@ public class AuthHelper {
     }
 
     /**
-     * Get auth token for the first account of specified type
+     * Get auth token for the first account of specified type. Do not use this method from main thread.
      * @param context context
      * @param accountType accountType
      * @param authTokenType authTokenType
@@ -114,36 +109,49 @@ public class AuthHelper {
     public static String getAuthTokenOfFirstAccount(Context context, String accountType, String authTokenType, Bundle options, Activity activity) {
         Account account = getFirstAccountByType(context, accountType);
         if (account == null) {
-            if (activity != null) {
-                Bundle bundle = addAccount(context, accountType, authTokenType, null, options, activity);
-                if (bundle == null)
-                    return null;
-
-                return bundle.getString(AccountManager.KEY_AUTHTOKEN);
-            } else {
-                return null;
-            }
+            return addAccount(context, accountType, authTokenType, null, options, activity);
         }
-        return getAuthToken(context, account, authTokenType, options, activity);
+        return getAuthTokenWithoutCheck(context, account, authTokenType, options, activity);
     }
 
     /**
-     * Get first account of specified type
+     * Get first account of specified type.
      * @param context context
      * @param accountType accountType
      * @return Account, or <code>null</code> if there is no account of this type.
      */
     public static Account getFirstAccountByType(Context context, String accountType) {
         final AccountManager accountManager = AccountManager.get(context);
-        Account[] account = accountManager.getAccountsByType(accountType);
+        Account[] accounts = accountManager.getAccountsByType(accountType);
 
-        if (account == null || account.length == 0) {
+        if (accounts == null || accounts.length == 0) {
             return null;
         } else {
-            if (account.length > 1) {
+            if (accounts.length > 1) {
                 Log.w(TAG, "There are more than one account of this type");
             }
-            return account[0];
+            return accounts[0];
+        }
+    }
+
+    /**
+     * Check if the specified account exist
+     * @param context context
+     * @param account account to check
+     * @return <code>true</code> if account exist
+     */
+    public static boolean isAccountExist(Context context, Account account) {
+        final AccountManager accountManager = AccountManager.get(context);
+        Account[] accounts = accountManager.getAccountsByType(account.type);
+
+        if (accounts == null || accounts.length == 0) {
+            return false;
+        } else {
+            for (Account a : accounts) {
+                if (a.equals(account))
+                    return true;
+            }
+            return false;
         }
     }
 
