@@ -1,12 +1,6 @@
 buildscript {
     repositories {
         mavenCentral()
-
-    //uncomment these lines if you would like to have access to latest snapshots at OSS Sonatype
-    //  maven {
-    //        url 'https://oss.sonatype.org/content/repositories/snapshots/'
-    //  }
-
     }
 
     dependencies {
@@ -18,6 +12,11 @@ apply plugin: 'android'
 
 repositories {
     mavenCentral()
+    //uncomment these lines if you would like to have access to latest snapshots at OSS Sonatype
+    //  maven {
+    //        url 'https://oss.sonatype.org/content/repositories/snapshots/'
+    //  }
+
 }
 
 android {
