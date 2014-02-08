@@ -108,9 +108,9 @@ public abstract class BaseAuthenticator extends AbstractAccountAuthenticator {
     protected Intent createAuthActivityIntent(AccountAuthenticatorResponse response, String accountName, String accountType, String authTokenType, String password, Bundle options) {
         Intent intent = new Intent(mContext, getAuthActivityClass());
         intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
-        intent.putExtra(BaseAuthActivity.ARG_ACCOUNT_TYPE, accountName);
+        intent.putExtra(BaseAuthActivity.ARG_ACCOUNT_TYPE, accountType);
         intent.putExtra(BaseAuthActivity.ARG_AUTH_TOKEN_TYPE, authTokenType);
-        intent.putExtra(BaseAuthActivity.ARG_ACCOUNT_NAME, accountType);
+        intent.putExtra(BaseAuthActivity.ARG_ACCOUNT_NAME, accountName);
         intent.putExtra(BaseAuthActivity.ARG_PASSWORD, password);
         intent.putExtra(BaseAuthActivity.ARG_OPTIONS, options);
         return intent;
