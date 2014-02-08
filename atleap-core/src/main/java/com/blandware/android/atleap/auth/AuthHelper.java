@@ -20,15 +20,15 @@ public class AuthHelper {
      * @param accountType accountType
      * @param authTokenType authTokenType
      * @param requiredFeatures requiredFeatures, could be <code>null</code>
-     * @param addAccountOptions addAccountOptions, could be <code>null</code>
+     * @param options options, could be <code>null</code>
      * @param activity if <code>null</code> the {@link AccountManager#KEY_INTENT} will be returned, otherwise Auth Activity will be started.
      * @return authToken if account successfully created, otherwise <code>null</code>
      */
-    private static String addAccount(Context context, String accountType, String authTokenType, String[] requiredFeatures, Bundle addAccountOptions, Activity activity) {
+    private static String addAccount(Context context, String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
         try {
             final AccountManager am = AccountManager.get(context);
 
-            Bundle bundle = am.addAccount(accountType, authTokenType, requiredFeatures, addAccountOptions, activity, null, null).getResult();
+            Bundle bundle = am.addAccount(accountType, authTokenType, requiredFeatures, options, activity, null, null).getResult();
 
             if (bundle == null)
                 return null;
@@ -43,22 +43,25 @@ public class AuthHelper {
     }
 
     /**
-     * Create account if is not exist
+     * Check if exist account, if not create one. Then check the authToken is up-to-date, if not try to authenticate.
+     * The best place for this method in the begin of the onCreate method of every activity.
      * @param context context
      * @param accountType accountType
      * @param authTokenType authTokenType
      * @param requiredFeatures requiredFeatures, could be <code>null</code>
-     * @param addAccountOptions addAccountOptions, could be <code>null</code>
+     * @param options addAccountOptions, could be <code>null</code>
      * @param activity cannot be null
      */
-    public static void createAccountIfNotExist(Context context, String accountType, String authTokenType, String[] requiredFeatures, Bundle addAccountOptions, Activity activity) {
+    public static void checkAccountAndToken(Context context, String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
         if (activity == null) {
             throw new IllegalArgumentException("activity cannot be null");
         }
         Account account = getFirstAccountByType(context, accountType);
+        final AccountManager am = AccountManager.get(context);
         if (account == null) {
-            final AccountManager am = AccountManager.get(context);
-            am.addAccount(accountType, authTokenType, requiredFeatures, addAccountOptions, activity, null, null);
+            am.addAccount(accountType, authTokenType, requiredFeatures, options, activity, null, null);
+        } else {
+            am.getAuthToken(account, authTokenType, options, activity, null, null);
         }
     }
 
@@ -84,12 +87,9 @@ public class AuthHelper {
     private static String getAuthTokenWithoutCheck(Context context, Account account, String authTokenType, Bundle options, Activity activity) {
         try {
             final AccountManager am = AccountManager.get(context);
-
             Bundle bundle = am.getAuthToken(account, authTokenType, options, activity, null, null).getResult();
-
             if (bundle == null)
                 return null;
-
             return bundle.getString(AccountManager.KEY_AUTHTOKEN);
         } catch (Exception e) {
             Log.e(TAG, "Cannot get auth token", e);
