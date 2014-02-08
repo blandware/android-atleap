@@ -42,13 +42,15 @@ public abstract class BaseAuthActivity extends AccountAuthenticatorActivity {
         mAccountManager = AccountManager.get(getBaseContext());
 
         mAccountType = getIntent().getStringExtra(ARG_ACCOUNT_TYPE);
-        mAccountType = getDefaultAccountType();
+        if (TextUtils.isEmpty(mAccountType))
+            mAccountType = getDefaultAccountType();
         if (TextUtils.isEmpty(mAccountType)) {
             throw new IllegalArgumentException("Account type should not be empty");
         }
 
         mAuthTokenType = getIntent().getStringExtra(ARG_AUTH_TOKEN_TYPE);
-        mAuthTokenType = getDefaultAuthTokenType();
+        if (TextUtils.isEmpty(mAuthTokenType))
+            mAuthTokenType = getDefaultAuthTokenType();
         if (TextUtils.isEmpty(mAuthTokenType)) {
             throw new IllegalArgumentException("Auth token type should not be empty");
         }
