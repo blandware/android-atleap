@@ -143,7 +143,7 @@ public abstract class BaseAuthenticator extends AbstractAccountAuthenticator {
                 try {
                     authToken = authenticateOnServer(account, password, authTokenType, options, response);
                 } catch (Exception e) {
-                    throw new NetworkErrorException("Cannot authenticate on the server", e);
+                    Log.w(TAG, "Cannot authenticate on the server", e);
                 }
             }
         }
