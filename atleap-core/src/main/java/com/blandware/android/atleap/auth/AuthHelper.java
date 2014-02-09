@@ -5,6 +5,7 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 
 /**
@@ -24,7 +25,7 @@ public class AuthHelper {
      * @param activity if <code>null</code> the {@link AccountManager#KEY_INTENT} will be returned, otherwise Auth Activity will be started.
      * @return authToken if account successfully created, otherwise <code>null</code>
      */
-    private static String addAccount(Context context, String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
+    public static String addAccount(Context context, String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
         try {
             final AccountManager am = AccountManager.get(context);
 
@@ -52,7 +53,7 @@ public class AuthHelper {
      * @param options addAccountOptions, could be <code>null</code>
      * @param activity cannot be null
      */
-    public static void checkAccountAndToken(Context context, String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
+    public static void checkFirstAccountAndToken(Context context, String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
         if (activity == null) {
             throw new IllegalArgumentException("activity cannot be null");
         }
@@ -141,6 +142,9 @@ public class AuthHelper {
      * @return <code>true</code> if account exist
      */
     public static boolean isAccountExist(Context context, Account account) {
+        if (account == null)
+            return false;
+
         final AccountManager accountManager = AccountManager.get(context);
         Account[] accounts = accountManager.getAccountsByType(account.type);
 
@@ -155,17 +159,48 @@ public class AuthHelper {
         }
     }
 
-
     /**
-     * Invalidate authToken for specified accountType
+     * Recreate authToken for the first account of specified type. Do not use this method from main thread.
      * @param context context
      * @param accountType accountType
-     * @param authToken authToken
+     * @param authTokenType authTokenType
+     * @param options options, could be <code>null</code>
+     * @param activity activity, could be <code>null</code>
      */
-    public static void invalidateAuthToken(Context context, String accountType, String authToken) {
-        final AccountManager accountManager = AccountManager.get(context);
-        accountManager.invalidateAuthToken(accountType, authToken);
+    public static void recreateAuthTokenForFirstAccount(Context context, String accountType, String authTokenType, Bundle options, Activity activity) {
+        Account account = getFirstAccountByType(context, accountType);
+        recreateAuthToken(context, account, authTokenType, options, activity);
     }
+
+    /**
+     * Recreate authToken for the specified account. Do not use this method from main thread.
+     * @param context context
+     * @param account account
+     * @param authTokenType authTokenType
+     * @param options options, could be <code>null</code>
+     * @param activity activity, could be <code>null</code>
+     */
+    public static void recreateAuthToken(Context context, Account account, String authTokenType, Bundle options, Activity activity) {
+        boolean isAccountExist = isAccountExist(context, account);
+        if (!isAccountExist) {
+            addAccount(context, account.type, authTokenType, null, options, activity);
+            return;
+        }
+
+        final AccountManager am = AccountManager.get(context);
+        String authToken = am.peekAuthToken(account, authTokenType);
+
+        if (TextUtils.isEmpty(authToken)) {
+            getAuthTokenWithoutCheck(context, account, authTokenType, options, activity);
+            return;
+        }
+
+        final AccountManager accountManager = AccountManager.get(context);
+        accountManager.invalidateAuthToken(account.type, authToken);
+
+        getAuthTokenWithoutCheck(context, account, authTokenType, options, activity);
+    }
+
 
     /**
      * Remove specified account
@@ -176,5 +211,19 @@ public class AuthHelper {
         final AccountManager accountManager = AccountManager.get(context);
         accountManager.removeAccount(account, null, null);
     }
+
+    /**
+     * Remove first account of specified type
+     * @param context context
+     * @param accountType accountType to remove
+     */
+    public static void removeFirstAccount(Context context, String accountType) {
+        Account account = getFirstAccountByType(context, accountType);
+        if (account != null) {
+            removeAccount(context, account);
+        }
+    }
+
+
 
 }
