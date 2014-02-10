@@ -2,7 +2,6 @@ package com.blandware.android.atleap.auth;
 
 
 import android.accounts.Account;
-import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,7 +19,7 @@ import java.util.List;
  * in order to update password.
  *
  */
-public abstract class BaseAuthActivity extends AccountAuthenticatorActivity {
+public abstract class BaseAuthActivity extends SupportAccountAuthenticatorActivity {
 
     private static final String TAG = BaseAuthActivity.class.getSimpleName();
 
