@@ -46,19 +46,18 @@ public class AuthHelper {
     /**
      * Check if exist account, if not create one. Then check the authToken is up-to-date, if not try to authenticate.
      * The best place for this method in the begin of the onCreate method of every activity.
-     * @param context context
      * @param accountType accountType
      * @param authTokenType authTokenType
      * @param requiredFeatures requiredFeatures, could be <code>null</code>
      * @param options addAccountOptions, could be <code>null</code>
      * @param activity cannot be null
      */
-    public static void checkFirstAccountAndToken(Context context, String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
+    public static void checkFirstAccountAndToken(String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
         if (activity == null) {
             throw new IllegalArgumentException("activity cannot be null");
         }
-        Account account = getFirstAccountByType(context, accountType);
-        final AccountManager am = AccountManager.get(context);
+        Account account = getFirstAccountByType(activity.getApplicationContext(), accountType);
+        final AccountManager am = AccountManager.get(activity.getApplicationContext());
         if (account == null) {
             am.addAccount(accountType, authTokenType, requiredFeatures, options, activity, null, null);
         } else {
@@ -72,15 +71,16 @@ public class AuthHelper {
      * @param context context
      * @param account account
      * @param authTokenType authTokenType
+     * @param requiredFeatures requiredFeatures, could be <code>null</code>
      * @param options options, could be <code>null</code>
      * @param activity if <code>null</code> the <code>null</code> could be returned (in case of there is no token), otherwise Auth Activity could be started.
      * @return authToken
      */
-    public static String getAuthToken(Context context, Account account, String authTokenType, Bundle options, Activity activity) {
+    public static String getAuthToken(Context context, Account account, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
         if (isAccountExist(context, account)) {
             return getAuthTokenWithoutCheck(context, account, authTokenType, options, activity);
         } else {
-            return addAccount(context, account.type, authTokenType, null, options, activity);
+            return addAccount(context, account.type, authTokenType, requiredFeatures, options, activity);
         }
     }
 
@@ -103,14 +103,15 @@ public class AuthHelper {
      * @param context context
      * @param accountType accountType
      * @param authTokenType authTokenType
+     * @param requiredFeatures requiredFeatures, could be <code>null</code>
      * @param options options, could be <code>null</code>
      * @param activity if <code>null</code> the <code>null</code> could be returned (in case of there is no token), otherwise Auth Activity could be started.
      * @return authToken
      */
-    public static String getAuthTokenOfFirstAccount(Context context, String accountType, String authTokenType, Bundle options, Activity activity) {
+    public static String getAuthTokenOfFirstAccount(Context context, String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
         Account account = getFirstAccountByType(context, accountType);
         if (account == null) {
-            return addAccount(context, accountType, authTokenType, null, options, activity);
+            return addAccount(context, accountType, authTokenType, requiredFeatures, options, activity);
         }
         return getAuthTokenWithoutCheck(context, account, authTokenType, options, activity);
     }
@@ -164,12 +165,13 @@ public class AuthHelper {
      * @param context context
      * @param accountType accountType
      * @param authTokenType authTokenType
+     * @param requiredFeatures requiredFeatures, could be <code>null</code>
      * @param options options, could be <code>null</code>
      * @param activity activity, could be <code>null</code>
      */
-    public static void recreateAuthTokenForFirstAccount(Context context, String accountType, String authTokenType, Bundle options, Activity activity) {
+    public static void reCreateAuthTokenForFirstAccount(Context context, String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
         Account account = getFirstAccountByType(context, accountType);
-        recreateAuthToken(context, account, authTokenType, options, activity);
+        reCreateAuthToken(context, account, authTokenType, requiredFeatures, options, activity);
     }
 
     /**
@@ -177,13 +179,14 @@ public class AuthHelper {
      * @param context context
      * @param account account
      * @param authTokenType authTokenType
+     * @param requiredFeatures requiredFeatures, could be <code>null</code>
      * @param options options, could be <code>null</code>
      * @param activity activity, could be <code>null</code>
      */
-    public static void recreateAuthToken(Context context, Account account, String authTokenType, Bundle options, Activity activity) {
+    public static void reCreateAuthToken(Context context, Account account, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
         boolean isAccountExist = isAccountExist(context, account);
         if (!isAccountExist) {
-            addAccount(context, account.type, authTokenType, null, options, activity);
+            addAccount(context, account.type, authTokenType, requiredFeatures, options, activity);
             return;
         }
 
@@ -201,7 +204,6 @@ public class AuthHelper {
         getAuthTokenWithoutCheck(context, account, authTokenType, options, activity);
     }
 
-
     /**
      * Remove specified account
      * @param context context
@@ -212,15 +214,25 @@ public class AuthHelper {
         accountManager.removeAccount(account, null, null);
     }
 
+
     /**
-     * Remove first account of specified type
-     * @param context context
-     * @param accountType accountType to remove
+     * Recreate first account of specified type
+     * @param accountType account type
+     * @param authTokenType authTokenType
+     * @param requiredFeatures requiredFeatures, could be <code>null</code>
+     * @param options options, could be <code>null</code>
+     * @param activity activity, could be <code>null</code>
      */
-    public static void removeFirstAccount(Context context, String accountType) {
-        Account account = getFirstAccountByType(context, accountType);
+    public static void reCreateFirstAccount(String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
+        if (activity == null) {
+            throw new IllegalArgumentException("activity cannot be null");
+        }
+        Account account = getFirstAccountByType(activity.getApplicationContext(), accountType);
         if (account != null) {
-            removeAccount(context, account);
+            final AccountManager accountManager = AccountManager.get(activity.getApplicationContext());
+            accountManager.removeAccount(account, null, null);
+            activity.finish();
+            accountManager.addAccount(accountType, authTokenType, requiredFeatures, options, activity, null, null);
         }
     }
 
