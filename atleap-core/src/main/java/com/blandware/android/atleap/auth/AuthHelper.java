@@ -231,7 +231,6 @@ public class AuthHelper {
         if (account != null) {
             final AccountManager accountManager = AccountManager.get(activity.getApplicationContext());
             accountManager.removeAccount(account, null, null);
-            activity.finish();
             accountManager.addAccount(accountType, authTokenType, requiredFeatures, options, activity, null, null);
         }
     }
