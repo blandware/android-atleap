@@ -9,6 +9,7 @@ buildscript {
 }
 
 apply plugin: 'android'
+apply plugin: 'idea'
 
 repositories {
     mavenCentral()
@@ -40,6 +41,15 @@ android {
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
+}
+
+idea {
+    module {
+        downloadSources=true
+        downloadJavadoc=true
     }
 }
 
@@ -74,7 +84,7 @@ if (project.hasProperty("com.blandware.android.atleap.sample.properties")
         && new File(project.property("com.blandware.android.atleap.sample.properties")).exists()) {
 
     Properties props = new Properties()
-    props.load(new FileInputStream(file(project.property("com.blandware.android.atleap.sample"))))
+    props.load(new FileInputStream(file(project.property("com.blandware.android.atleap.sample.properties"))))
 
     android {
         signingConfigs {
