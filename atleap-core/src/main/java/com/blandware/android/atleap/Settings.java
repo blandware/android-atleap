@@ -43,7 +43,7 @@ public class Settings {
         getSharedPreferences().edit().putInt(key, value).commit();
     }
 
-    public static float getInt(String key, int defaultValue) {
+    public static int getInt(String key, int defaultValue) {
         return getSharedPreferences().getInt(key, defaultValue);
     }
 
@@ -51,7 +51,7 @@ public class Settings {
         getSharedPreferences().edit().putLong(key, value).commit();
     }
 
-    public static float getLong(String key, long defaultValue) {
+    public static long getLong(String key, long defaultValue) {
         return getSharedPreferences().getLong(key, defaultValue);
     }
 
