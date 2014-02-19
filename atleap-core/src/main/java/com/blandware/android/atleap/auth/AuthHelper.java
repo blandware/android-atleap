@@ -175,7 +175,7 @@ public class AuthHelper {
     }
 
     /**
-     * Recreate authToken for the specified account. Do not use this method from main thread.
+     * Recreate authToken for the specified account.
      * @param context context
      * @param account account
      * @param authTokenType authTokenType
@@ -184,24 +184,21 @@ public class AuthHelper {
      * @param activity activity, could be <code>null</code>
      */
     public static void reCreateAuthToken(Context context, Account account, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
+        final AccountManager am = AccountManager.get(context);
         boolean isAccountExist = isAccountExist(context, account);
         if (!isAccountExist) {
-            addAccount(context, account.type, authTokenType, requiredFeatures, options, activity);
+            am.addAccount(account.type, authTokenType, requiredFeatures, options, activity, null, null);
             return;
         }
 
-        final AccountManager am = AccountManager.get(context);
         String authToken = am.peekAuthToken(account, authTokenType);
 
         if (TextUtils.isEmpty(authToken)) {
-            getAuthTokenWithoutCheck(context, account, authTokenType, options, activity);
+            am.getAuthToken(account, authTokenType, options, activity, null, null);
             return;
         }
-
-        final AccountManager accountManager = AccountManager.get(context);
-        accountManager.invalidateAuthToken(account.type, authToken);
-
-        getAuthTokenWithoutCheck(context, account, authTokenType, options, activity);
+        am.invalidateAuthToken(account.type, authToken);
+        am.getAuthToken(account, authTokenType, options, activity, null, null);
     }
 
     /**
