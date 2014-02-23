@@ -104,8 +104,6 @@ public abstract class BaseDrawerFragment extends Fragment {
                 }
             });
             mMenuListView.setAdapter(mMenuConfig.menuListAdapter);
-            //mMenuListView.setItemChecked(mCurrentSelectedPosition, true);
-
         }
         return view;
     }
