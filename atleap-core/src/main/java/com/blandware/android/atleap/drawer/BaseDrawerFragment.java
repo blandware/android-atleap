@@ -33,10 +33,7 @@ public abstract class BaseDrawerFragment extends Fragment {
 
     private static final String TAG = BaseDrawerFragment.class.getSimpleName();
 
-    /**
-     * Remember the position of the selected item.
-     */
-    protected static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
+    protected static final String STATE_IS_FIRST_CREATION = "STATE_IS_FIRST_CREATION";
 
     /**
      * A pointer to the current callbacks instance (the Activity).
@@ -50,7 +47,6 @@ public abstract class BaseDrawerFragment extends Fragment {
 
     protected DrawerLayout mDrawerLayout;
 
-    protected int mCurrentSelectedPosition = 0;
     protected boolean mFromSavedInstanceState;
     protected boolean mUserLearnedDrawer;
     protected ListView mMenuListView;
@@ -74,17 +70,14 @@ public abstract class BaseDrawerFragment extends Fragment {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mUserLearnedDrawer = sp.getBoolean(PREF_USER_LEARNED_DRAWER, false);
 
-        if (savedInstanceState != null) {
-            mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
-            mFromSavedInstanceState = true;
-        }
-
         mDrawerConfig = getDrawerConfig();
         mMenuConfig = getMenuConfig();
         mMenuListAdapter = mMenuConfig.menuListAdapter;
 
-        // Select either the default item (0) or the last selected item.
-        selectMenuItem(mCurrentSelectedPosition);
+        if (savedInstanceState == null) {
+            selectMenuItem(0);
+        }
+
 
         // Indicate that this fragment would like to influence the set of actions in the action bar.
         setHasOptionsMenu(true);
@@ -111,7 +104,7 @@ public abstract class BaseDrawerFragment extends Fragment {
                 }
             });
             mMenuListView.setAdapter(mMenuConfig.menuListAdapter);
-            mMenuListView.setItemChecked(mCurrentSelectedPosition, true);
+            //mMenuListView.setItemChecked(mCurrentSelectedPosition, true);
 
         }
         return view;
@@ -219,8 +212,6 @@ public abstract class BaseDrawerFragment extends Fragment {
 
 
     protected void selectMenuItem(int position) {
-
-        mCurrentSelectedPosition = position;
         if (mMenuListView != null) {
             mMenuListView.setItemChecked(position, true);
         }
@@ -271,7 +262,7 @@ public abstract class BaseDrawerFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(STATE_SELECTED_POSITION, mCurrentSelectedPosition);
+        outState.putBoolean(STATE_IS_FIRST_CREATION, false);
     }
 
     /**
