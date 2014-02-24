@@ -121,11 +121,11 @@ public abstract class BaseDrawerFragment extends Fragment {
             mDrawerLayout = (DrawerLayout)view;
         }
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
-
         if (mDrawerLayout != null) {
+
+            ActionBar actionBar = getActionBar();
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
 
             // set a custom shadow that overlays the main content when the drawer opens
             if (mDrawerConfig.drawerShadowResourceId != 0)
@@ -209,9 +209,14 @@ public abstract class BaseDrawerFragment extends Fragment {
     /**
      * Change mIconResourceId at the UP place
      */
-    public void setDrawerIndicatorEnabled(boolean value) {
+    public void setDisplayHomeAsUpEnabled(boolean value) {
         if (mDrawerToggle != null)
-            mDrawerToggle.setDrawerIndicatorEnabled(value);
+            mDrawerToggle.setDrawerIndicatorEnabled(!value);
+        else {
+            ActionBar actionBar = getActionBar();
+            if (actionBar != null)
+                actionBar.setDisplayHomeAsUpEnabled(value);
+        }
     }
 
 

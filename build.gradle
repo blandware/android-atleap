@@ -22,3 +22,12 @@ allprojects {
 }
 
 apply plugin: 'android-reporting'
+apply plugin: 'idea'
+
+
+idea {
+    module {
+        downloadSources=true
+        downloadJavadoc=true
+    }
+}
