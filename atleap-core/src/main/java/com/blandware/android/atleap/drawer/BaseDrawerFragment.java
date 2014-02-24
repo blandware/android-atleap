@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -23,7 +24,7 @@ import android.widget.ListView;
 /**
  * Base Abstract fragment to implement drawer layout
  */
-public abstract class BaseDrawerFragment extends Fragment {
+public abstract class BaseDrawerFragment extends Fragment implements FragmentManager.OnBackStackChangedListener {
 
     /**
      * Per the design guidelines, you should show the drawer on launch until the user manually
@@ -254,16 +255,36 @@ public abstract class BaseDrawerFragment extends Fragment {
         if (activity instanceof NavigationDrawerCallbacks) {
             mCallbacks = (NavigationDrawerCallbacks) activity;
         }
+
+        getActivity().getSupportFragmentManager().addOnBackStackChangedListener(this);
     }
+
 
     /**
      * {@inheritDoc}
      */
     @Override
     public void onDetach() {
+        getActivity().getSupportFragmentManager().addOnBackStackChangedListener(this);
         super.onDetach();
         mCallbacks = null;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onBackStackChanged() {
+        FragmentActivity activity = getActivity();
+        if (activity != null) {
+            if (activity.getSupportFragmentManager().getBackStackEntryCount() > 1)
+                setDisplayHomeAsUpEnabled(true);
+            else
+                setDisplayHomeAsUpEnabled(false);
+        }
+    }
+
+
 
     /**
      * {@inheritDoc}
