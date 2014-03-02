@@ -122,11 +122,13 @@ public abstract class BaseDrawerFragment extends Fragment implements FragmentMan
             mDrawerLayout = (DrawerLayout)view;
         }
 
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+
         if (mDrawerLayout != null) {
 
-            ActionBar actionBar = getActionBar();
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeButtonEnabled(true);
+
 
             // set a custom shadow that overlays the main content when the drawer opens
             if (mDrawerConfig.drawerShadowResourceId != 0)
@@ -170,6 +172,8 @@ public abstract class BaseDrawerFragment extends Fragment implements FragmentMan
 
             mDrawerLayout.setDrawerListener(mDrawerToggle);
         }
+
+        initUpIcon();
 
     }
 
@@ -265,7 +269,7 @@ public abstract class BaseDrawerFragment extends Fragment implements FragmentMan
      */
     @Override
     public void onDetach() {
-        getActivity().getSupportFragmentManager().addOnBackStackChangedListener(this);
+        getActivity().getSupportFragmentManager().removeOnBackStackChangedListener(this);
         super.onDetach();
         mCallbacks = null;
     }
@@ -275,6 +279,13 @@ public abstract class BaseDrawerFragment extends Fragment implements FragmentMan
      */
     @Override
     public void onBackStackChanged() {
+        initUpIcon();
+    }
+
+    /**
+     * Setup icon for the Up place
+     */
+    protected void initUpIcon() {
         FragmentActivity activity = getActivity();
         if (activity != null) {
             if (activity.getSupportFragmentManager().getBackStackEntryCount() > 1)
@@ -283,7 +294,6 @@ public abstract class BaseDrawerFragment extends Fragment implements FragmentMan
                 setDisplayHomeAsUpEnabled(false);
         }
     }
-
 
 
     /**
