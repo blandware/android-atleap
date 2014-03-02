@@ -45,7 +45,7 @@ public class AuthHelper {
 
     /**
      * Check if exist account, if not create one. Then check the authToken is up-to-date, if not try to authenticate.
-     * The best place for this method in the begin of the onCreate method of every activity.
+     * The best place for this method in the begin of the onStart method of every activity.
      * @param accountType accountType
      * @param authTokenType authTokenType
      * @param requiredFeatures requiredFeatures, could be <code>null</code>
@@ -161,7 +161,7 @@ public class AuthHelper {
     }
 
     /**
-     * Recreate authToken for the first account of specified type. Do not use this method from main thread.
+     * Recreate authToken for the first account of specified type.
      * @param context context
      * @param accountType accountType
      * @param authTokenType authTokenType
@@ -263,7 +263,7 @@ public class AuthHelper {
      * @param authTokenType authTokenType
      * @param requiredFeatures requiredFeatures, could be <code>null</code>
      * @param options options, could be <code>null</code>
-     * @param activity activity, could be <code>null</code>
+     * @param activity activity (cannot be <code>null</code>)
      */
     public static void reCreateFirstAccount(String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
         if (activity == null) {
@@ -278,5 +278,44 @@ public class AuthHelper {
     }
 
 
+    /**
+     * Invalidate auth token for the first account of specified type.
+     * @param accountType account type
+     * @param authTokenType auth token type
+     * @param requiredFeatures requiredFeatures, could be <code>null</code>
+     * @param options options, could be <code>null</code>
+     * @param activity activity (cannot be <code>null</code>)
+     */
+    public static void invalidateAuthTokenForFirstAccount(String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
+        if (activity == null) {
+            throw new IllegalArgumentException("activity cannot be null");
+        }
+        Context context = activity.getApplicationContext();
+        Account account = getFirstAccountByType(context, accountType);
+        invalidateAuthToken(account, authTokenType, requiredFeatures, options, activity);
+    }
 
+    /**
+     * Invalidate auth token for specified account
+     * @param account account to invalidate auth token
+     * @param authTokenType auth token type
+     * @param requiredFeatures requiredFeatures, could be <code>null</code>
+     * @param options options, could be <code>null</code>
+     * @param activity activity (cannot be <code>null</code>)
+     */
+    public static void invalidateAuthToken(Account account, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
+        if (activity == null) {
+            throw new IllegalArgumentException("activity cannot be null");
+        }
+        if (account == null) {
+            throw new IllegalArgumentException("account cannot be null");
+        }
+        Context context = activity.getApplicationContext();
+        final AccountManager am = AccountManager.get(context);
+        String authToken = am.peekAuthToken(account, authTokenType);
+        if (!TextUtils.isEmpty(authToken)) {
+            am.invalidateAuthToken(account.type, authToken);
+        }
+        am.addAccount(account.type, authTokenType, requiredFeatures, options, activity, null, null);
+    }
 }
