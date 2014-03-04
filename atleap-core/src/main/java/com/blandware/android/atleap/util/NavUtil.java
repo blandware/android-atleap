@@ -82,7 +82,13 @@ public class NavUtil {
                 .commit();
     }
 
-    private static boolean clearBackStack(FragmentManager manager, boolean exclusive) {
+    /**
+     * Clear back stack of specified fragment manager
+     * @param manager support fragment manager
+     * @param exclusive <code>true</code> if the back stack should be cleared but stayed the first element
+     * @return <code>true</code> if the first element was not cleared
+     */
+    public static boolean clearBackStack(FragmentManager manager, boolean exclusive) {
         int stackSize = manager.getBackStackEntryCount();
         if ((stackSize == 0) || ((stackSize == 1) && exclusive)) {
             return false;
