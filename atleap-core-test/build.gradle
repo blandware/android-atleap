@@ -27,9 +27,11 @@ android {
         exclude 'META-INF/NOTICE.txt'
     }
 
-    release {
-        runProguard false
-        proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
     }
 }
 
@@ -38,13 +40,13 @@ dependencies {
     compile 'com.android.support:appcompat-v7:19.0.1'
 
 
-    instrumentTestCompile 'com.octo.android.robospice:robospice:1.4.11'
-    instrumentTestCompile 'com.octo.android.robospice:robospice-cache:1.4.11'
-    instrumentTestCompile 'com.octo.android.robospice:robospice-ormlite:1.4.11'
-    instrumentTestCompile 'com.octo.android.robospice:robospice-okhttp:1.4.11'
-    instrumentTestCompile 'com.octo.android.robospice:robospice-retrofit:1.4.11'
-    instrumentTestCompile 'com.google.mockwebserver:mockwebserver:20130706'
+    androidTestCompile 'com.octo.android.robospice:robospice:1.4.11'
+    androidTestCompile 'com.octo.android.robospice:robospice-cache:1.4.11'
+    androidTestCompile 'com.octo.android.robospice:robospice-ormlite:1.4.11'
+    androidTestCompile 'com.octo.android.robospice:robospice-okhttp:1.4.11'
+    androidTestCompile 'com.octo.android.robospice:robospice-retrofit:1.4.11'
+    androidTestCompile 'com.google.mockwebserver:mockwebserver:20130706'
 
-    instrumentTestCompile 'com.squareup.retrofit:converter-jackson:1.3.0'
+    androidTestCompile 'com.squareup.retrofit:converter-jackson:1.3.0'
 
 }
