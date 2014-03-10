@@ -18,14 +18,18 @@ package com.blandware.android.atleap.sample;
 
 import com.blandware.android.atleap.BaseApplication;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+
 /**
  * Created by agrebnev on 29.12.13.
  */
-public class ApplicationIml extends BaseApplication {
+public class ApplicationImpl extends BaseApplication {
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        CalligraphyConfig.initDefault("fonts/Roboto-Regular.ttf");
     }
 
 }

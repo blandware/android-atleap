@@ -4,5 +4,7 @@
     <string name="app_name">atleap</string>
     <string name="no_network">No internet connection. Please check.</string>
 
+    <string name="open_drawer">Open drawer</string>
+    <string name="close_drawer">Close drawer</string>
 
 </resources>

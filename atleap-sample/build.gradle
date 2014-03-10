@@ -68,7 +68,10 @@ dependencies {
     compile 'com.octo.android.robospice:robospice-okhttp:1.4.11'
     compile 'com.octo.android.robospice:robospice-retrofit:1.4.11'
 
-    compile 'com.squareup.picasso:picasso:2.1.1'
+    compile 'com.squareup.picasso:picasso:2.2.0'
+
+    compile 'uk.co.chrisjenx.calligraphy:calligraphy:0.6.+'
+
 }
 
 //in order to activate signature please make the following steps:

@@ -32,14 +32,15 @@ import com.octo.android.robospice.request.listener.RequestListener;
 /**
  * Created by agrebnev on 22.12.13.
  */
-public class BaseFragment extends Fragment implements RequestListener {
+public class BaseFragment<T> extends Fragment implements RequestListener<T> {
 
     private SpiceManager spiceManager = new SpiceManager(NetworkService.class);
 
     @Override
     public void onStart() {
-        spiceManager.start(getActivity());
         super.onStart();
+        changeProgressBarVisibility(false);
+        spiceManager.start(getActivity());
     }
 
     @Override
@@ -52,7 +53,7 @@ public class BaseFragment extends Fragment implements RequestListener {
         return spiceManager;
     }
 
-    protected <T> void executeSpiceRequest(SpiceRequest<T> request, Object requestCacheKey, long cacheExpiryDuration) {
+    protected void executeSpiceRequest(SpiceRequest<T> request, Object requestCacheKey, long cacheExpiryDuration) {
         changeProgressBarVisibility(true);
         getSpiceManager().execute(request, requestCacheKey, cacheExpiryDuration, this);
     }

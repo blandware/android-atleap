@@ -36,7 +36,7 @@ public class DefaultContract {
 
     public static class User implements BaseColumns {
 
-        public static final Uri CONTENT_URI =
+        public static final Uri USERS_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_USERS).build();
 
         public static final String TABLE = "user";
@@ -53,8 +53,12 @@ public class DefaultContract {
 
     public static class Repository implements BaseColumns {
 
-        public static final Uri CONTENT_URI =
+        public static final Uri REPOSITORIES_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_REPOSITORIES).build();
+
+        public static Uri getRepositoryUri(int repositoryId) {
+            return BASE_CONTENT_URI.buildUpon().appendPath(PATH_REPOSITORIES).appendPath(String.valueOf(repositoryId)).build();
+        }
 
         public static final String TABLE = "repository";
 

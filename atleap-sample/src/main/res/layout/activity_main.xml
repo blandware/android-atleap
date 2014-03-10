@@ -1,10 +1,22 @@
-<fragment
+<android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/master_fragment"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:name="com.blandware.android.atleap.sample.ui.MasterFragment"
-    tools:context="com.blandware.android.atleap.sample.ui.MainActivity"
-    />
+    android:background="@android:color/white"
+    tools:context=".MainActivity">
 
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <fragment android:id="@+id/navigation_drawer"
+        android:layout_width="250dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:name="com.blandware.android.atleap.sample.ui.DrawerFragment"
+        tools:layout="@layout/fragment_drawer" />
+
+</android.support.v4.widget.DrawerLayout>

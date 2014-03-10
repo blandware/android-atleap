@@ -31,6 +31,7 @@ import android.widget.ListView;
 
 /**
  * This is the helper to load data to the {@link android.widget.ListView} using {@link android.support.v4.content.CursorLoader}
+ * @deprecated Use {@link com.blandware.android.atleap.loader.LoaderManagerCreator} and {@link com.blandware.android.atleap.loader.SimpleCursorAdapterLoadable} instead.
  */
 public class ListLoader implements LoaderManager.LoaderCallbacks<Cursor> {
 
