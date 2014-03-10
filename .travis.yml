@@ -24,16 +24,17 @@ before_install:
   - export PATH=$GRADLE_HOME/bin:$PATH
 
   # install android build tools
-  - wget https://dl-ssl.google.com/android/repository/build-tools_r19.0.3-linux.zip
-  - unzip build-tools_r19.0.3-linux.zip -d $ANDROID_HOME
-  - mkdir -p $ANDROID_HOME/build-tools/
-  - mv $ANDROID_HOME/android-4.4.2 $ANDROID_HOME/build-tools/19.0.3
+  #- wget https://dl-ssl.google.com/android/repository/build-tools_r19.0.3-linux.zip
+  #- unzip build-tools_r19.0.3-linux.zip -d $ANDROID_HOME
+  #- mkdir -p $ANDROID_HOME/build-tools/
+  #- mv $ANDROID_HOME/android-4.4.2 $ANDROID_HOME/build-tools/19.0.3
 
   # Install required components.
   # For a full list, run `android list sdk -a --extended`
   # Note that sysimg-19 downloads the ARM, x86 and MIPS images (we should optimize this).
   # Other relevant API's
   - echo yes | android update sdk --filter platform-tools --no-ui --force
+  - echo yes | android update sdk --filter build-tools-19.0.3 --no-ui --force
   - echo yes | android update sdk --filter android-19 --no-ui --force
   - echo yes | android update sdk --filter $ANDROID_TARGET --no-ui --force
   - echo yes | android update sdk --filter $ANDROID_IMAGE --all --no-ui --force
