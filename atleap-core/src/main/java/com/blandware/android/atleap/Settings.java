@@ -4,11 +4,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * This is the helper for the PreferenceManager.getDefaultSharedPreferences.
  * It allows to work without context.
  */
 public class Settings {
+
+    private static final String MAP_DELIMITER = "___";
 
     public static SharedPreferences getSharedPreferences() {
         Context context = AppContext.getContext();
@@ -53,6 +58,39 @@ public class Settings {
 
     public static long getLong(String key, long defaultValue) {
         return getSharedPreferences().getLong(key, defaultValue);
+    }
+
+    public static void putMap(String key, Map<String, String> map) {
+        SharedPreferences.Editor editor = getSharedPreferences().edit();
+        for (String mapKey : map.keySet()) {
+            editor.putString(key + MAP_DELIMITER + mapKey, map.get(mapKey));
+        }
+        editor.commit();
+    }
+
+    public static Map<String, String> getMap(String key, Map<String, String> defaultMap) {
+        Map<String, String> resultMap = new HashMap<String, String>();
+        Map<String, Object> all = (Map<String, Object>)getSharedPreferences().getAll();
+
+        if (all == null)
+            return defaultMap;
+
+        for (String mapKey: all.keySet()) {
+            if (mapKey.startsWith(key)) {
+                String shortKey = mapKey.split(MAP_DELIMITER)[1];
+                resultMap.put(shortKey, String.valueOf(all.get(mapKey)));
+            }
+        }
+
+        if (!resultMap.isEmpty()) {
+            return resultMap;
+        } else {
+            return defaultMap;
+        }
+    }
+
+    public static void clear() {
+        getSharedPreferences().edit().clear().commit();
     }
 
 }

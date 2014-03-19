@@ -5,8 +5,13 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.blandware.android.atleap.Settings;
+
+import java.util.Map;
 
 /**
  * This class help to work with {@link android.accounts.AccountManager}
@@ -14,6 +19,8 @@ import android.util.Log;
 public class AuthHelper {
 
     private static final String TAG = AuthHelper.class.getSimpleName();
+
+
 
     /**
      * Add account. Do not use this method from main thread. Your current thread could be blocked for a long time.
@@ -52,11 +59,11 @@ public class AuthHelper {
      * @param options addAccountOptions, could be <code>null</code>
      * @param activity cannot be null
      */
-    public static void checkFirstAccountAndToken(String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
+    public static void checkLastAccountAndToken(String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
         if (activity == null) {
             throw new IllegalArgumentException("activity cannot be null");
         }
-        Account account = getFirstAccountByType(activity.getApplicationContext(), accountType);
+        Account account = getLastUsedAccount(activity.getApplicationContext(), accountType);
         final AccountManager am = AccountManager.get(activity.getApplicationContext());
         if (account == null) {
             am.addAccount(accountType, authTokenType, requiredFeatures, options, activity, null, null);
@@ -99,7 +106,7 @@ public class AuthHelper {
     }
 
     /**
-     * Get auth token for the first account of specified type. Do not use this method from main thread.
+     * Get auth token for the last used account of specified type. Do not use this method from main thread.
      * @param context context
      * @param accountType accountType
      * @param authTokenType authTokenType
@@ -108,8 +115,8 @@ public class AuthHelper {
      * @param activity if <code>null</code> the <code>null</code> could be returned (in case of there is no token), otherwise Auth Activity could be started.
      * @return authToken
      */
-    public static String getAuthTokenOfFirstAccount(Context context, String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
-        Account account = getFirstAccountByType(context, accountType);
+    public static String getAuthTokenOfLastAccount(Context context, String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
+        Account account = getLastUsedAccount(context, accountType);
         if (account == null) {
             return addAccount(context, accountType, authTokenType, requiredFeatures, options, activity);
         }
@@ -137,6 +144,102 @@ public class AuthHelper {
     }
 
     /**
+     * Get last used account. If there are not last used the first account of specified type will be returned.
+     * <code>null</code> could be returned if there are not accounts of specified types.
+     * @param context context
+     * @param accountType account type
+     * @return last used account. If there are not last used the first account of specified type will be returned.
+     */
+    public static Account getLastUsedAccount(Context context, String accountType) {
+
+        Map<String, String> accountNamesMap = Settings.getMap(BaseAuthActivity.ACCOUNT_NAME_KEY, null);
+
+        if (accountNamesMap == null || accountNamesMap.isEmpty()) {
+            return getFirstAccountByType(context, accountType);
+        } else {
+            String accountName = accountNamesMap.get(accountType);
+            if (TextUtils.isEmpty(accountName)) {
+                return getFirstAccountByType(context, accountType);
+            } else {
+                return getAccount(context, accountType, accountName);
+            }
+        }
+    }
+
+    /**
+     * Get last used account type
+     * @param context context
+     * @return last used account type
+     */
+    public static String getLastUsedAccountType(Context context, String defaultValue) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getString(BaseAuthActivity.ACCOUNT_TYPE_KEY, defaultValue);
+    }
+
+    /**
+     * Get account by type and name
+     * @param context context
+     * @param accountType account type
+     * @param accountName account name
+     * @return Account object
+     */
+    public static Account getAccount(Context context, String accountType, String accountName) {
+        final AccountManager accountManager = AccountManager.get(context);
+        Account[] accounts = accountManager.getAccountsByType(accountType);
+
+        if (accounts == null || accounts.length == 0) {
+            return null;
+        } else {
+            for (Account account: accounts) {
+                if (account.name.equals(accountName)) {
+                    return account;
+                }
+            }
+            return null;
+        }
+    }
+
+    /**
+     * Get password of specified account
+     * @param context context
+     * @param account account
+     * @return account password
+     */
+    public static String getAccountPassword(Context context, Account account) {
+        if(account == null)
+            return null;
+        AccountManager accountManager = AccountManager.get(context);
+        return accountManager.getPassword(account);
+    }
+
+    /**
+     * Get user data of specified account
+     * @param context context
+     * @param account account
+     * @param key key
+     * @return user data string
+     */
+    public static String getUserData(Context context, Account account, String key) {
+        if(account == null)
+            return null;
+        AccountManager accountManager = AccountManager.get(context);
+        return accountManager.getUserData(account, key);
+    }
+
+    /**
+     * Set user data to account
+     * @param context context
+     * @param account account
+     * @param key key
+     * @param value value
+     */
+    public static void setUserData(Context context, Account account, String key, String value) {
+        if(account == null)
+            throw new IllegalArgumentException("account cannot be null");
+        AccountManager accountManager = AccountManager.get(context);
+        accountManager.setUserData(account, key, value);
+    }
+
+    /**
      * Check if the specified account exist
      * @param context context
      * @param account account to check
@@ -161,7 +264,7 @@ public class AuthHelper {
     }
 
     /**
-     * Recreate authToken for the first account of specified type.
+     * Recreate authToken for the last used account of specified type.
      * @param context context
      * @param accountType accountType
      * @param authTokenType authTokenType
@@ -169,8 +272,8 @@ public class AuthHelper {
      * @param options options, could be <code>null</code>
      * @param activity activity, could be <code>null</code>
      */
-    public static void reCreateAuthTokenForFirstAccount(Context context, String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
-        Account account = getFirstAccountByType(context, accountType);
+    public static void reCreateAuthTokenForLastAccount(Context context, String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
+        Account account = getLastUsedAccount(context, accountType);
         reCreateAuthToken(context, account, authTokenType, requiredFeatures, options, activity);
     }
 
@@ -202,7 +305,7 @@ public class AuthHelper {
     }
 
     /**
-     * Recreate authToken for the first account of specified type. Do not use this method from main thread.
+     * Recreate authToken for the last used account of specified type. Do not use this method from main thread.
      * @param context context
      * @param accountType accountType
      * @param authTokenType authTokenType
@@ -210,8 +313,8 @@ public class AuthHelper {
      * @param options options, could be <code>null</code>
      * @param activity activity, could be <code>null</code>
      */
-    public static void reCreateAuthTokenForFirstAccountBlocking(Context context, String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
-        Account account = getFirstAccountByType(context, accountType);
+    public static void reCreateAuthTokenForLastAccountBlocking(Context context, String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
+        Account account = getLastUsedAccount(context, accountType);
         reCreateAuthTokenBlocking(context, account, authTokenType, requiredFeatures, options, activity);
     }
 
@@ -258,18 +361,18 @@ public class AuthHelper {
 
 
     /**
-     * Recreate first account of specified type
+     * Recreate last used account of specified type
      * @param accountType account type
      * @param authTokenType authTokenType
      * @param requiredFeatures requiredFeatures, could be <code>null</code>
      * @param options options, could be <code>null</code>
      * @param activity activity (cannot be <code>null</code>)
      */
-    public static void reCreateFirstAccount(String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
+    public static void reCreateLastAccount(String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
         if (activity == null) {
             throw new IllegalArgumentException("activity cannot be null");
         }
-        Account account = getFirstAccountByType(activity.getApplicationContext(), accountType);
+        Account account = getLastUsedAccount(activity.getApplicationContext(), accountType);
         if (account != null) {
             final AccountManager accountManager = AccountManager.get(activity.getApplicationContext());
             accountManager.removeAccount(account, null, null);
@@ -279,19 +382,19 @@ public class AuthHelper {
 
 
     /**
-     * Invalidate auth token for the first account of specified type.
+     * Invalidate auth token for the last used account of specified type.
      * @param accountType account type
      * @param authTokenType auth token type
      * @param requiredFeatures requiredFeatures, could be <code>null</code>
      * @param options options, could be <code>null</code>
      * @param activity activity (cannot be <code>null</code>)
      */
-    public static void invalidateAuthTokenForFirstAccount(String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
+    public static void invalidateAuthTokenForLastAccount(String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
         if (activity == null) {
             throw new IllegalArgumentException("activity cannot be null");
         }
         Context context = activity.getApplicationContext();
-        Account account = getFirstAccountByType(context, accountType);
+        Account account = getLastUsedAccount(context, accountType);
         invalidateAuthToken(account, authTokenType, requiredFeatures, options, activity);
     }
 

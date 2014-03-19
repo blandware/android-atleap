@@ -8,8 +8,12 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.blandware.android.atleap.Settings;
+
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This is activity which should be used for Login Activity. Do not call is directly.
@@ -23,12 +27,15 @@ public abstract class BaseAuthActivity extends SupportAccountAuthenticatorActivi
 
     private static final String TAG = BaseAuthActivity.class.getSimpleName();
 
-    public final static String ARG_ACCOUNT_TYPE = "ACCOUNT_TYPE";
-    public final static String ARG_AUTH_TOKEN_TYPE = "AUTH_TOKEN_TYPE";
+    public static final String ACCOUNT_NAME_KEY = "com.blandware.android.atleap.auth.ACCOUNT_NAME_KEY";
+    public static final String ACCOUNT_TYPE_KEY = "com.blandware.android.atleap.auth.ACCOUNT_TYPE_KEY";
 
-    public final static String ARG_ACCOUNT_NAME = "ACCOUNT_NAME";
-    public final static String ARG_PASSWORD = "PASSWORD";
-    public final static String ARG_OPTIONS = "OPTIONS";
+    public final static String ARG_ACCOUNT_TYPE = "com.blandware.android.atleap.auth.ACCOUNT_TYPE";
+    public final static String ARG_AUTH_TOKEN_TYPE = "com.blandware.android.atleap.auth.AUTH_TOKEN_TYPE";
+
+    public final static String ARG_ACCOUNT_NAME = "com.blandware.android.atleap.auth.ACCOUNT_NAME";
+    public final static String ARG_PASSWORD = "com.blandware.android.atleap.auth.PASSWORD";
+    public final static String ARG_OPTIONS = "com.blandware.android.atleap.auth.OPTIONS";
 
     protected AccountManager mAccountManager;
     protected String mAuthTokenType;
@@ -101,6 +108,12 @@ public abstract class BaseAuthActivity extends SupportAccountAuthenticatorActivi
                 mAccountManager.setUserData(account, key, userData.getString(key));
             }
         }
+
+        Map<String, String> typeToName = new HashMap<String, String>(1);
+        typeToName.put(account.type, accountName);
+        Settings.putString(ACCOUNT_TYPE_KEY, account.type);
+        Settings.putMap(ACCOUNT_NAME_KEY, typeToName);
+
         return account;
     }
 
