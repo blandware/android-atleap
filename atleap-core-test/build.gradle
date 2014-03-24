@@ -33,6 +33,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+
+
+    //see https://code.google.com/p/android/issues/detail?id=67350
+    android.enforceUniquePackageName = false
+
 }
 
 dependencies {
