@@ -14,6 +14,7 @@
         android:layout_centerVertical="true"
         android:paddingLeft="16dp"
         android:textSize="21sp"
+        android:fontFamily="fonts/Roboto-Regular.ttf"
         android:textColor="#FF000000"
         tools:text="Menu item"
         />

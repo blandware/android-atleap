@@ -45,6 +45,9 @@ public class DefaultContract {
         public static final String AVATAR_URL = "avatar_url";
         public static final String HTML_URL = "html_url";
         public static final String REPOSITORY_ID = "repository_id";
+        public static final String NAME = "name";
+        public static final String COMPANY = "company";
+        public static final String EMAIL = "email";
     }
 
 

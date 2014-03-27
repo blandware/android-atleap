@@ -14,18 +14,16 @@
  * limitations under the License.
  */
 
-package com.blandware.android.atleap.sample.network;
+package com.blandware.android.atleap.sample.network.robospice;
 
 /**
  * Created by agrebnev on 22.12.13.
  */
 import com.blandware.android.atleap.sample.model.Repository;
-import com.octo.android.robospice.request.retrofit.RetrofitSpiceRequest;
-
-import roboguice.util.temp.Ln;
+import com.blandware.android.atleap.sample.network.retrofit.ApiGithubServices;
 
 
-public class SearchRepositoriesRequest extends RetrofitSpiceRequest<Repository.RepositoriesResult, SearchRepositories> {
+public class SearchRepositoriesRequest extends BaseRequest<Repository.RepositoriesResult, ApiGithubServices> {
 
     private String query;
     private int page;
@@ -34,7 +32,7 @@ public class SearchRepositoriesRequest extends RetrofitSpiceRequest<Repository.R
     public SearchRepositoriesRequest(String query,
                                      int page,
                                      int perPage) {
-        super(Repository.RepositoriesResult.class, SearchRepositories.class);
+        super(Repository.RepositoriesResult.class, ApiGithubServices.class);
         this.query = query;
         this.page = page;
         this.perPage = perPage;
@@ -42,7 +40,6 @@ public class SearchRepositoriesRequest extends RetrofitSpiceRequest<Repository.R
 
     @Override
     public Repository.RepositoriesResult loadDataFromNetwork() {
-        Ln.d("Call web service ");
-        return getService().repositories(query, page, perPage);
+        return getService().searchRepositories(query, page, perPage);
     }
 }

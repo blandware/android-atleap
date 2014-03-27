@@ -58,18 +58,22 @@ public class AuthHelper {
      * @param requiredFeatures requiredFeatures, could be <code>null</code>
      * @param options addAccountOptions, could be <code>null</code>
      * @param activity cannot be null
+     * @return <code>true</code> if user is already authenticated
      */
-    public static void checkLastAccountAndToken(String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
+    public static boolean checkLastAccountAndToken(String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
         if (activity == null) {
             throw new IllegalArgumentException("activity cannot be null");
         }
+        boolean isAuthenticated = false;
         Account account = getLastUsedAccount(activity.getApplicationContext(), accountType);
         final AccountManager am = AccountManager.get(activity.getApplicationContext());
         if (account == null) {
             am.addAccount(accountType, authTokenType, requiredFeatures, options, activity, null, null);
         } else {
+            isAuthenticated = !TextUtils.isEmpty(am.peekAuthToken(account, authTokenType));
             am.getAuthToken(account, authTokenType, options, activity, null, null);
         }
+        return isAuthenticated;
     }
 
 
@@ -315,22 +319,23 @@ public class AuthHelper {
      */
     public static void reCreateAuthTokenForLastAccountBlocking(Context context, String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
         Account account = getLastUsedAccount(context, accountType);
-        reCreateAuthTokenBlocking(context, account, authTokenType, requiredFeatures, options, activity);
+        reCreateAuthTokenBlocking(context, account, accountType, authTokenType, requiredFeatures, options, activity);
     }
 
     /**
      * Recreate authToken for the specified account. Do not use this method from main thread.
      * @param context context
      * @param account account
+     * @param accountType accountType
      * @param authTokenType authTokenType
      * @param requiredFeatures requiredFeatures, could be <code>null</code>
      * @param options options, could be <code>null</code>
      * @param activity activity, could be <code>null</code>
      */
-    public static void reCreateAuthTokenBlocking(Context context, Account account, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
+    public static void reCreateAuthTokenBlocking(Context context, Account account, String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
         boolean isAccountExist = isAccountExist(context, account);
         if (!isAccountExist) {
-            addAccount(context, account.type, authTokenType, requiredFeatures, options, activity);
+            addAccount(context, accountType, authTokenType, requiredFeatures, options, activity);
             return;
         }
 

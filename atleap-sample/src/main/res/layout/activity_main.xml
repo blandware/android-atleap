@@ -12,11 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <fragment android:id="@+id/navigation_drawer"
+    <FrameLayout android:id="@+id/navigation_drawer"
         android:layout_width="250dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:name="com.blandware.android.atleap.sample.ui.DrawerFragment"
         tools:layout="@layout/fragment_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

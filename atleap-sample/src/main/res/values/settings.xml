@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="base_url">https://api.github.com</string>
+    <string name="github_api_base_url">https://api.github.com</string>
+    <string name="github_base_url">https://github.com</string>
+
+    <!-- Go to https://github.com/settings/applications and add your own Application -->
+    <string name="github_oauth_client_id"></string>
+    <string name="github_oauth_client_secret"></string>
+    <string name="github_oauth_client_callback_url">http://github.com</string>
+    <string name="github_oauth_scope">user</string>
 </resources>

@@ -67,6 +67,8 @@ dependencies {
     compile 'com.octo.android.robospice:robospice-ormlite:1.4.11'
     compile 'com.octo.android.robospice:robospice-okhttp:1.4.11'
     compile 'com.octo.android.robospice:robospice-retrofit:1.4.11'
+    compile 'com.squareup.retrofit:converter-jackson:1.3.0'
+
 
     compile 'com.squareup.picasso:picasso:2.2.0'
 

@@ -21,10 +21,12 @@ package com.blandware.android.atleap.sample.model;
  */
 
 import com.blandware.android.atleap.sample.provider.DefaultContract;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @DatabaseTable(tableName = DefaultContract.User.TABLE)
 public class User {
 
@@ -34,13 +36,22 @@ public class User {
     @DatabaseField(columnName = DefaultContract.User.LOGIN)
     public String login;
 
-    @SerializedName("avatar_url")
+    @JsonProperty("avatar_url")
     @DatabaseField(columnName = DefaultContract.User.AVATAR_URL)
     public String avatarUrl;
 
-    @SerializedName("html_url")
+    @JsonProperty("html_url")
     @DatabaseField(columnName = DefaultContract.User.HTML_URL)
     public String htmlUrl;
+
+    @DatabaseField(columnName = DefaultContract.User.NAME)
+    public String name;
+
+    @DatabaseField(columnName = DefaultContract.User.COMPANY)
+    public String company;
+
+    @DatabaseField(columnName = DefaultContract.User.EMAIL)
+    public String email;
 
     @DatabaseField(foreign = true, columnName = DefaultContract.User.REPOSITORY_ID)
     public Repository repository;

@@ -6,7 +6,13 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
 
     <application
         android:name=".ApplicationImpl"
@@ -26,8 +32,24 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".auth.AuthActivity"
+            android:label="@string/activity_auth_title"
+            android:theme="@style/AppTheme.FullScreen"
+            >
+        </activity>
+
+        <service android:name=".auth.UserAuthenticatorService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/user_auth" />
+        </service>
+
         <service
-            android:name=".service.NetworkService"
+            android:name=".network.robospice.NetworkService"
             android:exported="false" />
 
         <provider

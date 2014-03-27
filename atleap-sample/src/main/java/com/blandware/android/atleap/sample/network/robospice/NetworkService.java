@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.blandware.android.atleap.sample.service;
+package com.blandware.android.atleap.sample.network.robospice;
 
 import android.app.Application;
 
 import com.blandware.android.atleap.provider.ormlite.OrmLiteUriMatcher;
-import com.blandware.android.atleap.sample.Constants;
-import com.blandware.android.atleap.sample.network.NetworkErrorHandler;
-import com.blandware.android.atleap.sample.network.SearchRepositories;
+import com.blandware.android.atleap.sample.network.retrofit.ApiGithubServices;
+import com.blandware.android.atleap.sample.network.retrofit.GithubServices;
+import com.blandware.android.atleap.sample.network.retrofit.RetrofitHelper;
 import com.blandware.android.atleap.sample.provider.DefaultContract;
 import com.blandware.android.atleap.sample.provider.DefaultDatabaseHelper;
 import com.blandware.android.atleap.sample.provider.DefaultUriMatcher;
@@ -29,25 +29,27 @@ import com.octo.android.robospice.persistence.CacheManager;
 import com.octo.android.robospice.persistence.exception.CacheCreationException;
 import com.octo.android.robospice.persistence.ormlite.InDatabaseObjectPersisterFactory;
 import com.octo.android.robospice.persistence.ormlite.RoboSpiceDatabaseHelper;
-import com.octo.android.robospice.retrofit.RetrofitGsonSpiceService;
 
 import retrofit.RestAdapter;
 
 /**
  * Created by agrebnev on 22.12.13.
  */
-public class NetworkService extends RetrofitGsonSpiceService {
+public class NetworkService extends BaseNetworkService {
 
     @Override
     public void onCreate() {
         super.onCreate();
-        addRetrofitInterface(SearchRepositories.class);
+        //add retrofit interface using default restAdapter
+        addRetrofitInterface(ApiGithubServices.class);
+
+        addRetrofitInterface(GithubServices.class, RetrofitHelper.createGithubRestAdapter(null).build());
     }
 
-    @Override
-    protected String getServerUrl() {
-        return Constants.BASE_URL;
+    protected RestAdapter.Builder createDefaultRestAdapterBuilder() {
+        return RetrofitHelper.createApiGithubRestAdapter(null);
     }
+
 
     @Override
     public CacheManager createCacheManager(Application application) throws CacheCreationException {
@@ -61,11 +63,6 @@ public class NetworkService extends RetrofitGsonSpiceService {
         InDatabaseObjectPersisterFactory inDatabaseObjectPersisterFactory = new InDatabaseObjectPersisterFactory( application, databaseHelper, matcher.getClassToNotificationUriMap() );
         cacheManager.addPersister(inDatabaseObjectPersisterFactory);
         return cacheManager;
-    }
-
-    @Override
-    protected RestAdapter.Builder createRestAdapterBuilder() {
-        return super.createRestAdapterBuilder().setErrorHandler(new NetworkErrorHandler());
     }
 
 

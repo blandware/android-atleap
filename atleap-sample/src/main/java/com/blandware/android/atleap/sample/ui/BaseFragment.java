@@ -22,7 +22,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.widget.Toast;
 
 import com.blandware.android.atleap.sample.R;
-import com.blandware.android.atleap.sample.service.NetworkService;
+import com.blandware.android.atleap.sample.network.robospice.DefaultSpiceManager;
+import com.blandware.android.atleap.sample.network.robospice.NetworkService;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.exception.NoNetworkException;
 import com.octo.android.robospice.persistence.exception.SpiceException;
@@ -34,7 +35,7 @@ import com.octo.android.robospice.request.listener.RequestListener;
  */
 public class BaseFragment<T> extends Fragment implements RequestListener<T> {
 
-    private SpiceManager spiceManager = new SpiceManager(NetworkService.class);
+    private DefaultSpiceManager spiceManager = new DefaultSpiceManager(NetworkService.class);
 
     @Override
     public void onStart() {

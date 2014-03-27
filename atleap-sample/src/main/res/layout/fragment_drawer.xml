@@ -9,6 +9,48 @@
     tools:context="com.blandware.android.atleap.ui.DrawerFragment"
     >
 
+
+    <RelativeLayout
+        android:id="@+id/user_profile_layout"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:background="#FFE7E7E7">
+
+        <ImageView
+            android:id="@+id/user_avatar"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="14dp"
+            android:layout_centerVertical="true"
+            tools:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/user_avatar"
+            android:layout_alignTop="@id/user_avatar"
+            android:layout_marginTop="8dp"
+            android:fontFamily="fonts/Roboto-Regular.ttf"
+            android:textSize="17sp"
+            android:textColor="#FF000000"
+            tools:text="Ivan Ivanov" />
+
+        <TextView
+            android:id="@+id/user_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/user_name"
+            android:layout_below="@id/user_name"
+            android:fontFamily="fonts/Roboto-Regular.ttf"
+            android:textSize="15sp"
+            android:textColor="#FF636161"
+            tools:text="nickname" />
+
+    </RelativeLayout>
+
+
     <ListView
         android:id="@+id/menu_list"
         android:layout_width="match_parent"
@@ -16,8 +58,15 @@
         android:choiceMode="singleChoice"
         android:divider="#FFAAAAAA"
         android:dividerHeight="1dp"
+        android:layout_below="@id/user_profile_layout"
         tools:listitem="@layout/listitem_drawer_menu_item"
         />
+
+    <View
+        android:background="#FFAAAAAA"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/menu_list" />
 
 
 </RelativeLayout>

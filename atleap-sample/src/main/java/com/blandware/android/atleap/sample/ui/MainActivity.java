@@ -18,10 +18,14 @@ package com.blandware.android.atleap.sample.ui;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.Window;
 
+import com.blandware.android.atleap.auth.AuthHelper;
+import com.blandware.android.atleap.sample.Constants;
 import com.blandware.android.atleap.sample.R;
 import com.blandware.android.atleap.util.NavUtil;
 
@@ -64,5 +68,39 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        boolean isAuthenticated = AuthHelper.checkLastAccountAndToken(Constants.ACCOUNT_TYPE, Constants.ACCOUNT_TOKEN_TYPE, null, null, this);
+        if (isAuthenticated) {
+            setUpNavigationDrawer(new DrawerFragment());
+        } else {
+            setUpNavigationDrawer(null);
+        }
+    }
 
+    protected void setUpNavigationDrawer(Fragment fragment) {
+        FragmentManager manager = getSupportFragmentManager();
+        if (fragment != null) {
+            manager.beginTransaction()
+                    .replace(R.id.navigation_drawer, fragment)
+                    .commit();
+        } else {
+            fragment = manager.findFragmentById(R.id.navigation_drawer);
+            if (fragment != null) {
+                manager.beginTransaction()
+                        .remove(fragment)
+                        .commit();
+            }
+
+            //clean container too
+            fragment = manager.findFragmentById(R.id.container);
+            if (fragment != null) {
+                manager.beginTransaction()
+                        .remove(fragment)
+                        .commit();
+            }
+
+        }
+    }
 }

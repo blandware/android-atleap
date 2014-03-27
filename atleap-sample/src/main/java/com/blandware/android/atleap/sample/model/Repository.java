@@ -21,7 +21,8 @@ package com.blandware.android.atleap.sample.model;
  */
 
 import com.blandware.android.atleap.sample.provider.DefaultContract;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -30,38 +31,39 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @DatabaseTable(tableName = DefaultContract.Repository.TABLE)
 public class Repository {
 
-    @SerializedName("id")
+    @JsonProperty("id")
     @DatabaseField(id = true, columnName = DefaultContract.Repository._ID)
     private int id;
 
-    @SerializedName("name")
+    @JsonProperty("name")
     @DatabaseField(columnName = DefaultContract.Repository.NAME)
     public String name;
 
-    @SerializedName("full_name")
+    @JsonProperty("full_name")
     @DatabaseField(columnName = DefaultContract.Repository.FULL_NAME)
     public String fullName;
 
-    @SerializedName("html_url")
+    @JsonProperty("html_url")
     @DatabaseField(columnName = DefaultContract.Repository.HTML_URL)
     public String htmlUrl;
 
-    @SerializedName("description")
+    @JsonProperty("description")
     @DatabaseField(columnName = DefaultContract.Repository.DESCRIPTION)
     public String description;
 
-    @SerializedName("stargazers_count")
+    @JsonProperty("stargazers_count")
     @DatabaseField(columnName = DefaultContract.Repository.STARGAZERS_COUNT)
     public int stargazersCount;
 
-    @SerializedName("created_at")
+    @JsonProperty("created_at")
     @DatabaseField(columnName = DefaultContract.Repository.CREATED_AT)
     public Date createdAt;
 
-    @SerializedName("owner")
+    @JsonProperty("owner")
     private User owner;
 
     @DatabaseField(columnName = DefaultContract.Repository.OWNER_ID, useGetSet = true)
@@ -97,13 +99,14 @@ public class Repository {
     private RepositoriesResult result;
 
 
+    @JsonIgnoreProperties(ignoreUnknown = true)
     @DatabaseTable(tableName = "repository_result")
     public static class RepositoriesResult {
 
         @DatabaseField(id = true)
         private int id = 0;
 
-        @SerializedName("total_count")
+        @JsonProperty("total_count")
         @DatabaseField(columnName = "total_count")
         public int totalCount;
 

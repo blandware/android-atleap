@@ -29,7 +29,7 @@ import android.widget.ListView;
 import com.blandware.android.atleap.loader.LoaderManagerCreator;
 import com.blandware.android.atleap.loader.SimpleCursorAdapterLoadable;
 import com.blandware.android.atleap.sample.R;
-import com.blandware.android.atleap.sample.network.SearchRepositoriesRequest;
+import com.blandware.android.atleap.sample.network.robospice.SearchRepositoriesRequest;
 import com.blandware.android.atleap.sample.provider.DefaultContract;
 import com.blandware.android.atleap.util.NavUtil;
 import com.octo.android.robospice.persistence.DurationInMillis;

@@ -34,3 +34,7 @@ build
 
 #Personal Files
 signing.properties
+
+#do not want to upload personal settings
+src/release
+src/debug
