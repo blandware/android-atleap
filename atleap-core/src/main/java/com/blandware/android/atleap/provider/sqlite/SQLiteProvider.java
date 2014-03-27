@@ -126,11 +126,16 @@ public abstract class SQLiteProvider<H extends SQLiteOpenHelper, U extends SQLit
         final SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
         SQLiteMatcherEntry entry = mUriMatcher.getMatcherEntry(uri);
 
-        db.insertOrThrow(entry.getTablesSQL(), null, values);
+        long rowId = db.insertOrThrow(entry.getTablesSQL(), null, values);
+        if (rowId == -1)
+            return null;
         boolean syncToNetwork = !hasCallerIsSyncAdapterParameter(uri);
         getContext().getContentResolver().notifyChange(uri, null, syncToNetwork);
         String idFieldName = getIdFieldName(entry);
-        return mBaseContentUri.buildUpon().appendPath(entry.getPath()).appendPath(values.getAsString(idFieldName)).build();
+        String idValue = values.getAsString(idFieldName);
+        if (TextUtils.isEmpty(idValue))
+            idValue = String.valueOf(rowId);
+        return mBaseContentUri.buildUpon().appendPath(entry.getPath()).appendPath(idValue).build();
     }
 
     /** {@inheritDoc} */
