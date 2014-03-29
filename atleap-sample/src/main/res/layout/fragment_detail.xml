@@ -12,7 +12,9 @@
         android:id="@+id/full_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
+        android:textSize="16sp"
+        android:fontFamily="fonts/Roboto-Regular.ttf"
+        android:textColor="#FF000000"
         tools:text="JakeWharton/ActionBarSherlock"
         />
 
@@ -22,6 +24,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignBottom="@id/full_name"
+        android:textSize="14sp"
+        android:fontFamily="fonts/Roboto-Regular.ttf"
+        android:textColor="#FF000000"
         tools:text="1234"
         />
 
@@ -30,6 +35,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/full_name"
+        android:textSize="14sp"
+        android:fontFamily="fonts/Roboto-Regular.ttf"
+        android:textColor="#FF000000"
+        android:layout_marginTop="10dp"
         tools:text="Action bar implementation which uses the native action bar on Android 4.0+ and a custom implementation on pre-4.0 through a single API and theme."
         />
 

@@ -3,20 +3,26 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="90dp"
+    android:padding="10dp">
 
     <ImageView
         android:id="@+id/avatar_url"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        tools:src="@drawable/ic_launcher"/>
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        tools:src="@drawable/ic_launcher"
+        android:layout_marginRight="10dp"/>
 
     <TextView
         android:id="@+id/full_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/avatar_url"
-        android:textStyle="bold"
+        android:textSize="16sp"
+        android:fontFamily="fonts/Roboto-Regular.ttf"
+        android:textColor="#FF000000"
+        android:maxLines="1"
+        android:ellipsize="end"
         tools:text="JakeWharton/ActionBarSherlock"
         />
 
@@ -24,8 +30,10 @@
         android:id="@+id/stargazers_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignBottom="@id/full_name"
+        android:layout_below="@id/avatar_url"
+        android:textSize="14sp"
+        android:fontFamily="fonts/Roboto-Regular.ttf"
+        android:textColor="#FF000000"
         tools:text="1234"
         />
 
@@ -35,6 +43,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/full_name"
         android:layout_toRightOf="@id/avatar_url"
+        android:textSize="14sp"
+        android:fontFamily="fonts/Roboto-Regular.ttf"
+        android:textColor="#FF000000"
+        android:maxLines="2"
+        android:ellipsize="end"
         tools:text="Action bar implementation which uses the native action bar on Android 4.0+ and a custom implementation on pre-4.0 through a single API and theme."
         />
 
