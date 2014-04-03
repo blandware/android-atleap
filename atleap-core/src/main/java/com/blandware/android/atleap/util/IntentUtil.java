@@ -29,7 +29,9 @@ import android.util.Log;
 
 import org.apache.http.protocol.HTTP;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Locale;
 
@@ -41,11 +43,13 @@ public class IntentUtil {
 
     private static final String TAG = IntentUtil.class.getSimpleName();
 
+    private static final String ENCODING = "UTF-8";
+
     //https://dev.twitter.com/docs/tweet-button
     public static final SocialNetworkProvider TWITTER = new SocialNetworkProvider("com.twitter.android", "https://twitter.com/share?text=%s&url=%s", false);
 
     //https://developers.facebook.com/docs/plugins/share-button/
-    public static final SocialNetworkProvider FACEBOOK = new SocialNetworkProvider("com.facebook.katana", "https://www.facebook.com/sharer/sharer.php?s=100&p[summary]=%s&p[url]=%s&p[images]=%s", true);
+    public static final SocialNetworkProvider FACEBOOK = new SocialNetworkProvider("com.facebook.katana", "https://www.facebook.com/sharer/sharer.php?t=%s&u=%s", true);
 
     //https://developers.google.com/+/web/share/?hl=en
     public static final SocialNetworkProvider GOOGLE_PLUS = new SocialNetworkProvider("com.google.android.apps.plus", "https://plus.google.com/share?fake=%s&url=%s", false);
@@ -54,12 +58,12 @@ public class IntentUtil {
     public static final SocialNetworkProvider VKONTAKTE = new SocialNetworkProvider("com.vkontakte.android", "http://vkontakte.ru/share.php?fake=%s&url=%s", false);
 
     //https://developers.pinterest.com/pin_it/
-    public static final SocialNetworkProvider PINTEREST = new SocialNetworkProvider("com.pinterest", "https://www.pinterest.com/pin/create/button/?description=%s?url=%s&media=%s", true);
+    public static final SocialNetworkProvider PINTEREST = new SocialNetworkProvider("com.pinterest", "https://www.pinterest.com/pin/create/button/?description=%s&url=%s&media=%s", true);
 
     //https://developer.linkedin.com/documents/share-linkedin
     public static final SocialNetworkProvider LINKEDIN = new SocialNetworkProvider("com.linkedin.android", "https://www.linkedin.com/shareArticle?mini=true&summary=%s&url=%s", false);
 
-    public static final SocialNetworkProvider ODNOKLASSNIKI = new SocialNetworkProvider("ru.ok.android", "https://www.odnoklassniki.ru/dk?stcmd=addShare&st.s=1&st.comments=%s&st._surl=%s", false);
+    public static final SocialNetworkProvider ODNOKLASSNIKI = new SocialNetworkProvider("ru.ok.android", "http://www.odnoklassniki.ru/dk?st.cmd=addShare&st.s=1&st.comments=%s&st._surl=%s", false);
 
     public static final SocialNetworkProvider TUMBLR = new SocialNetworkProvider("com.tumblr", "http://www.tumblr.com/share?v=3&s=%s&u=%s", false);
 
@@ -100,9 +104,12 @@ public class IntentUtil {
             intent.setData(Uri.parse("mailto:"));
         }
         //intent.putExtra(Intent.EXTRA_EMAIL, to);
-        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        intent.putExtra(Intent.EXTRA_TEXT, body);
-        intent.putExtra(Intent.EXTRA_STREAM, attachment);
+        if (!TextUtils.isEmpty(subject))
+            intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        if (!TextUtils.isEmpty(body))
+            intent.putExtra(Intent.EXTRA_TEXT, body);
+        if(attachment != null)
+            intent.putExtra(Intent.EXTRA_STREAM, attachment);
         return intent;
     }
 
@@ -142,9 +149,12 @@ public class IntentUtil {
      */
     public static Intent send(String text, String subject, Uri stream, String mimeType) {
         Intent intent = createIntent(Intent.ACTION_SEND, null, mimeType);
-        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        intent.putExtra(Intent.EXTRA_TEXT, text);
-        intent.putExtra(Intent.EXTRA_STREAM, stream);
+        if (!TextUtils.isEmpty(text))
+            intent.putExtra(Intent.EXTRA_TEXT, text);
+        if (!TextUtils.isEmpty(subject))
+            intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        if (stream != null)
+            intent.putExtra(Intent.EXTRA_STREAM, stream);
         return intent;
     }
 
@@ -240,7 +250,7 @@ public class IntentUtil {
 
         if (isIntentAvailable(context, intent)) {
             Intent chooserIntent = Intent.createChooser(intent, null);
-            if (isActivity) {
+            if (!isActivity) {
                 chooserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             }
             context.startActivity(chooserIntent);
@@ -263,7 +273,7 @@ public class IntentUtil {
             return false;
         }
 
-        if (context instanceof Activity) {
+        if (!(context instanceof Activity)) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
 
@@ -316,7 +326,12 @@ public class IntentUtil {
         boolean isSentViaApp = startApplication(context, provider.queryApplication, appIntent);
 
         if (!isSentViaApp) {
-            String browserUrl = String.format(Locale.getDefault(), provider.urlFormat, new String[]{text, url, imageUrl});
+            String browserUrl = null;
+            try {
+                browserUrl = String.format(Locale.getDefault(), provider.urlFormat, new String[]{URLEncoder.encode(text, ENCODING), URLEncoder.encode(url, ENCODING), URLEncoder.encode(imageUrl, ENCODING)});
+            } catch (UnsupportedEncodingException ex) {
+                Log.e(TAG, "Error ", ex);
+            }
             Intent intentViaBrowser = view(Uri.parse(browserUrl));
             return startChooser(context, intentViaBrowser);
         } else {
