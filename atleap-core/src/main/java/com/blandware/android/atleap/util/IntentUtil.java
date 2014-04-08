@@ -67,17 +67,20 @@ public class IntentUtil {
 
     public static final SocialNetworkProvider TUMBLR = new SocialNetworkProvider("com.tumblr", "http://www.tumblr.com/share?v=3&s=%s&u=%s", false);
 
+    public static final SocialNetworkProvider INSTAGRAM = new SocialNetworkProvider("com.instagram.android", null, false);
+
 
     /**
      * Create Intent for sending sms.
+     *
      * @param phoneNumber telephone number
-     * @param body body of sms
+     * @param body        body of sms
      * @return created intent
      */
     public static Intent sendSms(String phoneNumber, String body) {
         Intent intent = createIntent(Intent.ACTION_VIEW, null, null);
         if (!TextUtils.isEmpty(phoneNumber)) {
-            intent.setData(Uri.parse("sms:"+phoneNumber));
+            intent.setData(Uri.parse("sms:" + phoneNumber));
         } else {
             intent.setData(Uri.parse("sms:"));
             //intent.setType("vnd.android-dir/mms-sms");
@@ -90,16 +93,17 @@ public class IntentUtil {
 
     /**
      * Create intent for starting email client
-     * @param to recipient
-     * @param subject email subject
-     * @param body body of email
+     *
+     * @param to         recipient
+     * @param subject    email subject
+     * @param body       body of email
      * @param attachment attachment
      * @return intent
      */
     public static Intent sendEmail(String to, String subject, String body, Uri attachment) {
         Intent intent = createIntent(Intent.ACTION_SENDTO, null, null);
         if (!TextUtils.isEmpty(to)) {
-            intent.setData(Uri.parse("mailto:"+to));
+            intent.setData(Uri.parse("mailto:" + to));
         } else {
             intent.setData(Uri.parse("mailto:"));
         }
@@ -108,7 +112,7 @@ public class IntentUtil {
             intent.putExtra(Intent.EXTRA_SUBJECT, subject);
         if (!TextUtils.isEmpty(body))
             intent.putExtra(Intent.EXTRA_TEXT, body);
-        if(attachment != null)
+        if (attachment != null)
             intent.putExtra(Intent.EXTRA_STREAM, attachment);
         return intent;
     }
@@ -116,6 +120,7 @@ public class IntentUtil {
 
     /**
      * Dial phone number
+     *
      * @param phoneNumber phone number
      * @return created intent
      */
@@ -126,6 +131,7 @@ public class IntentUtil {
 
     /**
      * Call phone number. Requires permission android.permission.CALL_PHONE
+     *
      * @param phoneNumber phone number
      * @return created intent
      */
@@ -136,19 +142,28 @@ public class IntentUtil {
 
 
     public static Intent sendText(String text, String subject) {
-        return send(text, subject, null, HTTP.PLAIN_TEXT_TYPE);
+        return send(text, subject, null, null);
     }
 
     /**
      * Send action
-     * @param text text
-     * @param subject subject
-     * @param stream file
+     *
+     * @param text     text
+     * @param subject  subject
+     * @param stream   file
      * @param mimeType mime type of resource. Can be <code>null</code>
      * @return created intent
      */
     public static Intent send(String text, String subject, Uri stream, String mimeType) {
-        Intent intent = createIntent(Intent.ACTION_SEND, null, mimeType);
+        if (TextUtils.isEmpty(mimeType) && stream != null && !TextUtils.isEmpty(stream.getPath())) {
+            mimeType = URLConnection.guessContentTypeFromName(stream.getPath());
+        }
+
+        if (TextUtils.isEmpty(mimeType)) {
+            mimeType = HTTP.PLAIN_TEXT_TYPE;
+        }
+
+        Intent intent = createIntent(Intent.ACTION_SEND, stream, mimeType);
         if (!TextUtils.isEmpty(text))
             intent.putExtra(Intent.EXTRA_TEXT, text);
         if (!TextUtils.isEmpty(subject))
@@ -160,6 +175,7 @@ public class IntentUtil {
 
     /**
      * View the specified uri
+     *
      * @param uri uri to be opened
      * @return created Intent
      */
@@ -169,7 +185,8 @@ public class IntentUtil {
 
     /**
      * View the specified uri
-     * @param uri uri to be opened
+     *
+     * @param uri      uri to be opened
      * @param mimeType mime type of resource. Can be <code>null</code>
      * @return created Intent
      */
@@ -180,8 +197,9 @@ public class IntentUtil {
 
     /**
      * Create intent for specified action and data
-     * @param action see actions of {@link Intent}
-     * @param data data to be opened
+     *
+     * @param action   see actions of {@link Intent}
+     * @param data     data to be opened
      * @param mimeType mime type of resource. Can be <code>null</code>
      * @return created intent
      */
@@ -213,8 +231,9 @@ public class IntentUtil {
 
     /**
      * Check if such intent could be started
+     *
      * @param context context it is not mandatory to be activity
-     * @param intent intent for checking
+     * @param intent  intent for checking
      * @return <code>true</code> if specified intent could be started
      */
     public static boolean isIntentAvailable(Context context, Intent intent) {
@@ -229,8 +248,9 @@ public class IntentUtil {
 
     /**
      * Start chooser of applications for specified intent
+     *
      * @param context context it is not mandatory to be activity
-     * @param intent intent
+     * @param intent  intent
      * @return <code>true</code> if intent started successfully
      */
     public static boolean startChooser(Context context, Intent intent) {
@@ -263,9 +283,10 @@ public class IntentUtil {
 
     /**
      * Start application based on its query name
+     *
      * @param context context it is not mandatory to be activity
-     * @param query substring in package or activity name
-     * @param intent intent
+     * @param query   substring in package or activity name
+     * @param intent  intent
      * @return <code>true</code> if intent started successfully
      */
     public static boolean startApplication(Context context, String query, Intent intent) {
@@ -296,44 +317,89 @@ public class IntentUtil {
 
 
     /**
-     * Share info via Social Network
-     * @param context context it is not mandatory to be activity
-     * @param text text to share
-     * @param url url of resource to share, optional
-     * @param imageUrl url of the image to share, optional
+     * Share info via Social Network. This method tries to share via installed native application.
+     * If native application is not installed the browser for sharing will be called.
+     *
+     * @param context  context it is not mandatory to be activity
+     * @param text     text to share
+     * @param url      url of resource to share, optional
      * @param provider see predefined social networks providers in this class
      * @return <code>true</code> if the sharing was started successfully
      */
-    public static boolean share(Context context, String text, String url, String imageUrl, SocialNetworkProvider provider) {
+    public static boolean share(Context context, String text, String url, SocialNetworkProvider provider) {
+        return share(context, text, url, null, null, provider);
+    }
+
+    /**
+     * Share info via Social Network. This method tries to share via installed native application.
+     * If native application is not installed the browser for sharing will be called.
+     *
+     * @param context  context it is not mandatory to be activity
+     * @param text     text to share
+     * @param url      url of resource to share, optional
+     * @param externalResUrl url of external resource (e.g. image) to share. It is used for browser sharing only.
+     * @param provider see predefined social networks providers in this class
+     * @return <code>true</code> if the sharing was started successfully
+     */
+    public static boolean share(Context context, String text, String url, String externalResUrl, SocialNetworkProvider provider) {
+        return share(context, text, url, externalResUrl, null, provider);
+    }
+
+    /**
+     * Share info via Social Network. This method tries to share via installed native application.
+     * If native application is not installed the browser for sharing will be called.
+     *
+     * @param context  context it is not mandatory to be activity
+     * @param text     text to share
+     * @param url      url of resource to share, optional
+     * @param externalResUrl url of external resource (e.g. image) to share. It is used for browser sharing only.
+     * @param localResUri uri of local resource to share. It is used for native sharing only.
+     * @param provider see predefined social networks providers in this class
+     * @return <code>true</code> if the sharing was started successfully
+     */
+    public static boolean share(Context context, String text, String url, String externalResUrl, Uri localResUri, SocialNetworkProvider provider) {
         if (provider == null) {
             throw new IllegalArgumentException("Provider cannot be null");
         }
 
         if (text == null)
-            text = new String();
+            text = "";
         if (url == null)
-            url = new String();
-        if (imageUrl == null)
-            imageUrl = new String();
+            url = "";
+        if (externalResUrl == null)
+            externalResUrl = "";
 
         Intent appIntent;
         if (provider.isUrlInText) {
-            appIntent = send(url, null, null, HTTP.PLAIN_TEXT_TYPE);
+            appIntent = send(url, null, localResUri, null);
         } else {
-            appIntent = send(text, null, null, HTTP.PLAIN_TEXT_TYPE);
+            appIntent = send(text, null, localResUri, null);
         }
+
+        appIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         boolean isSentViaApp = startApplication(context, provider.queryApplication, appIntent);
 
         if (!isSentViaApp) {
-            String browserUrl = null;
-            try {
-                browserUrl = String.format(Locale.getDefault(), provider.urlFormat, new String[]{URLEncoder.encode(text, ENCODING), URLEncoder.encode(url, ENCODING), URLEncoder.encode(imageUrl, ENCODING)});
-            } catch (UnsupportedEncodingException ex) {
-                Log.e(TAG, "Error ", ex);
+            if (!TextUtils.isEmpty(provider.urlFormat)) {
+                String browserUrl = null;
+                try {
+                    browserUrl = String.format(Locale.getDefault(),
+                            provider.urlFormat,
+                            new String[]{
+                                    URLEncoder.encode(text, ENCODING),
+                                    URLEncoder.encode(url, ENCODING),
+                                    URLEncoder.encode(externalResUrl, ENCODING)
+                            });
+                } catch (UnsupportedEncodingException ex) {
+                    Log.e(TAG, "Error ", ex);
+                }
+                Intent intentViaBrowser = view(Uri.parse(browserUrl));
+                return startChooser(context, intentViaBrowser);
+
+            } else {
+                return false;
             }
-            Intent intentViaBrowser = view(Uri.parse(browserUrl));
-            return startChooser(context, intentViaBrowser);
         } else {
             return true;
         }
@@ -350,9 +416,10 @@ public class IntentUtil {
 
         /**
          * Create instance
+         *
          * @param queryApplication substring in package or activity name to start social network Android app
-         * @param urlFormat format of URL which will be used to share via web if the Android social app in not installed
-         * @param isUrlInText <code>true</code> if the URL should be passed at main text into Android Social Network app
+         * @param urlFormat        format of URL which will be used to share via web if the Android social app in not installed
+         * @param isUrlInText      <code>true</code> if the URL should be passed at main text into Android Social Network app
          */
         public SocialNetworkProvider(String queryApplication, String urlFormat, boolean isUrlInText) {
             this.queryApplication = queryApplication;
