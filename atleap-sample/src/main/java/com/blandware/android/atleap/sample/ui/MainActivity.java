@@ -17,9 +17,12 @@
 package com.blandware.android.atleap.sample.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.Window;
@@ -50,7 +53,22 @@ public class MainActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
-                return NavUtil.backToRootFragment(this);
+                boolean isBacked = NavUtil.backToRootFragment(this);
+                if (!isBacked) {
+                    Intent upIntent = NavUtils.getParentActivityIntent(this);
+                    if (upIntent != null) {
+                        if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+                            TaskStackBuilder.create(this)
+                                    .addNextIntentWithParentStack(upIntent)
+                                    .startActivities();
+                        } else {
+                            NavUtils.navigateUpTo(this, upIntent);
+                        }
+                    } else {
+                        return false;
+                    }
+                }
+                return true;
             }
             default: {
                 return super.onOptionsItemSelected(item);
