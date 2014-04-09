@@ -21,15 +21,15 @@ package com.blandware.android.atleap.sample.network.robospice;
  */
 
 import com.blandware.android.atleap.sample.model.User;
-import com.blandware.android.atleap.sample.network.retrofit.ApiGithubServices;
+import com.blandware.android.atleap.sample.network.retrofit.ApiGithubNoAuthServices;
 
 
-public class GetUserRequest extends BaseRequest<User, ApiGithubServices> {
+public class GetUserRequest extends BaseRequest<User, ApiGithubNoAuthServices> {
 
     private String accessToken;
 
     public GetUserRequest(String accessToken) {
-        super(User.class, ApiGithubServices.class);
+        super(User.class, ApiGithubNoAuthServices.class);
         this.accessToken = accessToken;
 
     }

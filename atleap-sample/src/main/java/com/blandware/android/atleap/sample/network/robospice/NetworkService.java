@@ -19,6 +19,7 @@ package com.blandware.android.atleap.sample.network.robospice;
 import android.app.Application;
 
 import com.blandware.android.atleap.provider.ormlite.OrmLiteUriMatcher;
+import com.blandware.android.atleap.sample.network.retrofit.ApiGithubNoAuthServices;
 import com.blandware.android.atleap.sample.network.retrofit.ApiGithubServices;
 import com.blandware.android.atleap.sample.network.retrofit.GithubServices;
 import com.blandware.android.atleap.sample.network.retrofit.RetrofitHelper;
@@ -43,6 +44,7 @@ public class NetworkService extends BaseNetworkService {
         //add retrofit interface using default restAdapter
         addRetrofitInterface(ApiGithubServices.class);
 
+        addRetrofitInterface(ApiGithubNoAuthServices.class, RetrofitHelper.createApiGithubNoAuthRestAdapter(null).build());
         addRetrofitInterface(GithubServices.class, RetrofitHelper.createGithubRestAdapter(null).build());
     }
 

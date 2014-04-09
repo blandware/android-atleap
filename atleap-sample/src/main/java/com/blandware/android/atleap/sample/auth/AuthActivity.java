@@ -64,12 +64,14 @@ public class AuthActivity extends BaseAuthActivity {
 
     private String mScope;
 
+    private boolean mIsAccessTokenRequestSent = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if(TextUtils.isEmpty(getString(R.string.github_oauth_client_id)) || TextUtils.isEmpty(getString(R.string.github_oauth_client_secret))) {
-            throw new IllegalStateException("Please specify github_oauth_client_id and github_oauth_client_secret in file ./src/main/res/values/settings.xmlAd");
+            throw new IllegalStateException("Please specify github_oauth_client_id and github_oauth_client_secret in file ./src/main/res/values/settings.xml");
         }
 
         getWindow().requestFeature(Window.FEATURE_PROGRESS);
@@ -103,6 +105,9 @@ public class AuthActivity extends BaseAuthActivity {
                 .build()
                 .toString();
 
+
+        Log.v(TAG, "Staring authorization page");
+        mWebView.loadUrl(mFullAuthorizeUrl);
     }
 
     @Override
@@ -122,8 +127,7 @@ public class AuthActivity extends BaseAuthActivity {
         spiceManager.start(this);
         super.onStart();
 
-        Log.v(TAG, "Staring authorization page");
-        mWebView.loadUrl(mFullAuthorizeUrl);
+
     }
 
     @Override
@@ -148,6 +152,7 @@ public class AuthActivity extends BaseAuthActivity {
 
     private void getAccessToken(String code) {
         Log.v(TAG, "Requesting access token");
+        mIsAccessTokenRequestSent = true;
         GetAccessTokenRequest request = new GetAccessTokenRequest(
                 getString(R.string.github_oauth_client_id),
                 getString(R.string.github_oauth_client_secret),
@@ -261,10 +266,12 @@ public class AuthActivity extends BaseAuthActivity {
             String error = uri.getQueryParameter("error");
             String errorDescription = uri.getQueryParameter("error_description");
             if (!TextUtils.isEmpty(code) && !TextUtils.isEmpty(state)) {
-                if (state.equals(mState)) {
-                    getAccessToken(code);
-                } else {
+                if (!state.equals(mState)) {
                     Log.w(TAG, "Codes are not equal");
+                } else if (mIsAccessTokenRequestSent) {
+                    Log.v(TAG, "Access token request is already sent");
+                } else {
+                    getAccessToken(code);
                 }
                 view.stopLoading();
             } else if (!TextUtils.isEmpty(error) && !TextUtils.isEmpty(errorDescription)) {

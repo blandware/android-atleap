@@ -20,10 +20,10 @@ package com.blandware.android.atleap.sample.network.robospice;
  * Created by agrebnev on 22.12.13.
  */
 import com.blandware.android.atleap.sample.model.Repository;
-import com.blandware.android.atleap.sample.network.retrofit.ApiGithubServices;
+import com.blandware.android.atleap.sample.network.retrofit.ApiGithubNoAuthServices;
 
 
-public class SearchRepositoriesRequest extends BaseRequest<Repository.RepositoriesResult, ApiGithubServices> {
+public class SearchRepositoriesRequest extends BaseRequest<Repository.RepositoriesResult, ApiGithubNoAuthServices> {
 
     private String query;
     private int page;
@@ -32,7 +32,7 @@ public class SearchRepositoriesRequest extends BaseRequest<Repository.Repositori
     public SearchRepositoriesRequest(String query,
                                      int page,
                                      int perPage) {
-        super(Repository.RepositoriesResult.class, ApiGithubServices.class);
+        super(Repository.RepositoriesResult.class, ApiGithubNoAuthServices.class);
         this.query = query;
         this.page = page;
         this.perPage = perPage;

@@ -13,10 +13,14 @@ import retrofit.converter.JacksonConverter;
 public class RetrofitHelper {
 
     public static RestAdapter.Builder createApiGithubRestAdapter(RestAdapter.Builder builder) {
-        return createBaseRestAdapter(builder)
-                .setServer(Constants.API_GITHUB_BASE_URL)
+        return createApiGithubNoAuthRestAdapter(builder)
                 .setErrorHandler(new NetworkErrorHandler())
                 .setRequestInterceptor(new AuthRequestInterceptor());
+    }
+
+    public static RestAdapter.Builder createApiGithubNoAuthRestAdapter(RestAdapter.Builder builder) {
+        return createBaseRestAdapter(builder)
+                .setServer(Constants.API_GITHUB_BASE_URL);
     }
 
 

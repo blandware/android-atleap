@@ -20,6 +20,19 @@ package com.blandware.android.atleap.sample.network.retrofit;
  * Created by agrebnev on 22.12.13.
  */
 
-public interface ApiGithubServices {
+import com.blandware.android.atleap.sample.model.Repository;
+import com.blandware.android.atleap.sample.model.User;
 
+import retrofit.http.GET;
+import retrofit.http.Query;
+
+
+public interface ApiGithubNoAuthServices {
+    @GET("/search/repositories?sort=stars&order=desc")
+    Repository.RepositoriesResult searchRepositories(@Query("q") String query,
+                                                     @Query("page") int page,
+                                                     @Query("per_page") int perPage);
+
+    @GET("/user")
+    User getUser(@Query("access_token") String accessToken);
 }
