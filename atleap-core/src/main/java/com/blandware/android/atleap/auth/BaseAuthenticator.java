@@ -113,8 +113,6 @@ public abstract class BaseAuthenticator extends AbstractAccountAuthenticator {
         intent.putExtra(BaseAuthActivity.ARG_ACCOUNT_NAME, accountName);
         intent.putExtra(BaseAuthActivity.ARG_PASSWORD, password);
         intent.putExtra(BaseAuthActivity.ARG_OPTIONS, options);
-
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         return intent;
     }
 
