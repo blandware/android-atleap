@@ -5,6 +5,8 @@ import android.accounts.AccountManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 
+import com.blandware.android.atleap.BaseApplication;
+
 /**
  * Base class for implementing an Activity that is used to help implement an
  * AbstractAccountAuthenticator. If the AbstractAccountAuthenticator needs to use an activity
@@ -49,6 +51,10 @@ public class SupportAccountAuthenticatorActivity extends ActionBarActivity {
         if (mAccountAuthenticatorResponse != null) {
             mAccountAuthenticatorResponse.onRequestContinued();
         }
+
+        if (getApplication() instanceof BaseApplication) {
+            ((BaseApplication)getApplication()).dispatchActivityCreated(this, icicle);
+        }
     }
 
     /**
@@ -67,4 +73,54 @@ public class SupportAccountAuthenticatorActivity extends ActionBarActivity {
         }
         super.finish();
     }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (getApplication() instanceof BaseApplication) {
+            ((BaseApplication)getApplication()).dispatchActivityStarted(this);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (getApplication() instanceof BaseApplication) {
+            ((BaseApplication)getApplication()).dispatchActivityResumed(this);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (getApplication() instanceof BaseApplication) {
+            ((BaseApplication)getApplication()).dispatchActivityPaused(this);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (getApplication() instanceof BaseApplication) {
+            ((BaseApplication)getApplication()).dispatchActivityStopped(this);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (getApplication() instanceof BaseApplication) {
+            ((BaseApplication)getApplication()).dispatchActivitySaveInstanceState(this, outState);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (getApplication() instanceof BaseApplication) {
+            ((BaseApplication)getApplication()).dispatchActivityDestroyed(this);
+        }
+    }
+
 }

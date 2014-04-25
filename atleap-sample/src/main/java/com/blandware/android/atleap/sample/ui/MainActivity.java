@@ -23,10 +23,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
-import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.Window;
 
+import com.blandware.android.atleap.BaseActivity;
 import com.blandware.android.atleap.auth.AuthHelper;
 import com.blandware.android.atleap.sample.Constants;
 import com.blandware.android.atleap.sample.R;
@@ -34,7 +34,7 @@ import com.blandware.android.atleap.util.NavUtil;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
