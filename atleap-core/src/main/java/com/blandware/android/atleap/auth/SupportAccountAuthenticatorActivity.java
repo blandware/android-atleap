@@ -2,10 +2,9 @@ package com.blandware.android.atleap.auth;
 
 import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 
-import com.blandware.android.atleap.BaseApplication;
+import com.blandware.android.atleap.BaseActivity;
 
 /**
  * Base class for implementing an Activity that is used to help implement an
@@ -21,7 +20,7 @@ import com.blandware.android.atleap.BaseApplication;
  * is never set or if it is set to null then error {@link AccountManager#ERROR_CODE_CANCELED}
  * will be called on the response.
  */
-public class SupportAccountAuthenticatorActivity extends ActionBarActivity {
+public class SupportAccountAuthenticatorActivity extends BaseActivity {
     private AccountAuthenticatorResponse mAccountAuthenticatorResponse = null;
     private Bundle mResultBundle = null;
 
@@ -52,9 +51,6 @@ public class SupportAccountAuthenticatorActivity extends ActionBarActivity {
             mAccountAuthenticatorResponse.onRequestContinued();
         }
 
-        if (getApplication() instanceof BaseApplication) {
-            ((BaseApplication)getApplication()).dispatchActivityCreated(this, icicle);
-        }
     }
 
     /**
@@ -74,53 +70,5 @@ public class SupportAccountAuthenticatorActivity extends ActionBarActivity {
         super.finish();
     }
 
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (getApplication() instanceof BaseApplication) {
-            ((BaseApplication)getApplication()).dispatchActivityStarted(this);
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (getApplication() instanceof BaseApplication) {
-            ((BaseApplication)getApplication()).dispatchActivityResumed(this);
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (getApplication() instanceof BaseApplication) {
-            ((BaseApplication)getApplication()).dispatchActivityPaused(this);
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (getApplication() instanceof BaseApplication) {
-            ((BaseApplication)getApplication()).dispatchActivityStopped(this);
-        }
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (getApplication() instanceof BaseApplication) {
-            ((BaseApplication)getApplication()).dispatchActivitySaveInstanceState(this, outState);
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (getApplication() instanceof BaseApplication) {
-            ((BaseApplication)getApplication()).dispatchActivityDestroyed(this);
-        }
-    }
 
 }

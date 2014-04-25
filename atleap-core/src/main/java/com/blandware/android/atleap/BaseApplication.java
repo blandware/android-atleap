@@ -75,7 +75,7 @@ public class BaseApplication extends Application {
     }
 
 
-    public void dispatchActivityCreated(ActionBarActivity activity, Bundle savedInstanceState) {
+    /*package */ void dispatchActivityCreated(ActionBarActivity activity, Bundle savedInstanceState) {
         Object[] callbacks = collectActivityLifecycleCallbacks();
         if (callbacks != null) {
             for (int i=0; i<callbacks.length; i++) {
@@ -85,7 +85,7 @@ public class BaseApplication extends Application {
         }
     }
 
-    public void dispatchActivityStarted(ActionBarActivity activity) {
+    /*package */ void dispatchActivityStarted(ActionBarActivity activity) {
         Object[] callbacks = collectActivityLifecycleCallbacks();
         if (callbacks != null) {
             for (int i=0; i<callbacks.length; i++) {
@@ -94,7 +94,7 @@ public class BaseApplication extends Application {
         }
     }
 
-    public void dispatchActivityResumed(ActionBarActivity activity) {
+    /*package */ void dispatchActivityResumed(ActionBarActivity activity) {
         Object[] callbacks = collectActivityLifecycleCallbacks();
         if (callbacks != null) {
             for (int i=0; i<callbacks.length; i++) {
@@ -103,7 +103,7 @@ public class BaseApplication extends Application {
         }
     }
 
-    public void dispatchActivityPaused(ActionBarActivity activity) {
+    /*package */ void dispatchActivityPaused(ActionBarActivity activity) {
         Object[] callbacks = collectActivityLifecycleCallbacks();
         if (callbacks != null) {
             for (int i=0; i<callbacks.length; i++) {
@@ -112,7 +112,7 @@ public class BaseApplication extends Application {
         }
     }
 
-    public void dispatchActivityStopped(ActionBarActivity activity) {
+    /*package */ void dispatchActivityStopped(ActionBarActivity activity) {
         Object[] callbacks = collectActivityLifecycleCallbacks();
         if (callbacks != null) {
             for (int i=0; i<callbacks.length; i++) {
@@ -121,7 +121,7 @@ public class BaseApplication extends Application {
         }
     }
 
-    public void dispatchActivitySaveInstanceState(ActionBarActivity activity, Bundle outState) {
+    /*package */ void dispatchActivitySaveInstanceState(ActionBarActivity activity, Bundle outState) {
         Object[] callbacks = collectActivityLifecycleCallbacks();
         if (callbacks != null) {
             for (int i=0; i<callbacks.length; i++) {
@@ -131,7 +131,7 @@ public class BaseApplication extends Application {
         }
     }
 
-    public void dispatchActivityDestroyed(ActionBarActivity activity) {
+    /*package */ void dispatchActivityDestroyed(ActionBarActivity activity) {
         Object[] callbacks = collectActivityLifecycleCallbacks();
         if (callbacks != null) {
             for (int i=0; i<callbacks.length; i++) {
