@@ -43,16 +43,16 @@ android {
 
 dependencies {
     compile project(':atleap-core')
-    compile 'com.android.support:appcompat-v7:19.0.1'
+    compile 'com.android.support:appcompat-v7:19.1.0'
 
 
-    androidTestCompile 'com.octo.android.robospice:robospice:1.4.11'
-    androidTestCompile 'com.octo.android.robospice:robospice-cache:1.4.11'
-    androidTestCompile 'com.octo.android.robospice:robospice-ormlite:1.4.11'
-    androidTestCompile 'com.octo.android.robospice:robospice-okhttp:1.4.11'
-    androidTestCompile 'com.octo.android.robospice:robospice-retrofit:1.4.11'
+    androidTestCompile 'com.octo.android.robospice:robospice:1.4.12'
+    androidTestCompile 'com.octo.android.robospice:robospice-cache:1.4.12'
+    androidTestCompile 'com.octo.android.robospice:robospice-ormlite:1.4.12'
+    androidTestCompile 'com.octo.android.robospice:robospice-okhttp:1.4.12'
+    androidTestCompile 'com.octo.android.robospice:robospice-retrofit:1.4.12'
     androidTestCompile 'com.google.mockwebserver:mockwebserver:20130706'
 
-    androidTestCompile 'com.squareup.retrofit:converter-jackson:1.3.0'
+    androidTestCompile 'com.squareup.retrofit:converter-jackson:1.5.0'
 
 }
