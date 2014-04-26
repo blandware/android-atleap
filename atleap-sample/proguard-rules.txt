@@ -61,6 +61,7 @@
 #Retrofit
 -keep class retrofit.http.** { *; }
 -dontwarn rx.**
+-dontwarn com.google.appengine.api.urlfetch.**
 
 #Keep Generics
 -keepattributes Signature
