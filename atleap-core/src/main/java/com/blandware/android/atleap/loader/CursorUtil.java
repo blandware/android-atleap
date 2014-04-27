@@ -18,18 +18,31 @@ package com.blandware.android.atleap.loader;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class contains methods which helps to work with Cursor and Database
  */
 public class CursorUtil {
 
+    private static final String TAG = CursorUtil.class.getSimpleName();
+
+    private static final String BEAN_DELIM = ".";
+
     /**
      * Get table column names from the cursor
      * @param cursor
      * @return array of the field names
      */
-    protected static String[] getFieldNames(Cursor cursor) {
+    public static String[] getFieldNames(Cursor cursor) {
         if (cursor == null)
             return null;
 
@@ -41,7 +54,7 @@ public class CursorUtil {
      * @param fieldNames column names of the DB table
      * @return array of the layout resource id
      */
-    protected static int[] getLayoutViewIds(Context context, String[] fieldNames) {
+    public static int[] getLayoutViewIds(Context context, String[] fieldNames) {
         if (fieldNames == null || fieldNames.length == 0)
             return null;
 
@@ -54,4 +67,76 @@ public class CursorUtil {
 
         return layoutViewIds;
     }
+
+    public static <T extends Map<String, Object>, E> List<T> listOfBeansToListOfMaps(List<E> data, String[] fieldNames) {
+        List<T> listOfMaps = new ArrayList<T>(data.size());
+        for(Object bean : data) {
+            T map = beanToMap(bean, fieldNames);
+            listOfMaps.add(map);
+        }
+        return listOfMaps;
+    }
+
+    public static <T extends Map<String, Object>> T beanToMap(Object bean, String[] fieldNames) {
+        Map<String, Object> map = new HashMap<String, Object>(fieldNames.length);
+        for(String fieldName:fieldNames) {
+            Object value = getValue(bean, fieldName);
+            if (value != null)
+                map.put(fieldName, value);
+        }
+        return (T)map;
+    }
+
+    private static Object getValue(Object bean, String fieldName) {
+        Object result = null;
+        String restFieldName = null;
+
+        String propertyName = fieldName;
+        if (fieldName.contains(BEAN_DELIM)) {
+            propertyName = fieldName.substring(0, fieldName.indexOf(BEAN_DELIM) - 1);
+            restFieldName = fieldName.substring(fieldName.indexOf(BEAN_DELIM), fieldName.length());
+        }
+
+        try {
+
+            Field field = getField(bean, propertyName);
+            if (field != null) {
+                result = field.get(bean);
+            } else {
+                String methodName = propertyName;
+                if (propertyName.startsWith("get")) {
+                    methodName = propertyName.substring(3);
+                } else if (propertyName.startsWith("is")) {
+                    methodName = propertyName.substring(2);
+                }
+
+                Method method = bean.getClass().getMethod(methodName);
+                result = method.invoke(bean);
+            }
+
+            if (restFieldName != null) {
+                result = getValue(result, restFieldName);
+            }
+
+        } catch (NoSuchMethodException ex) {
+            Log.w(TAG, "Cannot find method/field with name " + propertyName + " in class " + bean.getClass().getCanonicalName(), ex);
+        } catch (IllegalAccessException ex) {
+            Log.w(TAG, "Cannot invoke method/field with name " + propertyName + " in class " + bean.getClass().getCanonicalName(), ex);
+        } catch (InvocationTargetException ex) {
+            Log.w(TAG, "Cannot invoke method/field with name " + propertyName + " in class " + bean.getClass().getCanonicalName(), ex);
+        }
+
+        return result;
+
+    }
+
+    private static Field getField(Object bean, String property) {
+        for(Field field :bean.getClass().getFields()) {
+            if (field.getName().equals(property)) {
+                return field;
+            }
+        }
+        return null;
+    }
+
 }
