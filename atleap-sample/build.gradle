@@ -25,7 +25,7 @@ android {
     buildToolsVersion "19.0.3"
 
     defaultConfig {
-        minSdkVersion 10
+        minSdkVersion 9
         targetSdkVersion 19
         versionCode new Date().time.toString()[0..9].toInteger()
         versionName "0.1." + new Date().format('yyyyMMddHHmmss')
