@@ -1,8 +1,10 @@
-package com.blandware.android.atleap;
+package com.blandware.android.atleap.settings;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
+import com.blandware.android.atleap.AppContext;
 
 import java.util.HashMap;
 import java.util.Map;

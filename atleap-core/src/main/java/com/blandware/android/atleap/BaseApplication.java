@@ -16,11 +16,12 @@
 
 package com.blandware.android.atleap;
 
+import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Please use this class as a base for all your Applications
@@ -29,6 +30,8 @@ public class BaseApplication extends Application {
 
     protected ArrayList<ActivityLifecycleCallbacks> mActivityLifecycleCallbacks =
             new ArrayList<ActivityLifecycleCallbacks>();
+
+    protected HashMap<String, Object> mUserData;
 
     /**
      * {@inheritDoc}
@@ -65,17 +68,17 @@ public class BaseApplication extends Application {
      * Activity Lifecycle Callbacks for compatibility with old versions
      */
     public interface ActivityLifecycleCallbacks {
-        void onActivityCreated(ActionBarActivity activity, Bundle savedInstanceState);
-        void onActivityStarted(ActionBarActivity activity);
-        void onActivityResumed(ActionBarActivity activity);
-        void onActivityPaused(ActionBarActivity activity);
-        void onActivityStopped(ActionBarActivity activity);
-        void onActivitySaveInstanceState(ActionBarActivity activity, Bundle outState);
-        void onActivityDestroyed(ActionBarActivity activity);
+        void onActivityCreated(Activity activity, Bundle savedInstanceState);
+        void onActivityStarted(Activity activity);
+        void onActivityResumed(Activity activity);
+        void onActivityPaused(Activity activity);
+        void onActivityStopped(Activity activity);
+        void onActivitySaveInstanceState(Activity activity, Bundle outState);
+        void onActivityDestroyed(Activity activity);
     }
 
 
-    /*package */ void dispatchActivityCreated(ActionBarActivity activity, Bundle savedInstanceState) {
+    public void dispatchActivityCreated(Activity activity, Bundle savedInstanceState) {
         Object[] callbacks = collectActivityLifecycleCallbacks();
         if (callbacks != null) {
             for (int i=0; i<callbacks.length; i++) {
@@ -85,7 +88,7 @@ public class BaseApplication extends Application {
         }
     }
 
-    /*package */ void dispatchActivityStarted(ActionBarActivity activity) {
+    public void dispatchActivityStarted(Activity activity) {
         Object[] callbacks = collectActivityLifecycleCallbacks();
         if (callbacks != null) {
             for (int i=0; i<callbacks.length; i++) {
@@ -94,7 +97,7 @@ public class BaseApplication extends Application {
         }
     }
 
-    /*package */ void dispatchActivityResumed(ActionBarActivity activity) {
+    public void dispatchActivityResumed(Activity activity) {
         Object[] callbacks = collectActivityLifecycleCallbacks();
         if (callbacks != null) {
             for (int i=0; i<callbacks.length; i++) {
@@ -103,7 +106,7 @@ public class BaseApplication extends Application {
         }
     }
 
-    /*package */ void dispatchActivityPaused(ActionBarActivity activity) {
+    public void dispatchActivityPaused(Activity activity) {
         Object[] callbacks = collectActivityLifecycleCallbacks();
         if (callbacks != null) {
             for (int i=0; i<callbacks.length; i++) {
@@ -112,7 +115,7 @@ public class BaseApplication extends Application {
         }
     }
 
-    /*package */ void dispatchActivityStopped(ActionBarActivity activity) {
+    public void dispatchActivityStopped(Activity activity) {
         Object[] callbacks = collectActivityLifecycleCallbacks();
         if (callbacks != null) {
             for (int i=0; i<callbacks.length; i++) {
@@ -121,7 +124,7 @@ public class BaseApplication extends Application {
         }
     }
 
-    /*package */ void dispatchActivitySaveInstanceState(ActionBarActivity activity, Bundle outState) {
+    public void dispatchActivitySaveInstanceState(Activity activity, Bundle outState) {
         Object[] callbacks = collectActivityLifecycleCallbacks();
         if (callbacks != null) {
             for (int i=0; i<callbacks.length; i++) {
@@ -131,7 +134,7 @@ public class BaseApplication extends Application {
         }
     }
 
-    /*package */ void dispatchActivityDestroyed(ActionBarActivity activity) {
+    public void dispatchActivityDestroyed(Activity activity) {
         Object[] callbacks = collectActivityLifecycleCallbacks();
         if (callbacks != null) {
             for (int i=0; i<callbacks.length; i++) {
@@ -148,5 +151,29 @@ public class BaseApplication extends Application {
             }
         }
         return callbacks;
+    }
+
+    /**
+     * Store some user data object
+     * @param key key
+     * @param value value
+     */
+    public void setUserData(String key, Object value) {
+        if (mUserData == null)
+            mUserData = new HashMap<String, Object>();
+
+        mUserData.put(key, value);
+    }
+
+    /**
+     * Retrieve some stored user data object
+     * @param key key
+     * @return value
+     */
+    public Object getUserData(String key) {
+        if (mUserData == null)
+            return null;
+
+        return mUserData.get(key);
     }
 }

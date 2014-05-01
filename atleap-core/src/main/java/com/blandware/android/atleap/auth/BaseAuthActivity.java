@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.blandware.android.atleap.Settings;
+import com.blandware.android.atleap.settings.Settings;
 
 import java.util.Arrays;
 import java.util.HashMap;
