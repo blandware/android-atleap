@@ -78,7 +78,7 @@ public class BaseApplication extends Application {
     }
 
 
-    public void dispatchActivityCreated(Activity activity, Bundle savedInstanceState) {
+    public void dispatchActivityCreatedSupport(Activity activity, Bundle savedInstanceState) {
         Object[] callbacks = collectActivityLifecycleCallbacks();
         if (callbacks != null) {
             for (int i=0; i<callbacks.length; i++) {
@@ -88,7 +88,7 @@ public class BaseApplication extends Application {
         }
     }
 
-    public void dispatchActivityStarted(Activity activity) {
+    public void dispatchActivityStartedSupport(Activity activity) {
         Object[] callbacks = collectActivityLifecycleCallbacks();
         if (callbacks != null) {
             for (int i=0; i<callbacks.length; i++) {
@@ -97,7 +97,7 @@ public class BaseApplication extends Application {
         }
     }
 
-    public void dispatchActivityResumed(Activity activity) {
+    public void dispatchActivityResumedSupport(Activity activity) {
         Object[] callbacks = collectActivityLifecycleCallbacks();
         if (callbacks != null) {
             for (int i=0; i<callbacks.length; i++) {
@@ -106,7 +106,7 @@ public class BaseApplication extends Application {
         }
     }
 
-    public void dispatchActivityPaused(Activity activity) {
+    public void dispatchActivityPausedSupport(Activity activity) {
         Object[] callbacks = collectActivityLifecycleCallbacks();
         if (callbacks != null) {
             for (int i=0; i<callbacks.length; i++) {
@@ -115,7 +115,7 @@ public class BaseApplication extends Application {
         }
     }
 
-    public void dispatchActivityStopped(Activity activity) {
+    public void dispatchActivityStoppedSupport(Activity activity) {
         Object[] callbacks = collectActivityLifecycleCallbacks();
         if (callbacks != null) {
             for (int i=0; i<callbacks.length; i++) {
@@ -124,7 +124,7 @@ public class BaseApplication extends Application {
         }
     }
 
-    public void dispatchActivitySaveInstanceState(Activity activity, Bundle outState) {
+    public void dispatchActivitySaveInstanceStateSupport(Activity activity, Bundle outState) {
         Object[] callbacks = collectActivityLifecycleCallbacks();
         if (callbacks != null) {
             for (int i=0; i<callbacks.length; i++) {
@@ -134,7 +134,7 @@ public class BaseApplication extends Application {
         }
     }
 
-    public void dispatchActivityDestroyed(Activity activity) {
+    public void dispatchActivityDestroyedSupport(Activity activity) {
         Object[] callbacks = collectActivityLifecycleCallbacks();
         if (callbacks != null) {
             for (int i=0; i<callbacks.length; i++) {

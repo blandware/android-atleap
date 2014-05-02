@@ -268,6 +268,28 @@ public class AuthHelper {
     }
 
     /**
+     * Check if exist auth token for specified account
+     * @param context context
+     * @param account account to check
+     * @param authTokenType auth token type
+     * @return <code>true</code> if authToken for this account exist
+     */
+    public static boolean isAccountEnabled(Context context, Account account, String authTokenType) {
+        if (account == null)
+            return false;
+
+        final AccountManager accountManager = AccountManager.get(context);
+
+        String authToken = accountManager.peekAuthToken(account, authTokenType);
+
+        if (TextUtils.isEmpty(authToken)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
      * Recreate authToken for the last used account of specified type.
      * @param context context
      * @param accountType accountType
@@ -383,6 +405,27 @@ public class AuthHelper {
             accountManager.removeAccount(account, null, null);
             accountManager.addAccount(accountType, authTokenType, requiredFeatures, options, activity, null, null);
         }
+    }
+
+    /**
+     * Recreate account
+     * @param account account
+     * @param authTokenType authTokenType
+     * @param requiredFeatures requiredFeatures, could be <code>null</code>
+     * @param options options, could be <code>null</code>
+     * @param activity activity (cannot be <code>null</code>)
+     */
+    public static void reCreateAccount(Account account, String accountType, String authTokenType, String[] requiredFeatures, Bundle options, Activity activity) {
+        if (activity == null) {
+            throw new IllegalArgumentException("activity cannot be null");
+        }
+
+        final AccountManager accountManager = AccountManager.get(activity.getApplicationContext());
+        if (isAccountExist(activity, account)) {
+            accountManager.removeAccount(account, null, null);
+        }
+
+        accountManager.addAccount(accountType, authTokenType, requiredFeatures, options, activity, null, null);
     }
 
 

@@ -12,7 +12,7 @@ public class BaseActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getApplication() instanceof BaseApplication) {
-            ((BaseApplication)getApplication()).dispatchActivityCreated(this, savedInstanceState);
+            ((BaseApplication)getApplication()).dispatchActivityCreatedSupport(this, savedInstanceState);
         }
     }
 
@@ -20,7 +20,7 @@ public class BaseActivity extends ActionBarActivity {
     protected void onStart() {
         super.onStart();
         if (getApplication() instanceof BaseApplication) {
-            ((BaseApplication)getApplication()).dispatchActivityStarted(this);
+            ((BaseApplication)getApplication()).dispatchActivityStartedSupport(this);
         }
     }
 
@@ -28,7 +28,7 @@ public class BaseActivity extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
         if (getApplication() instanceof BaseApplication) {
-            ((BaseApplication)getApplication()).dispatchActivityResumed(this);
+            ((BaseApplication)getApplication()).dispatchActivityResumedSupport(this);
         }
     }
 
@@ -36,7 +36,7 @@ public class BaseActivity extends ActionBarActivity {
     protected void onPause() {
         super.onPause();
         if (getApplication() instanceof BaseApplication) {
-            ((BaseApplication)getApplication()).dispatchActivityPaused(this);
+            ((BaseApplication)getApplication()).dispatchActivityPausedSupport(this);
         }
     }
 
@@ -44,7 +44,7 @@ public class BaseActivity extends ActionBarActivity {
     protected void onStop() {
         super.onStop();
         if (getApplication() instanceof BaseApplication) {
-            ((BaseApplication)getApplication()).dispatchActivityStopped(this);
+            ((BaseApplication)getApplication()).dispatchActivityStoppedSupport(this);
         }
     }
 
@@ -52,7 +52,7 @@ public class BaseActivity extends ActionBarActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (getApplication() instanceof BaseApplication) {
-            ((BaseApplication)getApplication()).dispatchActivitySaveInstanceState(this, outState);
+            ((BaseApplication)getApplication()).dispatchActivitySaveInstanceStateSupport(this, outState);
         }
     }
 
@@ -60,7 +60,7 @@ public class BaseActivity extends ActionBarActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (getApplication() instanceof BaseApplication) {
-            ((BaseApplication)getApplication()).dispatchActivityDestroyed(this);
+            ((BaseApplication)getApplication()).dispatchActivityDestroyedSupport(this);
         }
     }
 }

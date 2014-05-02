@@ -25,7 +25,7 @@ public abstract class BaseSettingsActivity extends PreferenceActivity implements
         addPreferencesFromResource(getPreferencesResource());
 
         if (getApplication() instanceof BaseApplication) {
-            ((BaseApplication)getApplication()).dispatchActivityCreated(this, savedInstanceState);
+            ((BaseApplication)getApplication()).dispatchActivityCreatedSupport(this, savedInstanceState);
         }
     }
 
@@ -54,7 +54,7 @@ public abstract class BaseSettingsActivity extends PreferenceActivity implements
     protected void onStart() {
         super.onStart();
         if (getApplication() instanceof BaseApplication) {
-            ((BaseApplication)getApplication()).dispatchActivityStarted(this);
+            ((BaseApplication)getApplication()).dispatchActivityStartedSupport(this);
         }
     }
 
@@ -63,7 +63,7 @@ public abstract class BaseSettingsActivity extends PreferenceActivity implements
         super.onResume();
 
         if (getApplication() instanceof BaseApplication) {
-            ((BaseApplication)getApplication()).dispatchActivityResumed(this);
+            ((BaseApplication)getApplication()).dispatchActivityResumedSupport(this);
         }
 
         getPreferenceScreen().getSharedPreferences()
@@ -81,7 +81,7 @@ public abstract class BaseSettingsActivity extends PreferenceActivity implements
         super.onPause();
 
         if (getApplication() instanceof BaseApplication) {
-            ((BaseApplication)getApplication()).dispatchActivityPaused(this);
+            ((BaseApplication)getApplication()).dispatchActivityPausedSupport(this);
         }
 
         getPreferenceScreen().getSharedPreferences()
@@ -105,7 +105,7 @@ public abstract class BaseSettingsActivity extends PreferenceActivity implements
     protected void onStop() {
         super.onStop();
         if (getApplication() instanceof BaseApplication) {
-            ((BaseApplication)getApplication()).dispatchActivityStopped(this);
+            ((BaseApplication)getApplication()).dispatchActivityStoppedSupport(this);
         }
     }
 
@@ -113,7 +113,7 @@ public abstract class BaseSettingsActivity extends PreferenceActivity implements
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (getApplication() instanceof BaseApplication) {
-            ((BaseApplication)getApplication()).dispatchActivitySaveInstanceState(this, outState);
+            ((BaseApplication)getApplication()).dispatchActivitySaveInstanceStateSupport(this, outState);
         }
     }
 
@@ -121,7 +121,7 @@ public abstract class BaseSettingsActivity extends PreferenceActivity implements
     protected void onDestroy() {
         super.onDestroy();
         if (getApplication() instanceof BaseApplication) {
-            ((BaseApplication)getApplication()).dispatchActivityDestroyed(this);
+            ((BaseApplication)getApplication()).dispatchActivityDestroyedSupport(this);
         }
     }
 
