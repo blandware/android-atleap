@@ -8,12 +8,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.blandware.android.atleap.settings.Settings;
-
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This is activity which should be used for Login Activity. Do not call is directly.
@@ -26,9 +22,6 @@ import java.util.Map;
 public abstract class BaseAuthActivity extends SupportAccountAuthenticatorActivity {
 
     private static final String TAG = BaseAuthActivity.class.getSimpleName();
-
-    public static final String ACCOUNT_NAME_KEY = "com.blandware.android.atleap.auth.ACCOUNT_NAME_KEY";
-    public static final String ACCOUNT_TYPE_KEY = "com.blandware.android.atleap.auth.ACCOUNT_TYPE_KEY";
 
     public final static String ARG_ACCOUNT_TYPE = "com.blandware.android.atleap.auth.ACCOUNT_TYPE";
     public final static String ARG_AUTH_TOKEN_TYPE = "com.blandware.android.atleap.auth.AUTH_TOKEN_TYPE";
@@ -109,10 +102,8 @@ public abstract class BaseAuthActivity extends SupportAccountAuthenticatorActivi
             }
         }
 
-        Map<String, String> typeToName = new HashMap<String, String>(1);
-        typeToName.put(account.type, accountName);
-        Settings.putString(ACCOUNT_TYPE_KEY, account.type);
-        Settings.putMap(ACCOUNT_NAME_KEY, typeToName);
+        AuthHelper.setLastUsedAccountType(account.type);
+        AuthHelper.setLastUsedAccountName(account.type, accountName);
 
         return account;
     }

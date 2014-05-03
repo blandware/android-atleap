@@ -70,7 +70,7 @@ public class DrawerFragment extends BaseDrawerFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Account account = AuthHelper.getLastUsedAccount(getActivity(), Constants.ACCOUNT_TYPE);
+        Account account = AuthHelper.getLastOrFirstAccount(getActivity(), Constants.ACCOUNT_TYPE);
 
         ImageView userAvatarImageView = (ImageView)view.findViewById(R.id.user_avatar);
         Picasso.with(getActivity()).load(AuthHelper.getUserData(getActivity(), account, AuthActivity.KEY_USER_AVATAR_URL)).into(userAvatarImageView);
