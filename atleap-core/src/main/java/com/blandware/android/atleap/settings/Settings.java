@@ -62,10 +62,27 @@ public class Settings {
         return getSharedPreferences().getLong(key, defaultValue);
     }
 
+    /**
+     * Replace old map with new one. The values will not be merged.
+     * @param key key
+     * @param map map (could be <code>null</code> in order to clean value)
+     */
     public static void putMap(String key, Map<String, String> map) {
+        Map<String, String> oldMap = getMap(key, null);
+
         SharedPreferences.Editor editor = getSharedPreferences().edit();
-        for (String mapKey : map.keySet()) {
-            editor.putString(key + MAP_DELIMITER + mapKey, map.get(mapKey));
+        //remove all old values
+        if (oldMap != null && oldMap.size() != 0) {
+            for (String oldKey:oldMap.keySet()) {
+                editor.remove(oldKey);
+            }
+        }
+
+        //add new value
+        if (map != null && map.size() != 0) {
+            for (String mapKey : map.keySet()) {
+                editor.putString(key + MAP_DELIMITER + mapKey, map.get(mapKey));
+            }
         }
         editor.commit();
     }
