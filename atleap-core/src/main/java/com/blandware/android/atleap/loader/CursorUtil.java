@@ -77,6 +77,7 @@ public class CursorUtil {
         return listOfMaps;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T extends Map<String, Object>> T beanToMap(Object bean, String[] fieldNames) {
         Map<String, Object> map = new HashMap<String, Object>(fieldNames.length);
         for(String fieldName:fieldNames) {
@@ -103,23 +104,19 @@ public class CursorUtil {
             if (field != null) {
                 result = field.get(bean);
             } else {
-                String methodName = propertyName;
-                if (propertyName.startsWith("get")) {
-                    methodName = propertyName.substring(3);
-                } else if (propertyName.startsWith("is")) {
-                    methodName = propertyName.substring(2);
+                Method method = getMethod(bean, propertyName);
+                if (method != null) {
+                    result = method.invoke(bean);
+                } else {
+                    Log.w(TAG, "Cannot find method/field with name " + propertyName + " in class " + bean.getClass().getCanonicalName());
+                    return null;
                 }
-
-                Method method = bean.getClass().getMethod(methodName);
-                result = method.invoke(bean);
             }
 
             if (restFieldName != null) {
                 result = getValue(result, restFieldName);
             }
 
-        } catch (NoSuchMethodException ex) {
-            Log.w(TAG, "Cannot find method/field with name " + propertyName + " in class " + bean.getClass().getCanonicalName(), ex);
         } catch (IllegalAccessException ex) {
             Log.w(TAG, "Cannot invoke method/field with name " + propertyName + " in class " + bean.getClass().getCanonicalName(), ex);
         } catch (InvocationTargetException ex) {
@@ -132,8 +129,17 @@ public class CursorUtil {
 
     private static Field getField(Object bean, String property) {
         for(Field field :bean.getClass().getFields()) {
-            if (field.getName().equals(property)) {
+            if (field.getName().toLowerCase().equals(property.toLowerCase())) {
                 return field;
+            }
+        }
+        return null;
+    }
+
+    private static Method getMethod(Object bean, String property) {
+        for(Method method :bean.getClass().getMethods()) {
+            if (method.getName().toLowerCase().equals(property.toLowerCase()) || method.getName().toLowerCase().equals("get"+property.toLowerCase()) || method.getName().toLowerCase().equals("is"+property.toLowerCase())) {
+                return method;
             }
         }
         return null;
