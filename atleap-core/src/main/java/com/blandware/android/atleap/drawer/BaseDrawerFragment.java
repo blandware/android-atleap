@@ -76,7 +76,7 @@ public abstract class BaseDrawerFragment extends Fragment implements FragmentMan
         mMenuListAdapter = mMenuConfig.menuListAdapter;
 
         if (savedInstanceState == null) {
-            selectMenuItem(0);
+            selectMenuItem(getDefaultMenuItemPosition());
         }
 
 
@@ -347,6 +347,13 @@ public abstract class BaseDrawerFragment extends Fragment implements FragmentMan
     }
 
 
+    /**
+     * Returns default menu item position for the first drawer creation
+     * @return default menu item position for the first drawer creation
+     */
+    protected int getDefaultMenuItemPosition() {
+        return 0;
+    }
 
     /**
      * Callbacks interface that all activities using this fragment must implement.
