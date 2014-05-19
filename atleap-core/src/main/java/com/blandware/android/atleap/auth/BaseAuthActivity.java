@@ -77,6 +77,10 @@ public abstract class BaseAuthActivity extends SupportAccountAuthenticatorActivi
         return null;
     }
 
+    protected boolean isSavingPasswordRequired() {
+        return true;
+    }
+
 
     protected Account updateOrCreateAccount(String accountName, String password, String authToken, Bundle userData) {
         final Account account = new Account(accountName, mAccountType);
@@ -84,7 +88,7 @@ public abstract class BaseAuthActivity extends SupportAccountAuthenticatorActivi
         boolean isAccountExist = accounts.contains(account);
 
         if (!isAccountExist) {
-            Log.d(TAG, "finishLogin addAccountExplicitly");
+            Log.d(TAG, "Adding Account explicitly");
             boolean result = mAccountManager.addAccountExplicitly(account, password, userData);
             if (!result) {
                 Log.w(TAG, "Cannot create account " + account);
@@ -94,7 +98,9 @@ public abstract class BaseAuthActivity extends SupportAccountAuthenticatorActivi
 
         Log.d(TAG, "Updating account password, authToken, userData");
         mAccountManager.setAuthToken(account, mAuthTokenType, authToken);
-        mAccountManager.setPassword(account, password);
+
+        if (isSavingPasswordRequired())
+            mAccountManager.setPassword(account, password);
 
         if (userData != null) {
             for (String key : userData.keySet()) {
@@ -116,7 +122,7 @@ public abstract class BaseAuthActivity extends SupportAccountAuthenticatorActivi
     }
 
     protected void sendSuccessResult(Account account, String authToken) {
-        Log.d(TAG, "finishLogin");
+        Log.d(TAG, "Sending success auth result");
 
         if (account == null) {
             throw new IllegalArgumentException("account cannot be null");
