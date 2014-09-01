@@ -243,7 +243,7 @@ public class IntentUtil {
 
         PackageManager packageManager = context.getPackageManager();
         List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-        return list.size() > 0;
+        return list != null && list.size() > 0;
     }
 
     /**
@@ -279,40 +279,6 @@ public class IntentUtil {
             Log.w(TAG, String.format("Cannot find application to open path=%s and mimeType=%s", intent.getData(), intent.getType()));
             return false;
         }
-    }
-
-    /**
-     * Start application based on its query name
-     *
-     * @param context context it is not mandatory to be activity
-     * @param query   substring in package or activity name
-     * @param intent  intent
-     * @return <code>true</code> if intent started successfully
-     */
-    public static boolean startApplication(Context context, String query, Intent intent) {
-        if (intent == null) {
-            return false;
-        }
-
-        if (!(context instanceof Activity)) {
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
-
-        PackageManager pm = context.getPackageManager();
-        List<ResolveInfo> activityList = pm.queryIntentActivities(intent, 0);
-        for (ResolveInfo resolveInfo : activityList) {
-            ActivityInfo activityInfo = resolveInfo.activityInfo;
-            if (activityInfo.name.toLowerCase().contains(query) || activityInfo.applicationInfo.packageName.toLowerCase().contains(query)) {
-                ComponentName name = new ComponentName(activityInfo.applicationInfo.packageName, activityInfo.name);
-                intent.addCategory(Intent.CATEGORY_LAUNCHER);
-                intent.setComponent(name);
-                context.startActivity(intent);
-                return true;
-            }
-        }
-
-
-        return false;
     }
 
 
@@ -378,7 +344,8 @@ public class IntentUtil {
 
         appIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-        boolean isSentViaApp = startApplication(context, provider.queryApplication, appIntent);
+        appIntent.setPackage(provider.packageName);
+        boolean isSentViaApp = startChooser(context, appIntent);
 
         if (!isSentViaApp) {
             if (!TextUtils.isEmpty(provider.urlFormat)) {
@@ -410,19 +377,19 @@ public class IntentUtil {
      * Container for storing social network provider information
      */
     public static class SocialNetworkProvider {
-        public String queryApplication;
+        public String packageName;
         public String urlFormat;
         public boolean isUrlInText;
 
         /**
          * Create instance
          *
-         * @param queryApplication substring in package or activity name to start social network Android app
+         * @param packageName      exact package name to start social network Android app
          * @param urlFormat        format of URL which will be used to share via web if the Android social app in not installed
          * @param isUrlInText      <code>true</code> if the URL should be passed at main text into Android Social Network app
          */
-        public SocialNetworkProvider(String queryApplication, String urlFormat, boolean isUrlInText) {
-            this.queryApplication = queryApplication;
+        public SocialNetworkProvider(String packageName, String urlFormat, boolean isUrlInText) {
+            this.packageName = packageName;
             this.urlFormat = urlFormat;
             this.isUrlInText = isUrlInText;
         }

@@ -16,8 +16,14 @@
 
 package com.blandware.android.atleap.sample.ui;
 
+import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.content.Loader;
+import android.support.v4.view.MenuItemCompat;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -36,6 +42,8 @@ public class DetailFragment extends BaseFragment {
     public static final String ARG_REPOSITORY_ID = "ARG_REPOSITORY_ID";
 
     protected int mRepositoryId;
+
+    protected SocialShareActionProvider mSocialShareActionProvider;
 
     public static DetailFragment newInstance(int repositoryId) {
         DetailFragment fragment =  new DetailFragment();
@@ -58,6 +66,7 @@ public class DetailFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
         return rootView;
@@ -66,9 +75,31 @@ public class DetailFragment extends BaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ViewLoadable viewLoadable = new ViewLoadable(getActivity(), DefaultContract.Repository.getRepositoryUri(mRepositoryId), getView());
+        ViewLoadable viewLoadable = new ViewLoadable(getActivity(), DefaultContract.Repository.getRepositoryUri(mRepositoryId), getView()) {
+            @Override
+            public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+                super.onLoadFinished(loader, data);
+                initSocialShareActionProvider(data);
+            }
+        };
         LoaderManagerCreator loaderManagerCreator = new LoaderManagerCreator(this, viewLoadable);
 
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_detail_menu, menu);
+
+        MenuItem menuItem = menu.findItem(R.id.menu_item_share);
+        mSocialShareActionProvider = (SocialShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
+    }
+
+    private void initSocialShareActionProvider(Cursor data) {
+        if (mSocialShareActionProvider != null) {
+            String text = data.getString(data.getColumnIndex(DefaultContract.Repository.NAME));
+            String url = data.getString(data.getColumnIndex(DefaultContract.Repository.HTML_URL));
+            mSocialShareActionProvider.setShareProperties(text, url, null, null);
+        }
+    }
 }

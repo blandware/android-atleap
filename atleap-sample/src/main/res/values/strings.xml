@@ -9,6 +9,7 @@
     <string name="fragment_drawer_menu_search">Search repositories</string>
     <string name="fragment_drawer_menu_logout">Logout</string>
 
+    <string name="fragment_detail_menu_share">Share</string>
 
     <string name="activity_auth_title">Login</string>
     <string name="activity_auth_cannot_login">Cannot login</string>
