@@ -4,11 +4,11 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.9.+'
+        classpath 'com.android.tools.build:gradle:0.12.2'
     }
 }
 
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 apply plugin: 'idea'
 
 repositories {
@@ -71,7 +71,7 @@ dependencies {
 
     compile 'com.squareup.picasso:picasso:2.2.0'
 
-    compile 'uk.co.chrisjenx:calligraphy:0.7.+'
+    compile 'uk.co.chrisjenx:calligraphy:0.7.2'
 
 }
 
