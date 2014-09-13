@@ -21,12 +21,12 @@ repositories {
 }
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.1.0"
+    compileSdkVersion 20
+    buildToolsVersion "20.0.0"
 
     defaultConfig {
         minSdkVersion 9
-        targetSdkVersion 19
+        targetSdkVersion 20
         versionCode new Date().time.toString()[0..9].toInteger()
         versionName "0.1." + new Date().format('yyyyMMddHHmmss')
     }
@@ -58,20 +58,20 @@ dependencies {
     //comment above line and uncomment below one in order to compile this app independently
     //compile 'com.blandware.android.atleap:core:0.3-SNAPSHOT@aar'
 
-    compile 'com.android.support:support-v4:19.1.0'
-    compile 'com.android.support:appcompat-v7:19.1.0'
+    compile 'com.android.support:support-v4:20.0.0'
+    compile 'com.android.support:appcompat-v7:20.0.0'
 
-    compile 'com.octo.android.robospice:robospice:1.4.12'
-    compile 'com.octo.android.robospice:robospice-cache:1.4.12'
-    compile 'com.octo.android.robospice:robospice-ormlite:1.4.12'
-    compile 'com.octo.android.robospice:robospice-okhttp:1.4.12'
-    compile 'com.octo.android.robospice:robospice-retrofit:1.4.12'
-    compile 'com.squareup.retrofit:converter-jackson:1.5.0'
+    compile 'com.octo.android.robospice:robospice:1.4.14'
+    compile 'com.octo.android.robospice:robospice-cache:1.4.14'
+    compile 'com.octo.android.robospice:robospice-ormlite:1.4.14'
+    compile 'com.octo.android.robospice:robospice-okhttp:1.4.14'
+    compile 'com.octo.android.robospice:robospice-retrofit:1.4.14'
+    compile 'com.squareup.retrofit:converter-jackson:1.6.1'
 
 
-    compile 'com.squareup.picasso:picasso:2.2.0'
+    compile 'com.squareup.picasso:picasso:2.3.4'
 
-    compile 'uk.co.chrisjenx:calligraphy:0.7.2'
+    compile 'uk.co.chrisjenx:calligraphy:1.1.0'
 
 }
 

@@ -20,12 +20,12 @@ public class RetrofitHelper {
 
     public static RestAdapter.Builder createApiGithubNoAuthRestAdapter(RestAdapter.Builder builder) {
         return createBaseRestAdapter(builder)
-                .setServer(Constants.API_GITHUB_BASE_URL);
+                .setEndpoint(Constants.API_GITHUB_BASE_URL);
     }
 
 
     public static RestAdapter.Builder createGithubRestAdapter(RestAdapter.Builder builder) {
-        return createBaseRestAdapter(builder).setServer(Constants.GITHUB_BASE_URL);
+        return createBaseRestAdapter(builder).setEndpoint(Constants.GITHUB_BASE_URL);
     }
 
     public static RestAdapter.Builder createBaseRestAdapter(RestAdapter.Builder builder) {

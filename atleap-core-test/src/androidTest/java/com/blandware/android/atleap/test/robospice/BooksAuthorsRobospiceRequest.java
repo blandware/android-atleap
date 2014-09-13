@@ -47,7 +47,7 @@ public class BooksAuthorsRobospiceRequest extends SpiceRequest<Book.BooksResult>
         RestAdapter restAdapter = new RestAdapter.Builder()
                 //.setConverter(new GsonConverter(new Gson()))
                 .setConverter(new JacksonConverter(objectMapper))
-                .setServer(url)
+                .setEndpoint(url)
                 .build();
 
 
