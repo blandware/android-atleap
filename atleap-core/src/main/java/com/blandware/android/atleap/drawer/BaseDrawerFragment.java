@@ -75,13 +75,9 @@ public abstract class BaseDrawerFragment extends Fragment implements FragmentMan
         mMenuConfig = getMenuConfig();
         mMenuListAdapter = mMenuConfig.menuListAdapter;
 
-        if (savedInstanceState == null) {
-            selectMenuItem(getDefaultMenuItemPosition());
-        }
-
-
         // Indicate that this fragment would like to influence the set of actions in the action bar.
         setHasOptionsMenu(true);
+
     }
 
     /**
@@ -106,6 +102,11 @@ public abstract class BaseDrawerFragment extends Fragment implements FragmentMan
             });
             mMenuListView.setAdapter(mMenuConfig.menuListAdapter);
         }
+
+        if (savedInstanceState == null) {
+            selectMenuItem(getDefaultMenuItemPosition());
+        }
+
         return view;
     }
 
@@ -127,8 +128,6 @@ public abstract class BaseDrawerFragment extends Fragment implements FragmentMan
         actionBar.setHomeButtonEnabled(true);
 
         if (mDrawerLayout != null) {
-
-
 
             // set a custom shadow that overlays the main content when the drawer opens
             if (mDrawerConfig.drawerShadowResourceId != 0)
@@ -225,7 +224,7 @@ public abstract class BaseDrawerFragment extends Fragment implements FragmentMan
     }
 
 
-    protected void selectMenuItem(int position) {
+    public void selectMenuItem(int position) {
         if (mMenuListView != null) {
             mMenuListView.setItemChecked(position, true);
         }

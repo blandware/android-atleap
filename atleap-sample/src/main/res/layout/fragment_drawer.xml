@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFD5D5D5"
+    android:background="@color/background"
     tools:context="com.blandware.android.atleap.ui.DrawerFragment"
     >
 
@@ -13,15 +13,15 @@
     <RelativeLayout
         android:id="@+id/user_profile_layout"
         android:layout_width="match_parent"
-        android:layout_height="96dp"
-        android:background="#FFE7E7E7">
+        android:layout_height="@dimen/list_item_double_height"
+        >
 
         <ImageView
             android:id="@+id/user_avatar"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="14dp"
+            android:layout_width="@dimen/icon_width"
+            android:layout_height="@dimen/icon_height"
+            android:layout_marginLeft="@dimen/padding"
+            android:layout_marginRight="@dimen/padding"
             android:layout_centerVertical="true"
             tools:src="@drawable/ic_launcher" />
 
@@ -32,9 +32,7 @@
             android:layout_toRightOf="@id/user_avatar"
             android:layout_alignTop="@id/user_avatar"
             android:layout_marginTop="8dp"
-            android:fontFamily="fonts/Roboto-Regular.ttf"
-            android:textSize="17sp"
-            android:textColor="#FF000000"
+            style="@style/TextView.Medium"
             tools:text="Ivan Ivanov" />
 
         <TextView
@@ -43,9 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/user_name"
             android:layout_below="@id/user_name"
-            android:fontFamily="fonts/Roboto-Regular.ttf"
-            android:textSize="15sp"
-            android:textColor="#FF636161"
+            style="@style/TextView.Medium"
             tools:text="nickname" />
 
     </RelativeLayout>
@@ -56,14 +52,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:choiceMode="singleChoice"
-        android:divider="#FFAAAAAA"
+        android:listSelector="@color/listitem_bg_active"
+        android:divider="@color/listview_divider"
         android:dividerHeight="1dp"
         android:layout_below="@id/user_profile_layout"
         tools:listitem="@layout/listitem_drawer_menu_item"
         />
 
     <View
-        android:background="#FFAAAAAA"
+        android:background="@color/listview_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/menu_list" />

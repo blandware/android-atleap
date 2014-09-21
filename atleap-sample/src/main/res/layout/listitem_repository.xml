@@ -3,26 +3,28 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="90dp"
-    android:padding="10dp">
+    android:layout_height="@dimen/list_item_double_height"
+    android:paddingLeft="@dimen/padding"
+    android:paddingRight="@dimen/padding"
+    android:paddingTop="@dimen/view_half_margin"
+    android:paddingBottom="@dimen/view_half_margin"
+    >
 
     <ImageView
         android:id="@+id/avatar_url"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/icon_width"
+        android:layout_height="@dimen/icon_height"
         tools:src="@drawable/ic_launcher"
-        android:layout_marginRight="10dp"/>
+        android:layout_marginRight="@dimen/view_full_margin"/>
 
     <TextView
         android:id="@+id/full_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/avatar_url"
-        android:textSize="16sp"
-        android:fontFamily="fonts/Roboto-Regular.ttf"
-        android:textColor="#FF000000"
         android:maxLines="1"
         android:ellipsize="end"
+        style="@style/TextView.Medium"
         tools:text="JakeWharton/ActionBarSherlock"
         />
 
@@ -31,9 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/avatar_url"
-        android:textSize="14sp"
-        android:fontFamily="fonts/Roboto-Regular.ttf"
-        android:textColor="#FF000000"
+        style="@style/TextView.Small"
         tools:text="1234"
         />
 
@@ -43,11 +43,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/full_name"
         android:layout_toRightOf="@id/avatar_url"
-        android:textSize="14sp"
-        android:fontFamily="fonts/Roboto-Regular.ttf"
-        android:textColor="#FF000000"
         android:maxLines="2"
         android:ellipsize="end"
+        style="@style/TextView.Small"
         tools:text="Action bar implementation which uses the native action bar on Android 4.0+ and a custom implementation on pre-4.0 through a single API and theme."
         />
 

@@ -74,12 +74,15 @@ public class ActivityHelper {
      * @param typefaceName the full path to font in the assets
      */
     public static void changeActionBarTitle(Activity activity, String title, String typefaceName) {
+        if (activity == null)
+            return;
+
         if (!(activity instanceof ActionBarActivity))
             return;
 
         ActionBar actionBar = ((ActionBarActivity) activity).getSupportActionBar();
         if (actionBar != null) {
-            if (!TextUtils.isEmpty(title)) {
+            if (title != null) {
                 if (!TextUtils.isEmpty(typefaceName)) {
                     SpannableString spannableTitle = new SpannableString(title);
                     spannableTitle.setSpan(new TypefaceSpan(activity, typefaceName), 0, spannableTitle.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -87,8 +90,6 @@ public class ActivityHelper {
                 } else {
                     actionBar.setTitle(title);
                 }
-            } else {
-                actionBar.setTitle("");
             }
         }
     }

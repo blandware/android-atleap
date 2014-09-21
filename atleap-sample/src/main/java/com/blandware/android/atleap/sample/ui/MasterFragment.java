@@ -122,6 +122,4 @@ public class MasterFragment extends BaseFragment {
         executeSpiceRequest(searchRepositoriesRequest, CACHE_KEY, DurationInMillis.ONE_MINUTE);
     }
 
-
-
 }

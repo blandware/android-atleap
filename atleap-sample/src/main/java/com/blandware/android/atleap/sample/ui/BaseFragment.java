@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.blandware.android.atleap.sample.R;
 import com.blandware.android.atleap.sample.network.robospice.DefaultSpiceManager;
 import com.blandware.android.atleap.sample.network.robospice.NetworkService;
+import com.blandware.android.atleap.util.ActivityHelper;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.exception.NoNetworkException;
 import com.octo.android.robospice.persistence.exception.SpiceException;
@@ -33,7 +34,7 @@ import com.octo.android.robospice.request.listener.RequestListener;
 /**
  * Created by agrebnev on 22.12.13.
  */
-public class BaseFragment<T> extends Fragment implements RequestListener<T> {
+public abstract class BaseFragment<T> extends Fragment implements RequestListener<T> {
 
     private DefaultSpiceManager spiceManager = new DefaultSpiceManager(NetworkService.class);
 
@@ -42,6 +43,7 @@ public class BaseFragment<T> extends Fragment implements RequestListener<T> {
         super.onStart();
         changeProgressBarVisibility(false);
         spiceManager.start(getActivity());
+        ActivityHelper.changeActionBarTitle(getActivity(), getTitle());
     }
 
     @Override
@@ -79,5 +81,8 @@ public class BaseFragment<T> extends Fragment implements RequestListener<T> {
         }
     }
 
+    public String getTitle() {
+        return null;
+    }
 
 }

@@ -31,6 +31,7 @@ import com.blandware.android.atleap.loader.LoaderManagerCreator;
 import com.blandware.android.atleap.loader.ViewLoadable;
 import com.blandware.android.atleap.sample.R;
 import com.blandware.android.atleap.sample.provider.DefaultContract;
+import com.blandware.android.atleap.util.ActivityHelper;
 
 /**
  * Created by agrebnev on 22.12.13.
@@ -80,10 +81,10 @@ public class DetailFragment extends BaseFragment {
             public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
                 super.onLoadFinished(loader, data);
                 initSocialShareActionProvider(data);
+                initActionBarTitle(data);
             }
         };
         LoaderManagerCreator loaderManagerCreator = new LoaderManagerCreator(this, viewLoadable);
-
     }
 
     @Override
@@ -97,9 +98,15 @@ public class DetailFragment extends BaseFragment {
 
     private void initSocialShareActionProvider(Cursor data) {
         if (mSocialShareActionProvider != null) {
-            String text = data.getString(data.getColumnIndex(DefaultContract.Repository.NAME));
+            String name = data.getString(data.getColumnIndex(DefaultContract.Repository.NAME));
             String url = data.getString(data.getColumnIndex(DefaultContract.Repository.HTML_URL));
-            mSocialShareActionProvider.setShareProperties(text, url, null, null);
+            mSocialShareActionProvider.setShareProperties(name, url, null, null);
         }
     }
+
+    private void initActionBarTitle(Cursor data) {
+        String name = data.getString(data.getColumnIndex(DefaultContract.Repository.NAME));
+        ActivityHelper.changeActionBarTitle(getActivity(), name);
+    }
+
 }

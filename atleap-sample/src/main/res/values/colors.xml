@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="listitem_bg_checked">#FFD5D5D5</color>
+    <color name="listitem_bg_active">#FFFFFFFF</color>
+    <color name="listitem_bg_default">#CCE1E1E1</color>
+
+    <color name="listview_divider">#FFAAAAAA</color>
+
+    <color name="background">#FFFFFFFF</color>
+
+    <color name="text_color">#FF000000</color>
+
+</resources>
