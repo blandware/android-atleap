@@ -68,14 +68,15 @@ public class AuthActivity extends BaseAuthActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().requestFeature(Window.FEATURE_PROGRESS);
+        getWindow().setFeatureInt(Window.FEATURE_PROGRESS, Window.PROGRESS_VISIBILITY_ON);
+
         super.onCreate(savedInstanceState);
 
         if(TextUtils.isEmpty(getString(R.string.github_oauth_client_id)) || TextUtils.isEmpty(getString(R.string.github_oauth_client_secret))) {
             throw new IllegalStateException("Please specify github_oauth_client_id and github_oauth_client_secret in file ./src/main/res/values/settings.xml");
         }
 
-        getWindow().requestFeature(Window.FEATURE_PROGRESS);
-        getWindow().setFeatureInt(Window.FEATURE_PROGRESS, Window.PROGRESS_VISIBILITY_ON);
 
         setContentView(R.layout.activity_auth);
 

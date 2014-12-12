@@ -2,7 +2,6 @@ package com.blandware.android.atleap.view;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
-import android.support.v7.internal.widget.LinearLayoutICS;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.HorizontalScrollView;
@@ -18,7 +17,7 @@ public class PagerViewStrip extends HorizontalScrollView {
 
     protected ViewPager mViewPager;
     protected ViewPager.OnPageChangeListener mDelegatePageChangeListener;
-    protected LinearLayoutICS mLinearLayout;
+    protected LinearLayout mLinearLayout;
 
     protected int lastScroll = 0;
 
@@ -50,7 +49,7 @@ public class PagerViewStrip extends HorizontalScrollView {
     public PagerViewStrip(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
-        mLinearLayout = new LinearLayoutICS(context, null);
+        mLinearLayout = new LinearLayout(context, null);
         mLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
         mLinearLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         addView(mLinearLayout);

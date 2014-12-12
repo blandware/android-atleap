@@ -29,7 +29,7 @@ android {
 
     buildTypes {
         release {
-            runProguard false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
@@ -43,7 +43,7 @@ android {
 
 dependencies {
     compile project(':atleap-core')
-    compile 'com.android.support:appcompat-v7:20.0.0'
+    compile 'com.android.support:appcompat-v7:21.0.3'
 
 
     androidTestCompile 'com.octo.android.robospice:robospice:1.4.14'
