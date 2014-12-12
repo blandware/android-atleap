@@ -2,18 +2,17 @@ language: android
 
 android:
   components:
-     - android-21
-#    - platform-tools
-#    - build-tools-20.0.0
-#    - android-19
-#    - sys-img-armeabi-v7a-android-19
-#    - android-16
-#    - sys-img-armeabi-v7a-android-16
-#    - android-10
-#    - sys-img-x86-android-10
-#    - extra-android-support
-#    - extra-google-m2repository
-#    - extra-android-m2repository
+    - android-21
+    - platform-tools
+    - build-tools-21.1.2
+    - sys-img-armeabi-v7a-android-21
+    - android-16
+    - sys-img-armeabi-v7a-android-16
+    - android-10
+    - sys-img-x86-android-10
+    - extra-android-support
+    - extra-google-m2repository
+    - extra-android-m2repository
 
 env:
   matrix:
