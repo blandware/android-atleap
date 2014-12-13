@@ -23,7 +23,7 @@ env:
 before_install:
     - android list targets
     - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
-    - emulator -avd test -no-skin -no-audio -no-window &
+    - emulator -avd test -no-skin -no-audio -gpu off -no-window &
 
 
 before_script:
