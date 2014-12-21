@@ -85,7 +85,7 @@ public abstract class BaseDrawerFragment extends Fragment implements FragmentMan
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(mDrawerConfig.fragmentLayoutResourceId, container, false);
+        View view = getActivity().getLayoutInflater().inflate(mDrawerConfig.fragmentLayoutResourceId, container, false);
 
         if (mMenuConfig != null) {
             mMenuListView = (ListView) view.findViewById(mMenuConfig.menuListViewId);
