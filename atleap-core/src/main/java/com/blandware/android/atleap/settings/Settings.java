@@ -108,6 +108,14 @@ public class Settings {
         }
     }
 
+    public static void remove(String key) {
+        getSharedPreferences().edit().remove(key).commit();
+    }
+
+    public static boolean contains(String key) {
+        return getSharedPreferences().contains(key);
+    }
+
     public static void clear() {
         getSharedPreferences().edit().clear().commit();
     }
