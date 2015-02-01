@@ -18,16 +18,17 @@ package com.blandware.android.atleap.sample.ui;
 
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.widget.SimpleCursorAdapter;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 
 import com.blandware.android.atleap.loader.LoaderManagerCreator;
-import com.blandware.android.atleap.loader.SimpleCursorAdapterLoadable;
+import com.blandware.android.atleap.loader.SimpleCursorRecyclerAdapter;
+import com.blandware.android.atleap.loader.SimpleCursorRecyclerAdapterLoadable;
 import com.blandware.android.atleap.sample.R;
 import com.blandware.android.atleap.sample.network.robospice.SearchRepositoriesRequest;
 import com.blandware.android.atleap.sample.provider.DefaultContract;
@@ -68,7 +69,7 @@ public class MasterFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
 
 
-        SimpleCursorAdapterLoadable adapter = new SimpleCursorAdapterLoadable(
+/*        SimpleCursorAdapterLoadable adapter = new SimpleCursorAdapterLoadable(
                 getActivity(),
                 DefaultContract.CONTENT_URI_REPOSITORIES_USERS,
                 new String[] {DefaultContract.Repository.TABLE+"."+DefaultContract.Repository._ID+" AS "+DefaultContract.Repository._ID, DefaultContract.User.AVATAR_URL, DefaultContract.Repository.FULL_NAME, DefaultContract.Repository.STARGAZERS_COUNT, DefaultContract.Repository.DESCRIPTION},
@@ -81,8 +82,8 @@ public class MasterFragment extends BaseFragment {
         );
         LoaderManagerCreator loaderManagerCreator = new LoaderManagerCreator(this, adapter);
 
-        ListView listView = (ListView)getView().findViewById(R.id.list_repositories);
-        listView.setAdapter(adapter);
+        ListView recyclerView = (ListView)getView().findViewById(R.id.list_repositories);
+        recyclerView.setAdapter(adapter);
 
         adapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
             @Override
@@ -98,10 +99,52 @@ public class MasterFragment extends BaseFragment {
             }
         });
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Cursor cursor = (Cursor) parent.getAdapter().getItem(position);
+                int repositoryId = cursor.getInt(cursor.getColumnIndex(DefaultContract.Repository._ID));
+                NavUtil.replaceFragment(getActivity(), R.id.container, DetailFragment.newInstance(repositoryId));
+            }
+        });*/
+
+        SimpleCursorRecyclerAdapterLoadable adapter = new SimpleCursorRecyclerAdapterLoadable(
+                getActivity(),
+                DefaultContract.CONTENT_URI_REPOSITORIES_USERS,
+                new String[] {DefaultContract.Repository.TABLE+"."+DefaultContract.Repository._ID+" AS "+DefaultContract.Repository._ID, DefaultContract.User.AVATAR_URL, DefaultContract.Repository.FULL_NAME, DefaultContract.Repository.STARGAZERS_COUNT, DefaultContract.Repository.DESCRIPTION},
+                null, //selection
+                null, //selectionArgs
+                DefaultContract.Repository.STARGAZERS_COUNT + " DESC", //sortOrder
+                R.layout.listitem_repository,
+                new String[] {DefaultContract.User.AVATAR_URL, DefaultContract.Repository.FULL_NAME, DefaultContract.Repository.STARGAZERS_COUNT, DefaultContract.Repository.DESCRIPTION},
+                new int[] {R.id.avatar_url, R.id.full_name, R.id.stargazers_count, R.id.description}
+        );
+        LoaderManagerCreator loaderManagerCreator = new LoaderManagerCreator(this, adapter);
+
+        RecyclerView recyclerView = (RecyclerView)getView().findViewById(R.id.list_repositories);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        adapter.setViewBinder(new SimpleCursorRecyclerAdapter.ViewBinder() {
+            @Override
+            public boolean setViewValue(View view, Cursor cursor, int i) {
+                if (view.getId() == R.id.avatar_url) {
+                    ImageView imageView = (ImageView) view;
+                    String avatarUrl = cursor.getString(i);
+                    Picasso.with(getActivity()).load(avatarUrl).into(imageView);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+
+        adapter.setOnItemClickListener(new SimpleCursorRecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(SimpleCursorRecyclerAdapter adapter, View view, int position, long id) {
+                Cursor cursor = (Cursor)adapter.getItem(position);
                 int repositoryId = cursor.getInt(cursor.getColumnIndex(DefaultContract.Repository._ID));
                 NavUtil.replaceFragment(getActivity(), R.id.container, DetailFragment.newInstance(repositoryId));
             }
