@@ -23,6 +23,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.Window;
 
@@ -42,6 +43,8 @@ public class MainActivity extends BaseActivity {
         supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
     }
 
     @Override
@@ -89,11 +92,13 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        boolean isAuthenticated = AuthHelper.checkLastAccountAndToken(Constants.ACCOUNT_TYPE, Constants.ACCOUNT_TOKEN_TYPE, null, null, this);
-        if (isAuthenticated) {
-            setUpNavigationDrawer(new DrawerFragment());
-        } else {
-            setUpNavigationDrawer(null);
+        if (getSupportFragmentManager().findFragmentById(R.id.navigation_drawer) == null) {
+            boolean isAuthenticated = AuthHelper.checkLastAccountAndToken(Constants.ACCOUNT_TYPE, Constants.ACCOUNT_TOKEN_TYPE, null, null, this);
+            if (isAuthenticated) {
+                setUpNavigationDrawer(new DrawerFragment());
+            } else {
+                setUpNavigationDrawer(null);
+            }
         }
     }
 

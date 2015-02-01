@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +13,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -133,27 +134,7 @@ public abstract class BaseDrawerFragment extends Fragment implements FragmentMan
             if (mDrawerConfig.drawerShadowResourceId != 0)
                 mDrawerLayout.setDrawerShadow(mDrawerConfig.drawerShadowResourceId, GravityCompat.START);
 
-            // ActionBarDrawerToggle ties together the the proper interactions
-            // between the navigation drawer and the action bar app mIconResourceId.
-            mDrawerToggle = new ActionBarDrawerToggle(
-                    getActivity(),                    /* host Activity */
-                    mDrawerLayout,                    /* DrawerLayout object */
-                    mDrawerConfig.drawableResourceId,             /* nav drawer image to replace 'Up' caret */
-                    mDrawerConfig.drawerOpenStringId,  /* "open drawer" description for accessibility */
-                    mDrawerConfig.drawerCloseStringId  /* "close drawer" description for accessibility */
-            ) {
-                @Override
-                public void onDrawerClosed(View drawerView) {
-                    super.onDrawerClosed(drawerView);
-                    BaseDrawerFragment.this.onDrawerClosed(drawerView);
-                }
-
-                @Override
-                public void onDrawerOpened(View drawerView) {
-                    super.onDrawerOpened(drawerView);
-                    BaseDrawerFragment.this.onDrawerOpened(drawerView);
-                }
-            };
+            createActionBarDrawerToggle();
 
             // If the user hasn't 'learned' about the drawer, open it to introduce them to the drawer,
             // per the navigation drawer design guidelines.
@@ -175,6 +156,39 @@ public abstract class BaseDrawerFragment extends Fragment implements FragmentMan
         initUpIcon();
 
     }
+
+    protected void createActionBarDrawerToggle() {
+
+        Toolbar toolbar = null;
+
+        if (mDrawerConfig.toolbarId != 0) {
+            toolbar = (Toolbar)getActivity().findViewById(mDrawerConfig.toolbarId);
+        }
+
+        // ActionBarDrawerToggle ties together the the proper interactions
+        // between the navigation drawer and the action bar app mIconResourceId.
+        mDrawerToggle = new ActionBarDrawerToggle(
+                getActivity(),                    /* host Activity */
+                mDrawerLayout,                    /* DrawerLayout object */
+                toolbar,
+                    /*mDrawerConfig.drawableResourceId, /*            /* nav drawer image to replace 'Up' caret */
+                mDrawerConfig.drawerOpenStringId,  /* "open drawer" description for accessibility */
+                mDrawerConfig.drawerCloseStringId  /* "close drawer" description for accessibility */
+        ) {
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                BaseDrawerFragment.this.onDrawerClosed(drawerView);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                BaseDrawerFragment.this.onDrawerOpened(drawerView);
+            }
+        };
+    }
+
 
     protected void onDrawerClosed(View drawerView) {
         if (!isAdded()) {
@@ -369,10 +383,15 @@ public abstract class BaseDrawerFragment extends Fragment implements FragmentMan
         public int fragmentLayoutResourceId;
         public int fragmentContainerId;
 
+        /**
+         * @deprecated Do not used anymore
+         */
         public int drawableResourceId;
         public int drawerShadowResourceId = 0;
         public int drawerOpenStringId;
         public int drawerCloseStringId;
+
+        public int toolbarId = 0;
     }
 
     public static class MenuConfig {
