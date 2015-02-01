@@ -62,6 +62,14 @@ public class Settings {
         return getSharedPreferences().getLong(key, defaultValue);
     }
 
+    public static void putDouble(String key, double value) {
+        putLong(key, Double.doubleToRawLongBits(value));
+    }
+
+    public static double getDouble(String key, double defaultValue) {
+        return Double.longBitsToDouble(getLong(key, Double.doubleToLongBits(defaultValue)));
+    }
+
     /**
      * Replace old map with new one. The values will not be merged.
      * @param key key
