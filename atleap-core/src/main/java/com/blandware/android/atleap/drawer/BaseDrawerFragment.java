@@ -92,7 +92,7 @@ public abstract class BaseDrawerFragment extends Fragment implements FragmentMan
             mMenuListView = (ListView) view.findViewById(mMenuConfig.menuListViewId);
 
             if (mMenuConfig.menuListAdapter != null) {
-                mMenuListView.setAdapter(mMenuListAdapter);
+                setMenuAdapter(mMenuConfig.menuListAdapter);
             }
 
             mMenuListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -101,7 +101,7 @@ public abstract class BaseDrawerFragment extends Fragment implements FragmentMan
                     selectMenuItem(position);
                 }
             });
-            mMenuListView.setAdapter(mMenuConfig.menuListAdapter);
+            //mMenuListView.setAdapter(mMenuConfig.menuListAdapter);
         }
 
         if (savedInstanceState == null) {
@@ -109,6 +109,10 @@ public abstract class BaseDrawerFragment extends Fragment implements FragmentMan
         }
 
         return view;
+    }
+
+    public void setMenuAdapter(ListAdapter listAdapter) {
+        mMenuListView.setAdapter(listAdapter);
     }
 
     /**
