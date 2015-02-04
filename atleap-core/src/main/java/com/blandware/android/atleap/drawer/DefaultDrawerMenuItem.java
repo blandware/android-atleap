@@ -83,6 +83,7 @@ public class DefaultDrawerMenuItem implements BaseDrawerFragment.DrawerMenuItem 
      */
     public DefaultDrawerMenuItem(OnItemClickedCallback callback, int title, int icon) {
         this.mTitleStringId = title;
+        this.mIconResourceId = icon;
         this.mCallback = callback;
     }
 
