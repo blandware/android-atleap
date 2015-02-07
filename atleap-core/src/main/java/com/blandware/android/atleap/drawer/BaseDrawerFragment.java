@@ -98,10 +98,23 @@ public abstract class BaseDrawerFragment extends Fragment implements FragmentMan
             mMenuListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    selectMenuItem(position);
+                    int numHeaders = mMenuListView.getHeaderViewsCount();
+                    if (position < numHeaders) {
+                        //we ignore clicks on the header
+                        return;
+                    }
+
+
+                    int numFooters = mMenuListView.getFooterViewsCount();
+                    int menuItemsCount = mMenuListAdapter.getCount();
+                    if (position >= menuItemsCount + numFooters) {
+                        //we ignore clicks on the footer
+                        return;
+                    }
+
+                    selectMenuItem(position - numHeaders);
                 }
             });
-            //mMenuListView.setAdapter(mMenuConfig.menuListAdapter);
         }
 
         if (savedInstanceState == null) {

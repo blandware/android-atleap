@@ -6,6 +6,7 @@ import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.blandware.android.atleap.auth.AuthHelper;
@@ -59,6 +60,16 @@ public class DrawerFragment extends BaseDrawerFragment {
                 R.id.menu_title,
                 0);
         return menuConfig;
+    }
+
+    @Override
+    public void setMenuAdapter(ListAdapter listAdapter) {
+        //set header
+
+        View headerView = getActivity().getLayoutInflater().inflate(R.layout.fragment_drawer_header, mMenuListView, false);
+        mMenuListView.addHeaderView(headerView);
+
+        super.setMenuAdapter(listAdapter);
     }
 
     @Override

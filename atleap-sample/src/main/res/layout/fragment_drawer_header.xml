@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_item_double_height"
+    >
+
+    <ImageView
+        android:id="@+id/user_avatar"
+        android:layout_width="@dimen/icon_width"
+        android:layout_height="@dimen/icon_height"
+        android:layout_marginLeft="@dimen/padding"
+        android:layout_marginRight="@dimen/padding"
+        android:layout_centerVertical="true"
+        tools:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/user_avatar"
+        android:layout_alignTop="@id/user_avatar"
+        android:layout_marginTop="8dp"
+        style="@style/TextView.Medium"
+        tools:text="Ivan Ivanov" />
+
+    <TextView
+        android:id="@+id/user_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/user_name"
+        android:layout_below="@id/user_name"
+        style="@style/TextView.Medium"
+        tools:text="nickname" />
+
+</RelativeLayout>
