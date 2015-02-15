@@ -257,7 +257,7 @@ public abstract class BaseDrawerFragment extends Fragment implements FragmentMan
 
     public void selectMenuItem(int position) {
         if (mMenuListView != null) {
-            mMenuListView.setItemChecked(position, true);
+            mMenuListView.setItemChecked(mMenuListView.getHeaderViewsCount() + position, true);
         }
         if (mMenuListAdapter != null && getActivity() != null) {
             Object o = mMenuListAdapter.getItem(position);
