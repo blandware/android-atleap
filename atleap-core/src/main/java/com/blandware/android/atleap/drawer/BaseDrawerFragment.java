@@ -105,9 +105,8 @@ public abstract class BaseDrawerFragment extends Fragment implements FragmentMan
                     }
 
 
-                    int numFooters = mMenuListView.getFooterViewsCount();
                     int menuItemsCount = mMenuListAdapter.getCount();
-                    if (position >= menuItemsCount + numFooters) {
+                    if ((position - numHeaders) >= menuItemsCount) {
                         //we ignore clicks on the footer
                         return;
                     }
