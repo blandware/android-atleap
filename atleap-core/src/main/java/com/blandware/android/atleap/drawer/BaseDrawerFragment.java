@@ -202,6 +202,12 @@ public abstract class BaseDrawerFragment extends Fragment implements FragmentMan
                 super.onDrawerOpened(drawerView);
                 BaseDrawerFragment.this.onDrawerOpened(drawerView);
             }
+
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, mDrawerConfig.isDrawerIconAnimationEnabled ? slideOffset : 0f);
+                BaseDrawerFragment.this.onDrawerSlide(drawerView, slideOffset);
+            }
         };
     }
 
@@ -227,6 +233,10 @@ public abstract class BaseDrawerFragment extends Fragment implements FragmentMan
             sp.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true).apply();
         }
         getActivity().supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
+    }
+
+    protected void onDrawerSlide(View drawerView, float slideOffset) {
+
     }
 
     /**
@@ -408,6 +418,8 @@ public abstract class BaseDrawerFragment extends Fragment implements FragmentMan
         public int drawerCloseStringId;
 
         public int toolbarId = 0;
+
+        public boolean isDrawerIconAnimationEnabled = true;
     }
 
     public static class MenuConfig {

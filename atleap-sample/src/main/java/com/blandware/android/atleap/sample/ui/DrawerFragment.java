@@ -36,6 +36,7 @@ public class DrawerFragment extends BaseDrawerFragment {
         drawerConfig.drawerOpenStringId = R.string.fragment_drawer_open;
         drawerConfig.drawerCloseStringId = R.string.fragment_drawer_close;
         drawerConfig.drawerShadowResourceId = R.drawable.drawer_shadow;
+        drawerConfig.isDrawerIconAnimationEnabled = false;
         return drawerConfig;
     }
 
