@@ -1,6 +1,12 @@
 Change Log
 ===============================================================================
 
+Version 0.4 *(2016-01-01)*
+----------------------------
+ * Bug fixing
+ * Added RecyclerView support
+ * Added small improvements
+
 Version 0.3 *(2014-05-22)*
 ----------------------------
  * Bug fixing
