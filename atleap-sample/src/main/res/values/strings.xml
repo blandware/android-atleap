@@ -4,10 +4,10 @@
     <string name="app_name">AtLeap Sample</string>
     <string name="no_network">No internet connection. Please check.</string>
 
-    <string name="fragment_drawer_open">Open drawer</string>
-    <string name="fragment_drawer_close">Close drawer</string>
-    <string name="fragment_drawer_menu_search">Search repositories</string>
-    <string name="fragment_drawer_menu_logout">Logout</string>
+    <string name="activity_main_drawer_open">Open drawer</string>
+    <string name="activity_main_drawer_close">Close drawer</string>
+    <string name="activity_main_drawer_menu_search">Search repositories</string>
+    <string name="activity_main_drawer_menu_logout">Logout</string>
 
     <string name="fragment_detail_menu_share">Share</string>
 

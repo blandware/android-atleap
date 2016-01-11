@@ -1,15 +1,18 @@
 package com.blandware.android.atleap.util;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 
 /**
  * This class has methods to help navigation using fragments
  */
 public class NavUtil {
 
+    private static final String TAG = NavUtil.class.getSimpleName();
 
     /**
      * Back to the fragment which is in the root of backstack
@@ -80,6 +83,34 @@ public class NavUtil {
                 .addToBackStack(null)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .commit();
+    }
+
+
+    public static void replaceFragmentIfNeeded(FragmentActivity activity, int containerId, Class<? extends Fragment> fragmentClazz, Bundle arguments) {
+        if (activity == null) {
+            return;
+        }
+
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        Fragment fragment = fragmentManager.findFragmentById(containerId);
+
+        if (fragment == null || !fragmentClazz.isAssignableFrom(fragment.getClass())) {
+            try {
+                fragment = fragmentClazz.newInstance();
+                if (arguments != null)
+                    fragment.setArguments(arguments);
+
+                replaceFragment(activity, containerId, fragment);
+
+            } catch (InstantiationException ex) {
+                Log.e(TAG, "Cannot create instance of fragment", ex);
+            } catch (IllegalAccessException ex) {
+                Log.e(TAG, "Cannot create instance of fragment", ex);
+            }
+        }
+
+
+
     }
 
     /**

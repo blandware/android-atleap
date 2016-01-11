@@ -29,14 +29,14 @@ public class DrawerFragment extends BaseDrawerFragment {
     @Override
     public DrawerConfig getDrawerConfig() {
         DrawerConfig drawerConfig = new DrawerConfig();
-        drawerConfig.drawerLayoutViewId = R.id.drawer_layout;
+ /*       drawerConfig.drawerLayoutViewId = R.id.drawer_layout;
         drawerConfig.fragmentContainerId = R.id.navigation_drawer;
         drawerConfig.fragmentLayoutResourceId = R.layout.fragment_drawer;
         drawerConfig.drawableResourceId = R.drawable.ic_drawer;
-        drawerConfig.drawerOpenStringId = R.string.fragment_drawer_open;
-        drawerConfig.drawerCloseStringId = R.string.fragment_drawer_close;
+        drawerConfig.drawerOpenStringId = R.string.activity_main_drawer_open;
+        drawerConfig.drawerCloseStringId = R.string.activity_main_drawer_close;
         drawerConfig.drawerShadowResourceId = R.drawable.drawer_shadow;
-        drawerConfig.isDrawerIconAnimationEnabled = false;
+        drawerConfig.isDrawerIconAnimationEnabled = false;*/
         return drawerConfig;
     }
 
@@ -44,13 +44,13 @@ public class DrawerFragment extends BaseDrawerFragment {
     public MenuConfig getMenuConfig() {
 
         List<DefaultDrawerMenuItem> menuItems = new ArrayList<DefaultDrawerMenuItem>();
-        menuItems.add(new DefaultDrawerMenuItem(MasterFragment.class, R.id.container, R.string.fragment_drawer_menu_search));
+        menuItems.add(new DefaultDrawerMenuItem(MasterFragment.class, R.id.container, R.string.activity_main_drawer_menu_search));
         menuItems.add(new DefaultDrawerMenuItem(new DefaultDrawerMenuItem.OnItemClickedCallback() {
             @Override
             public void onItemClicked(DefaultDrawerMenuItem menuItem) {
                 DrawerFragment.this.logoutMenuItemClicked();
             }
-        }, R.string.fragment_drawer_menu_logout));
+        }, R.string.activity_main_drawer_menu_logout));
 
         MenuConfig menuConfig = new MenuConfig();
         menuConfig.menuListViewId = R.id.menu_list;
@@ -67,7 +67,7 @@ public class DrawerFragment extends BaseDrawerFragment {
     public void setMenuAdapter(ListAdapter listAdapter) {
         //set header
 
-        View headerView = getActivity().getLayoutInflater().inflate(R.layout.fragment_drawer_header, mMenuListView, false);
+        View headerView = getActivity().getLayoutInflater().inflate(R.layout.activity_main_drawer_header, mMenuListView, false);
         mMenuListView.addHeaderView(headerView);
 
         super.setMenuAdapter(listAdapter);

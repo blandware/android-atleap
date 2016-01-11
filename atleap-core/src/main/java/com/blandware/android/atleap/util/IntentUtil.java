@@ -17,17 +17,13 @@
 package com.blandware.android.atleap.util;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
-
-import org.apache.http.protocol.HTTP;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLConnection;
@@ -44,6 +40,8 @@ public class IntentUtil {
     private static final String TAG = IntentUtil.class.getSimpleName();
 
     private static final String ENCODING = "UTF-8";
+
+    private final static String PLAIN_TEXT_TYPE = "text/plain";
 
     //https://dev.twitter.com/docs/tweet-button
     public static final SocialNetworkProvider TWITTER = new SocialNetworkProvider("com.twitter.android", "https://twitter.com/share?text=%s&url=%s", false);
@@ -160,7 +158,7 @@ public class IntentUtil {
         }
 
         if (TextUtils.isEmpty(mimeType)) {
-            mimeType = HTTP.PLAIN_TEXT_TYPE;
+            mimeType = PLAIN_TEXT_TYPE;
         }
 
         Intent intent = createIntent(Intent.ACTION_SEND, stream, mimeType);

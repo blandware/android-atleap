@@ -29,7 +29,11 @@ public class ApplicationImpl extends BaseApplication {
     public void onCreate() {
         super.onCreate();
 
-        CalligraphyConfig.initDefault("fonts/Roboto-Regular.ttf");
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/Roboto-Regular.ttf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
     }
 
 }

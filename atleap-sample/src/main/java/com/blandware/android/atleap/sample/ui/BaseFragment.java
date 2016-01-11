@@ -18,7 +18,6 @@ package com.blandware.android.atleap.sample.ui;
 
 
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.widget.Toast;
 
 import com.blandware.android.atleap.sample.R;
@@ -75,10 +74,12 @@ public abstract class BaseFragment<T> extends Fragment implements RequestListene
     }
 
     protected void changeProgressBarVisibility(boolean show) {
+/*
         final ActionBarActivity actionBarActivity = (ActionBarActivity)getActivity();
         if (actionBarActivity != null) {
             actionBarActivity.setSupportProgressBarIndeterminateVisibility(show);
         }
+*/
     }
 
     public String getTitle() {

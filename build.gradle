@@ -1,10 +1,11 @@
 buildscript {
     repositories {
-        mavenCentral()
+        //mavenCentral()
+        jcenter()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.0'
+        classpath 'com.android.tools.build:gradle:1.5.0'
     }
 }
 
@@ -17,8 +18,27 @@ allprojects {
     group = GROUP
 
     repositories {
-        mavenCentral()
+        //mavenCentral()
+        jcenter()
     }
 }
 
-apply plugin: 'android-reporting'
+//apply plugin: 'android-reporting'
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+
+
+/*
+Release algorithm:
+
+gradle clean build uploadArchives
+Make tag
+push --tags
+Goto https://oss.sonatype.org/
+Follow steps http://central.sonatype.org/pages/releasing-the-deployment.html
+Draft new release at https://github.com/blandware/android-atleap/releases
+
+ */

@@ -1,16 +1,19 @@
+/*
 buildscript {
     repositories {
         mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.0'
+        classpath 'com.android.tools.build:gradle:1.5.0'
     }
 }
 
+*/
+
 apply plugin: 'com.android.application'
 
-
+/*
 repositories {
     mavenCentral()
     //uncomment these lines if you would like to have access to latest snapshots at OSS Sonatype
@@ -19,16 +22,18 @@ repositories {
     //  }
 
 }
+*/
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
         minSdkVersion 9
-        targetSdkVersion 21
+        targetSdkVersion 23
         versionCode new Date().time.toString()[0..9].toInteger()
         versionName "0.1." + new Date().format('yyyyMMddHHmmss')
+        applicationId "com.blandware.android.atleap.sample"
     }
 
     buildTypes {
@@ -44,6 +49,7 @@ android {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/NOTICE'
     }
+
 }
 
 
@@ -51,14 +57,17 @@ configurations {
     compile.exclude group: 'org.apache.commons', module: 'commons-io'
 
 }
+
+
 dependencies {
     compile project(':atleap-core')
     //comment above line and uncomment below one in order to compile this app independently
     //compile 'com.blandware.android.atleap:core:0.4-SNAPSHOT@aar'
 
-    compile 'com.android.support:support-v4:21.0.3'
-    compile 'com.android.support:appcompat-v7:21.0.3'
-
+    compile 'com.android.support:support-v4:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:design:23.1.1'
+    
     compile 'com.octo.android.robospice:robospice:1.4.14'
     compile 'com.octo.android.robospice:robospice-cache:1.4.14'
     compile 'com.octo.android.robospice:robospice-ormlite:1.4.14'
@@ -68,10 +77,11 @@ dependencies {
 
     compile 'com.squareup.retrofit:converter-jackson:1.6.1'
 
+    compile 'com.squareup.okhttp:okhttp:2.7.1'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.7.1'
+    compile 'com.squareup.picasso:picasso:2.5.2'
 
-    compile 'com.squareup.picasso:picasso:2.4.0'
-
-    compile 'uk.co.chrisjenx:calligraphy:1.2.0'
+    compile 'uk.co.chrisjenx:calligraphy:2.1.0'
 
 }
 

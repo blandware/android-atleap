@@ -3,26 +3,19 @@
 
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="windowActionBar">false</item>
-
-        <!-- colorPrimary is used for the default action bar background -->
-        <item name="colorPrimary">#3F51B5</item>
-
-        <!-- colorPrimaryDark is used for the status bar -->
-        <item name="colorPrimaryDark">#303F9F</item>
-
-        <!-- colorAccent is used as the default value for colorControlActivated,
-         which is used to tint widgets -->
-        <item name="colorAccent">#F50057</item>
-
-          <!-- You can also set colorControlNormal, colorControlActivated
-         colorControlHighlight, and colorSwitchThumbNormal. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.FullScreen" parent="@style/AppTheme">
-        <item name="android:windowNoTitle">true</item>
+    <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="TextView" parent="android:Widget.TextView">
         <item name="android:fontFamily" tools:ignore="NewApi">fonts/Roboto-Regular.ttf"</item>
