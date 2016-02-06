@@ -1,7 +1,7 @@
 Android AtLeap accelerator
 ==========================
 
-[![Build Status](https://api.travis-ci.org/blandware/android-atleap.png?branch=master)](https://travis-ci.org/blandware/android-atleap)
+[![Build Status](https://api.travis-ci.org/alex-schwartzman/android-atleap.png?branch=master)](https://travis-ci.org/alex-schwartzman/android-atleap)
 
 #Features
 
@@ -25,7 +25,7 @@ They are based on [`android.accounts.AbstractAccountAuthenticator`](http://devel
 
 #Sample
 
-[atleap-sample](https://github.com/blandware/android-atleap/tree/master/atleap-sample)
+[atleap-sample](https://github.com/alex-schwartzman/android-atleap/tree/master/atleap-sample)
 
 It is good example of how to integrate RoboSpice, Retrofit, Picasso, ORMLite, AtLeap and some other libraries.
 This sample show integration with GitHub Api. The authentication is made via oAuth 2.0.
@@ -35,7 +35,7 @@ before running this sample.
 
 #Tests
 
-[atleap-core-test](https://github.com/blandware/android-atleap/tree/master/atleap-core-test)
+[atleap-core-test](https://github.com/alex-schwartzman/android-atleap/tree/master/atleap-core-test)
 
 #Gradle
 
@@ -55,8 +55,8 @@ If you would like to use snapshots, please add the following code into repositor
 
 # Changelog
 
- See [changelog](https://github.com/blandware/android-atleap/blob/master/CHANGELOG.md).
+ See [changelog](https://github.com/alex-schwartzman/android-atleap/blob/master/CHANGELOG.md).
 
 # License
- Android AtLeap licensed under [Apache 2.0 license](https://github.com/blandware/android-atleap/blob/master/LICENSE).
+ Android AtLeap licensed under [Apache 2.0 license](https://github.com/alex-schwartzman/android-atleap/blob/master/LICENSE).
 
