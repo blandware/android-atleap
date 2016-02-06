@@ -22,9 +22,7 @@ env:
     - ADB_INSTALL_TIMEOUT=10
     - MALLOC_ARENA_MAX=2
   matrix:
-    - ANDROID_TARGET=android-10   ANDROID_ABI=armeabi
     - ANDROID_TARGET=android-16  ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=android-21  ANDROID_ABI=armeabi-v7a
 
 before_install:
     - android list targets
