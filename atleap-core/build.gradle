@@ -11,6 +11,13 @@ android {
         versionName project.VERSION_NAME
     }
 
+    dexOptions {
+        // Skip pre-dexing because in Travis that causes OOM and java exits with 137 status
+        javaMaxHeapSize "2048M"
+        incremental true
+        preDexLibraries = false
+    }
+
 /*    packagingOptions {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'

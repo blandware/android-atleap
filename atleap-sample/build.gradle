@@ -26,7 +26,7 @@ repositories {
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.1"
 
     defaultConfig {
         minSdkVersion 9
@@ -34,6 +34,13 @@ android {
         versionCode new Date().time.toString()[0..9].toInteger()
         versionName "0.1." + new Date().format('yyyyMMddHHmmss')
         applicationId "com.blandware.android.atleap.sample"
+    }
+
+    dexOptions {
+        // Skip pre-dexing because in Travis that causes OOM and java exits with 137 status
+        javaMaxHeapSize "2048M"
+        incremental true
+        preDexLibraries = false
     }
 
     buildTypes {
