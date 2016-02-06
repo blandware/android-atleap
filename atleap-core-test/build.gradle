@@ -27,6 +27,13 @@ android {
         exclude 'META-INF/NOTICE.txt'
     }
 
+    dexOptions {
+        // Skip pre-dexing because in Travis that causes OOM and java exits with 137 status
+        javaMaxHeapSize "2048M"
+        incremental true
+        preDexLibraries = false
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -56,3 +63,4 @@ dependencies {
     androidTestCompile 'com.squareup.retrofit:converter-jackson:1.6.1'
 
 }
+
