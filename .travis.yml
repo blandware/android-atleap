@@ -1,10 +1,13 @@
 language: android
 
+jdk:
+  - oraclejdk8
+
 android:
   components:
-    - android-21
+    - android-23
     - platform-tools
-    - build-tools-21.1.2
+    - build-tools-23.0.1
     - sys-img-armeabi-v7a-android-21
     - android-16
     - sys-img-armeabi-v7a-android-16
@@ -15,10 +18,11 @@ android:
     - extra-android-m2repository
 
 env:
+  global:
+    - ADB_INSTALL_TIMEOUT=10
+    - MALLOC_ARENA_MAX=2
   matrix:
-    - ANDROID_TARGET=android-10   ANDROID_ABI=armeabi
     - ANDROID_TARGET=android-16  ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=android-21  ANDROID_ABI=armeabi-v7a
 
 before_install:
     - android list targets
