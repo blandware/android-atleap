@@ -276,8 +276,19 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder> 
             if (mDataSetObserver != null) newCursor.registerDataSetObserver(mDataSetObserver);
             mRowIDColumn = newCursor.getColumnIndexOrThrow("_id");
             mDataValid = true;
+
             // notify the observers about the new cursor
-            notifyDataSetChanged();
+            int oldSize = oldCursor != null ? oldCursor.getCount() : 0;
+            int newSize = newCursor.getCount();
+            int itemsAffected = Math.abs(newSize - oldSize);
+
+            if (oldSize <= newSize) {
+                notifyItemRangeInserted(oldSize, itemsAffected);
+            } else if (oldSize > newSize) {
+                notifyItemRangeRemoved(oldSize - 1, itemsAffected);
+            } else {
+                notifyDataSetChanged();
+            }
         } else {
             mRowIDColumn = -1;
             mDataValid = false;
