@@ -3,9 +3,9 @@ Android AtLeap accelerator
 
 [![Build Status](https://api.travis-ci.org/blandware/android-atleap.png?branch=master)](https://travis-ci.org/blandware/android-atleap)
 
-#Features
+# Features
 
-##Universal Content Provider
+## Universal Content Provider
 Android AtLeap allows you configure ER-model using ORMLite POJOs and access SQLite database via
  ContentProvider as flexible as direct access to database.
 
@@ -14,16 +14,16 @@ Android AtLeap allows you configure ER-model using ORMLite POJOs and access SQLi
  * Flexible mapping  between ContentProvider Uri path and SQL. You can specify SQL for tables part only or specify raw SQL or even specify callback method which build SQL.
  * Integration with [RoboSpice ORMLite cache persister](https://github.com/octo-online/robospice).
 
-##Navigation drawer
+## Navigation drawer
 
 See [`android.support.v4.widget.DrawerLayout`](http://developer.android.com/training/implementing-navigation/nav-drawer.html)
 
-##Account Authenticator helper classes
+## Account Authenticator helper classes
 
 They are based on [`android.accounts.AbstractAccountAuthenticator`](http://developer.android.com/reference/android/accounts/AbstractAccountAuthenticator.html)
 
 
-#Sample
+# Sample
 
 [atleap-sample](https://github.com/blandware/android-atleap/tree/master/atleap-sample)
 
@@ -33,11 +33,11 @@ This sample show integration with GitHub Api. The authentication is made via oAu
 Please do not forget to insert correct GitHub Api oAuth client id and secret into `/atleap-sample/src/main/res/values/settings.xml`
 before running this sample.
 
-#Tests
+# Tests
 
 [atleap-core-test](https://github.com/blandware/android-atleap/tree/master/atleap-core-test)
 
-#Gradle
+# Gradle
 
 The releases of Android AtLeap are published in the MavenCentral. You can add dependency in the following way:
 
